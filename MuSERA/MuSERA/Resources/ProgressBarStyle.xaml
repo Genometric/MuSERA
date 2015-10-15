@@ -1,0 +1,70 @@
+﻿<!--
+ * Copyright © 2013-2015 Vahid Jalili
+ * 
+ * This file is part of MuSERA project.
+ * MuSERA is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation,
+ * either version 3 of the License, or (at your option) any later version.
+ * MuSERA is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A 
+ * PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ * You should have received a copy of the GNU General Public License along with Foobar. If not, see http://www.gnu.org/licenses/.
+ *
+-->
+    
+    <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Style TargetType="{x:Type ProgressBar}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ProgressBar}">
+                    <Border x:Name="BorderBackground" CornerRadius="4" BorderThickness="1" BorderBrush="#FF2D2D2D">
+                        <Grid>
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Determinate" />
+                                    <VisualState x:Name="Indeterminate" />
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <Border x:Name="PART_Track" Margin="2" BorderThickness="1" CornerRadius="2" />
+                            <Border x:Name="PART_Indicator" Margin="0" BorderThickness="1" CornerRadius="2" HorizontalAlignment="Left" ClipToBounds="True">
+                                <Border x:Name="DiagonalDecorator" Width="5000">
+                                    <Border.Background>
+                                        <DrawingBrush TileMode="Tile" Stretch="UniformToFill" Viewbox="0,0,1,1" Viewport="0,0,30,30" ViewportUnits="Absolute" AlignmentX="Left" AlignmentY="Top" ViewboxUnits="RelativeToBoundingBox">
+                                            <DrawingBrush.RelativeTransform>
+                                                <TranslateTransform X="0" Y="0" />
+                                            </DrawingBrush.RelativeTransform>
+                                            <DrawingBrush.Drawing>
+                                                <GeometryDrawing Geometry="M25,12 5,0 28,24 0,0 Z" Brush="#FF0099FF"></GeometryDrawing>
+                                            </DrawingBrush.Drawing>
+                                        </DrawingBrush>
+                                    </Border.Background>
+                                    <Border.Triggers>
+                                        <EventTrigger RoutedEvent="FrameworkElement.Loaded">
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <DoubleAnimation Storyboard.TargetProperty="(Border.Background).(DrawingBrush.RelativeTransform).(TranslateTransform.X)" From="0" To="0.5" RepeatBehavior="Forever" Duration="00:00:25" />
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </EventTrigger>
+                                    </Border.Triggers>
+                                </Border>
+                                <Border.Background>
+                                    <SolidColorBrush />
+                                </Border.Background>
+                            </Border>
+                        </Grid>
+                        <Border.Background>
+                            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                <GradientStop Color="#FF242424" Offset="0" />
+                                <GradientStop Color="#FF969696" Offset="1" />
+                                <GradientStop Color="#FF343434" Offset="0.047" />
+                                <GradientStop Color="#FF383838" Offset="0.1" />
+                                <GradientStop Color="#FF454545" Offset="0.974" />
+                            </LinearGradientBrush>
+                        </Border.Background>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+</ResourceDictionary>

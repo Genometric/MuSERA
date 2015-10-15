@@ -1,0 +1,83 @@
+﻿<!--
+ * Copyright © 2013-2015 Vahid Jalili
+ * 
+ * This file is part of MuSERA project.
+ * MuSERA is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation,
+ * either version 3 of the License, or (at your option) any later version.
+ * MuSERA is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A 
+ * PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ * You should have received a copy of the GNU General Public License along with Foobar. If not, see http://www.gnu.org/licenses/.
+ *
+-->
+    
+<Window x:Class="Polimi.DEIB.VahidJalili.MuSERA.Views.PlotOptionsView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="PlotOptionsView" Height="550.106" Width="767.138" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" AllowsTransparency="True" WindowStyle="None" WindowState="Maximized" Background="#33FFFFFF" Foreground="White">
+
+    <Window.Resources>
+        <VisualBrush x:Key="PlotBackgroundPattern" TileMode="Tile" Viewport="0,0,20,20" ViewportUnits="Absolute" Viewbox="0,0,20,20" ViewboxUnits="Absolute">
+            <VisualBrush.Visual>
+                <Grid Background="Transparent">
+                    <Path Data="M 0 0 L 20 0" Stroke="#FF79BDFF" />
+                    <Path Data="M 0 0 L 0 20" Stroke="#FF79BDFF" />
+                </Grid>
+            </VisualBrush.Visual>
+        </VisualBrush>
+        <VisualBrush x:Key="BarsBackgroundPattern" TileMode="Tile" Viewport="0,0,10,10" ViewportUnits="Absolute" Viewbox="0,0,10,10" ViewboxUnits="Absolute">
+            <VisualBrush.Visual>
+                <Grid Background="Transparent">
+                    <Path Data="M 0 10 L 10 0" Stroke="#FF86C4FF" StrokeThickness="3" />
+                </Grid>
+            </VisualBrush.Visual>
+        </VisualBrush>
+    </Window.Resources>
+
+    <Grid>
+        <Grid HorizontalAlignment="Center" Width="613" MaxHeight="900" Margin="77,0" Height="537" VerticalAlignment="Center">
+            <ScrollViewer HorizontalAlignment="Left" Margin="13,10,-13,92" Width="613" Background="#00000000" Foreground="White">
+                <Grid Background="#7FFFFFFF" Height="427" Width="590" FlowDirection="LeftToRight" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                    <Grid HorizontalAlignment="Left" Width="589" Background="#FF329BFF" Height="117" VerticalAlignment="Top">
+                        <Label Content="General" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Foreground="White" FontFamily="Candara" FontSize="20"/>
+                        <CheckBox x:Name="ShowLegend" Content="Show Legend" HorizontalAlignment="Left" Margin="20,54,0,0" VerticalAlignment="Top" Foreground="White" Height="16" Width="88"/>
+                        <CheckBox x:Name="ShowOverviewLegend" Content="Show Overview Legend" HorizontalAlignment="Left" Margin="20,75,0,0" VerticalAlignment="Top" Foreground="White" Height="16" Width="140"/>
+                        <Label Content="Stroke Thickness" HorizontalAlignment="Left" Margin="317,45,0,0" VerticalAlignment="Top" Foreground="White" FontFamily="Candara" FontSize="14"/>
+                        <TextBox x:Name="StrokeThickness_TB" HorizontalAlignment="Left" Height="23" Margin="431,46,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="76" HorizontalContentAlignment="Center" Foreground="#FF00AEFF" FontSize="14" FontFamily="Segoe UI Symbol" Padding="1,0,1,1" TabIndex="3" VerticalContentAlignment="Center" KeyDown="TextBox_KeyDown_EventHandler" />
+                        <Label Content="Legend Line Thickness" HorizontalAlignment="Left" Margin="284,73,0,0" VerticalAlignment="Top" Foreground="White" FontFamily="Candara" FontSize="14"/>
+                        <TextBox x:Name="LegendLineThickness_TB" HorizontalAlignment="Left" Height="23" Margin="431,74,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="76" HorizontalContentAlignment="Center" Foreground="#FF00AEFF" FontSize="14" FontFamily="Segoe UI Symbol" Padding="1,0,1,1" TabIndex="3" VerticalContentAlignment="Center" KeyDown="TextBox_KeyDown_EventHandler" />
+                    </Grid>
+                    <Grid HorizontalAlignment="Left" Margin="0,120,0,0" Width="589" Background="#FF329BFF" Height="308" VerticalAlignment="Top">
+                        <Rectangle Fill="{StaticResource PlotBackgroundPattern}" HorizontalAlignment="Left" Height="233" Margin="69,45,0,0" Stroke="#00000000" VerticalAlignment="Top" Width="464" StrokeThickness="0"/>
+                        <Label Content="Bar plot options" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Foreground="White" FontFamily="Candara" FontSize="20"/>
+                        <Label Content="Data label distance" HorizontalAlignment="Left" Margin="151,104,0,0" VerticalAlignment="Top" Foreground="White" FontFamily="Candara" BorderBrush="#00000000" BorderThickness="2" Height="20" Padding="5,0" Background="#00000000"/>
+                        <TextBox x:Name="PDataLabelDistance_TB" Text="{Binding Path=pDataLabelDistance, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="261,104,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="20" Width="60" HorizontalContentAlignment="Center" Foreground="#FF00AEFF" FontFamily="Segoe UI Symbol" Padding="1,0,1,1" TabIndex="3" VerticalContentAlignment="Center" KeyDown="TextBox_KeyDown_EventHandler"/>
+                        <TextBox x:Name="ADataLabelDistance_TB" Text="{Binding Path=aDataLabelDistance, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Margin="326,104,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="20" Width="60" HorizontalContentAlignment="Center" Foreground="#FF00AEFF" FontFamily="Segoe UI Symbol" Padding="1,0,1,1" TabIndex="3" VerticalContentAlignment="Center" KeyDown="TextBox_KeyDown_EventHandler"/>
+                        <Label Content="Inter-bar gap" HorizontalAlignment="Left" Margin="185,244,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.504,0.597" Foreground="White" FontFamily="Candara"/>
+                        <TextBox x:Name="PInterBarGap_TB" Text="{Binding Path=pInterBarGap, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Height="20" Margin="261,245,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="60" HorizontalContentAlignment="Center" Foreground="#FF00AEFF" FontFamily="Segoe UI Symbol" Padding="1,0,1,1" TabIndex="3" VerticalContentAlignment="Center" KeyDown="TextBox_KeyDown_EventHandler"/>
+                        <TextBox x:Name="AInterBarGap_TB" Text="{Binding Path=aInterBarGap, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Height="20" Margin="326,245,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="60" HorizontalContentAlignment="Center" Foreground="#FF00AEFF" FontFamily="Segoe UI Symbol" Padding="1,0,1,1" TabIndex="3" VerticalContentAlignment="Center" KeyDown="TextBox_KeyDown_EventHandler"/>
+                        <Label Content="Bar Width" HorizontalAlignment="Left" Margin="201,173,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.504,0.597" Foreground="White" FontFamily="Candara"/>
+                        <TextBox x:Name="PBarWidth_TB" Text="{Binding Path=pBarWidth, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Height="20" Margin="261,174,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="60" HorizontalContentAlignment="Center" Foreground="#FF00AEFF" FontFamily="Segoe UI Symbol" Padding="1,0,1,1" TabIndex="3" VerticalContentAlignment="Center" KeyDown="TextBox_KeyDown_EventHandler"/>
+                        <TextBox x:Name="ABarWidth_TB" Text="{Binding Path=aBarWidth, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Height="20" Margin="326,174,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="60" HorizontalContentAlignment="Center" Foreground="#FF00AEFF" FontFamily="Segoe UI Symbol" Padding="1,0,1,1" TabIndex="3" VerticalContentAlignment="Center" KeyDown="TextBox_KeyDown_EventHandler"/>
+                        <Label Content="Data Label Font Size" HorizontalAlignment="Left" Margin="148,62,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.999,-0.189" Foreground="White" FontFamily="Candara"/>
+                        <TextBox x:Name="ADataLabelFontSize_TB" Text="{Binding Path=aDataLabelFontSize, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Height="20" Margin="326,63,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="60" HorizontalContentAlignment="Center" Foreground="#FF00AEFF" FontFamily="Segoe UI Symbol" Padding="1,0,1,1" TabIndex="3"  VerticalContentAlignment="Center" KeyDown="TextBox_KeyDown_EventHandler"/>
+                        <TextBox x:Name="PDataLabelFontSize_TB" Text="{Binding Path=pDataLabelFontSize, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" HorizontalAlignment="Left" Height="20" Margin="261,63,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="60" HorizontalContentAlignment="Center" Foreground="#FF00AEFF" FontFamily="Segoe UI Symbol" Padding="1,0,1,1" TabIndex="3" KeyDown="TextBox_KeyDown_EventHandler" VerticalContentAlignment="Center"/>
+                        <Rectangle Fill="{StaticResource BarsBackgroundPattern}" HorizontalAlignment="Left" Height="157" Margin="84,121,0,0" Stroke="White" VerticalAlignment="Top" Width="64" StrokeThickness="5"/>
+                        <Rectangle Fill="#00000000" HorizontalAlignment="Left" Height="4" Margin="54,278,0,0" Stroke="#7FFFFFFF" VerticalAlignment="Top" Width="479" StrokeThickness="2"/>
+                        <Rectangle Fill="#00000000" HorizontalAlignment="Left" Height="247" Margin="65,45,0,0" Stroke="#7FFFFFFF" VerticalAlignment="Top" Width="4" StrokeThickness="2"/>
+                        <Rectangle Fill="{StaticResource BarsBackgroundPattern}" HorizontalAlignment="Left" Height="75" Margin="459,203,0,0" Stroke="White" VerticalAlignment="Top" Width="64" StrokeThickness="5"/>
+                        <Label Content="Data Label" HorizontalAlignment="Left" Margin="84,82,0,0" VerticalAlignment="Top" Foreground="White" FontFamily="Candara" Background="#3FFFFFFF"/>
+                        <Label Content="Data Label" HorizontalAlignment="Left" Margin="459,173,0,0" VerticalAlignment="Top" Foreground="White" FontFamily="Candara" Background="#3FFFFFFF"/>
+                        <Rectangle Fill="#3FFFFF00" HorizontalAlignment="Left" Height="4" Margin="84,112,0,0" Stroke="Yellow" VerticalAlignment="Top" Width="64" StrokeThickness="2"/>
+                        <Rectangle Fill="#3FFFFF00" HorizontalAlignment="Left" Height="4" Margin="156,269,0,0" Stroke="Yellow" VerticalAlignment="Top" Width="298" StrokeThickness="2"/>
+                        <Rectangle Fill="#3FFFFF00" HorizontalAlignment="Left" Height="4" Margin="94,184,0,0" Stroke="Yellow" VerticalAlignment="Top" Width="44" StrokeThickness="2"/>
+                        <Rectangle Fill="#3FFFFF00" HorizontalAlignment="Left" Height="4" Margin="84,73,0,0" Stroke="Yellow" VerticalAlignment="Top" Width="64" StrokeThickness="2"/>
+                        <Label Content="Proportional" HorizontalAlignment="Left" Margin="261,28,0,0" VerticalAlignment="Top"  Foreground="White" FontFamily="Candara" FontSize="10" Width="60" Padding="0" HorizontalContentAlignment="Center"/>
+                        <Label Content="Actual" HorizontalAlignment="Left" Margin="326,28,0,0" VerticalAlignment="Top"  Foreground="White" FontFamily="Candara" FontSize="10" Width="60" Padding="0" HorizontalContentAlignment="Center"/>
+                    </Grid>
+                </Grid>
+            </ScrollViewer>
+            <Label x:Name="OK_BT" Content="OK       " HorizontalAlignment="Center"  VerticalAlignment="Bottom" Width="613" HorizontalContentAlignment="Right" Foreground="#FF329BFF" FontFamily="Candara" FontSize="18" Background="#33FFFFFF" TabIndex="10"  Height="36" VerticalContentAlignment="Center" MouseDown="OK_BT_MouseDown" MouseEnter="OK_BT_MouseEnter" MouseLeave="OK_BT_MouseLeave" Margin="0,0,0,51"/>
+            <Label x:Name="Cancel_BT" Content="Cancel       " HorizontalAlignment="Center" Margin="0,0,0,10" Width="613" HorizontalContentAlignment="Right" Foreground="#FF329BFF" FontFamily="Candara" FontSize="18" Background="#33FFFFFF" TabIndex="11" VerticalContentAlignment="Center" Height="36" VerticalAlignment="Bottom" MouseEnter="Cancel_BT_MouseEnter" MouseLeave="Cancel_BT_MouseLeave" MouseDown="Cancel_BT_MouseDown" />
+        </Grid>
+    </Grid>
+</Window>

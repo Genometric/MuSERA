@@ -1,0 +1,59 @@
+﻿<!--
+ * Copyright © 2013-2015 Vahid Jalili
+ * 
+ * This file is part of MuSERA project.
+ * MuSERA is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation,
+ * either version 3 of the License, or (at your option) any later version.
+ * MuSERA is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A 
+ * PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ * You should have received a copy of the GNU General Public License along with Foobar. If not, see http://www.gnu.org/licenses/.
+ *
+-->
+    
+    <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <SolidColorBrush x:Key="TabItem_Background" Color="#969696"/>
+    <SolidColorBrush x:Key="TabItem_BorderBrush" Color="#969696"/>
+    <SolidColorBrush x:Key="TabItem_SelectedBackground" Color="#333333"/>
+    <SolidColorBrush x:Key="TabItem_SelectedForeground" Color="#6cc0e7"/>
+
+    <Style TargetType="{x:Type TabItem}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type TabItem}">
+                    <Grid>
+                        <Border 
+                            Name="Border"
+                            Margin="0,0,0,0" 
+                            Background="{StaticResource TabItem_Background}"
+                            BorderBrush="{StaticResource TabItem_BorderBrush}" 
+                            BorderThickness="1,1,1,1" 
+                            CornerRadius="0,0,0,0" >
+                            <ContentPresenter x:Name="ContentSite"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Center"
+                                ContentSource="Header"
+                                Margin="12,2,12,2"
+                                RecognizesAccessKey="True"/>
+                        </Border>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Panel.ZIndex" Value="100" />
+                            <Setter TargetName="Border" Property="Background" Value="{StaticResource TabItem_SelectedBackground}" />
+                            <Setter Property="Foreground" Value="{StaticResource TabItem_SelectedForeground}"/>
+                            <Setter TargetName="Border" Property="BorderThickness" Value="0,0,0,0" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="Border" Property="Background" Value="{StaticResource DisabledBackgroundBrush}" />
+                            <Setter TargetName="Border" Property="BorderBrush" Value="{StaticResource DisabledBorderBrush}" />
+                            <Setter Property="Foreground" Value="{StaticResource DisabledForegroundBrush}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+</ResourceDictionary>

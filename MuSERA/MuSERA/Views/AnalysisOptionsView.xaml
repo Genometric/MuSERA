@@ -1,0 +1,85 @@
+﻿<!--
+ * Copyright © 2013-2015 Vahid Jalili
+ * 
+ * This file is part of MuSERA project.
+ * MuSERA is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation,
+ * either version 3 of the License, or (at your option) any later version.
+ * MuSERA is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A 
+ * PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ * You should have received a copy of the GNU General Public License along with Foobar. If not, see http://www.gnu.org/licenses/.
+ *
+-->
+    
+    
+<Window x:Class="Polimi.DEIB.VahidJalili.MuSERA.Views.AnalysisOptionsView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Options" Height="907.606" Width="767.138" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" AllowsTransparency="True" WindowStyle="None" WindowState="Maximized" Background="#33FFFFFF" Foreground="White">
+
+    <Grid x:Name="Main_Grid" Margin="61,52,62,57" HorizontalAlignment="Center" Width="644" MaxHeight="795">
+        <Grid.Background>
+            <ImageBrush TileMode="FlipXY" Stretch="UniformToFill"/>
+        </Grid.Background>
+        <ScrollViewer x:Name="SC_Viewer" HorizontalAlignment="Left" Margin="13,10,0,103" Width="613" Background="#00000000" Foreground="White" MaxHeight="686">
+            <Grid x:Name="Controls_Grid" Background="#7FFFFFFF" Height="682" Width="590" FlowDirection="LeftToRight">
+                <Grid x:Name="Thresholds_Canvas" HorizontalAlignment="Left" Height="114" Margin="1,106,0,0" VerticalAlignment="Top" Width="589" Background="#FF329BFF">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="41*"/>
+                        <RowDefinition Height="16*"/>
+                    </Grid.RowDefinitions>
+                    <Label x:Name="Tau_W_L1" Content="T" HorizontalAlignment="Left" Margin="322,41,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.999,-0.189" Width="21" Foreground="White" FontFamily="Candara" FontSize="16" FontStyle="Italic" ToolTip="Weak threshold"/>
+                    <TextBox x:Name="TauW_TB" HorizontalAlignment="Left" Height="23" Margin="360,43,0,0" TextWrapping="Wrap" Text="1.0E-04" VerticalAlignment="Top" Width="180" HorizontalContentAlignment="Center" Foreground="#FF00AEFF" FontSize="14" FontFamily="Segoe UI Symbol" Padding="1,0,1,1" TabIndex="3" ToolTip="Weak threshold" KeyDown="Tau_W_TB_KeyDown" LostFocus="Tau_W_TB_LostFocus"/>
+                    <Label x:Name="Tau_W_L2" Content="w" HorizontalAlignment="Left" Margin="334,37,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.999,-0.189" Width="21" Foreground="White" FontFamily="Candara" FontStyle="Italic" ToolTip="Weak threshold"/>
+                    <Label x:Name="Thresholds_L" Content="Thresholds" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.999,-0.189" Width="106" Foreground="White" FontFamily="Candara" FontSize="14"/>
+                    <Label x:Name="Tau_S_L1" Content="T" HorizontalAlignment="Left" Margin="40,41,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.999,-0.189" Width="21" Foreground="White" FontFamily="Candara" FontSize="16" FontStyle="Italic" ToolTip="Stringent threshold"/>
+                    <Label x:Name="Tau_S_L2" Content="s" HorizontalAlignment="Left" Margin="53,37,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.999,-0.189" Width="21" Foreground="White" FontFamily="Candara" FontStyle="Italic" ToolTip="Stringent threshold"/>
+                    <TextBox x:Name="TauS_TB" HorizontalAlignment="Left" Height="23" Margin="79,43,0,0" TextWrapping="Wrap" Text="1.0E-08" VerticalAlignment="Top" Width="180" HorizontalContentAlignment="Center" Foreground="#FF00AEFF" FontSize="14" FontFamily="Segoe UI Symbol" Padding="1,0,1,1" TabIndex="3" ToolTip="Stringent threshold" KeyDown="Tau_S_TB_KeyDown" LostFocus="Tau_S_TB_LostFocus"/>
+                    <Label x:Name="Chi_sqrd_L1" Content="χ" HorizontalAlignment="Left" Margin="301,68,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.999,-0.189" Width="21" Foreground="White" FontFamily="Candara" FontSize="16" FontStyle="Italic" ToolTip="Chi-squared of gamma with 2k ( k = selected samples count ) degrees of freedom" Grid.RowSpan="2"/>
+                    <Label x:Name="Chi_sqrd_L2" Content="2" HorizontalAlignment="Left" Margin="314,68,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.999,-0.189" Width="21" Foreground="White" FontFamily="Candara" FontStyle="Italic" ToolTip="Chi-squared of gamma with 2k ( k = selected samples count ) degrees of freedom" Grid.RowSpan="2"/>
+                    <Label x:Name="Chi_sqrd_L3" Content="γ , 2k" HorizontalAlignment="Left" Margin="314,0,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.999,-0.189" Width="44" Foreground="White" FontFamily="Candara" FontStyle="Italic" ToolTip="Chi-squared of gamma with 2k ( k = selected samples count ) degrees of freedom" Grid.Row="1"/>
+                    <Label x:Name="RTP_L1" Content="γ" HorizontalAlignment="Left" Margin="41,69,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.999,-0.189" Foreground="White" FontFamily="Candara" FontSize="14" FontStyle="Italic" ToolTip="Gamma (Right tail probability of Chi-squared of gamma with 2k degrees of freedom)" Grid.RowSpan="2"/>
+                    <TextBox x:Name="Gamma_TB" HorizontalAlignment="Left" Height="23" Margin="79,74,0,0" TextWrapping="Wrap" Text="1.0E-08" VerticalAlignment="Top" Width="180" HorizontalContentAlignment="Center" Foreground="#FF00AEFF" FontSize="14" FontFamily="Segoe UI Symbol" Padding="1,0,1,1" TabIndex="3" ToolTip="Gamma (Right tail probability of Chi-squared of gamma with 2k degrees of freedom)" KeyDown="Gamma_TB_KeyDown" LostFocus="Gamma_TB_LostFocus" Grid.RowSpan="2"/>
+                    <Label x:Name="Chi_sqrd_L" Content="43.072" HorizontalAlignment="Left" Margin="360,74,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.999,-0.189" Width="180" Foreground="White" FontFamily="Segoe UI Symbol" FontSize="14" Grid.RowSpan="2" Background="#33FFFFFF" HorizontalContentAlignment="Center" Height="23" Padding="5,0" VerticalContentAlignment="Center" ToolTip="Chi-squared of gamma with 2k ( k = selected samples count ) degrees of freedom"/>
+                </Grid>
+                <Grid x:Name="IRC_Canvas" HorizontalAlignment="Left" Height="50" Margin="1,223,0,0" VerticalAlignment="Top" Width="589" Background="#FF329BFF">
+                    <Label x:Name="IRC_L" Content="Minimum intersecting regions required                                C " HorizontalAlignment="Left" Margin="9,12,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.999,-0.189" Width="350" Foreground="White" FontFamily="Candara" FontSize="14"/>
+                    <TextBox x:Name="C_TB" HorizontalAlignment="Left" Height="23" Margin="360,15,0,0" TextWrapping="Wrap" Text="2" VerticalAlignment="Top" Width="108" HorizontalContentAlignment="Center" Foreground="#FF00AEFF" FontSize="14" FontFamily="Segoe UI Symbol" Padding="1,0,1,1" TabIndex="3" ToolTip="Minimum intersecting regions required" KeyDown="C_TB_KeyDown"/>
+                </Grid>
+                <Grid x:Name="BioRep_TecRep_Canvas" HorizontalAlignment="Left" Height="104" Margin="1,-1,0,0" VerticalAlignment="Top" Width="589" Background="#FF329BFF">
+                    <Label x:Name="BioRep_TecRep_L1" Content="Samples are : " HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.999,-0.189" Width="106" Foreground="White" FontFamily="Candara" FontSize="14"/>
+                    <RadioButton x:Name="BioRep_RB" Content="Biological replicates" HorizontalAlignment="Left" Margin="108,45,0,0" VerticalAlignment="Top" FontFamily="Candara" FontSize="14" Foreground="White" IsChecked="True" Checked="BioRep_RB_Checked"/>
+                    <RadioButton x:Name="TecRep_RB" Content="Technical replicates" HorizontalAlignment="Left" Margin="108,70,0,0" VerticalAlignment="Top" FontFamily="Candara" FontSize="14" Foreground="White" Checked="TecRep_RB_Checked"/>
+                </Grid>
+                <Grid x:Name="MTC_Canvas" HorizontalAlignment="Left" Height="297" Margin="1,385,0,0" VerticalAlignment="Top" Width="589" Background="#FF329BFF">
+                    <Label x:Name="MTC_L1" Content="Multiple testing correction" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.999,-0.189" Width="169" Foreground="White" FontFamily="Candara" FontSize="14"/>
+                    <RadioButton x:Name="Bonferroni_RB" Content="Bonferroni" HorizontalAlignment="Left" Margin="108,128,0,0" VerticalAlignment="Top" FontFamily="Candara" FontSize="14" Foreground="#FFB5DBFF" IsEnabled="False"/>
+                    <RadioButton x:Name="Bonferroni_SD_RB" Content="Bonferroni Step-Down (Holm)" HorizontalAlignment="Left" Margin="108,153,0,0" VerticalAlignment="Top" FontFamily="Candara" FontSize="14" Foreground="#FFB5DBFF" IsEnabled="False"/>
+                    <RadioButton x:Name="WF_Y_P_RB" Content="Westfall and Young Permutation (Resampling-based)" HorizontalAlignment="Left" Margin="108,178,0,0" VerticalAlignment="Top" FontFamily="Candara" FontSize="14" Foreground="#FFB5DBFF" IsEnabled="False"/>
+                    <RadioButton x:Name="BH_RB" Content="Benjamini and Hochberg False Discovery Rate" HorizontalAlignment="Left" Margin="108,203,0,0" VerticalAlignment="Top" FontFamily="Candara" FontSize="14" Foreground="White" IsChecked="True"/>
+                    <Label x:Name="FN_L3" Content="▲" HorizontalAlignment="Left" Margin="74,119,0,0" VerticalAlignment="Top" FontFamily="Candara" FontSize="22" Foreground="#FF0CFF00" ToolTip="More false-negative (most stringent is Bonferroni)"/>
+                    <Label x:Name="FN_L2" Content="░" HorizontalAlignment="Left" Margin="77,141,0,0" VerticalAlignment="Top" FontFamily="Arial" FontSize="16" Foreground="#FF0CFF00" ToolTip="More false-negative (most stringent is Bonferroni)"/>
+                    <Label x:Name="FP_L2" Content="░" HorizontalAlignment="Left" Margin="77,179,0,0" VerticalAlignment="Top" FontFamily="Arial" FontSize="16" Foreground="Red" ToolTip="More false-positives (least stringent is Benjamini-Hochberg)"/>
+                    <Label x:Name="FP_L3" Content="▼" HorizontalAlignment="Left" Margin="74,193,0,0" VerticalAlignment="Top" FontFamily="Candara" FontSize="22" Foreground="Red" ToolTip="More false-positives (least stringent is Benjamini-Hochberg)"/>
+                    <Label x:Name="FN_L1" Content="False" HorizontalAlignment="Left" Margin="38,128,0,0" VerticalAlignment="Top" FontFamily="Candara" FontSize="14" Foreground="#FF0CFF00" ToolTip="More false-negative (most stringent is Bonferroni)"/>
+                    <Canvas HorizontalAlignment="Left" Height="100" Margin="29,142,0,-46" VerticalAlignment="Top" Width="100"/>
+                    <Label x:Name="FN_L1_Copy" Content="Negative" HorizontalAlignment="Left" Margin="15,145,0,0" VerticalAlignment="Top" FontFamily="Candara" FontSize="14" Foreground="#FF0CFF00" ToolTip="More false-negative (most stringent is Bonferroni)" HorizontalContentAlignment="Right"/>
+                    <Label x:Name="FN_L1_Copy1" Content="False" HorizontalAlignment="Left" Margin="38,179,0,0" VerticalAlignment="Top" FontFamily="Candara" FontSize="14" Foreground="Red" ToolTip="More false-positives (least stringent is Benjamini-Hochberg)"/>
+                    <Label x:Name="FN_L1_Copy2" Content="Positive" HorizontalAlignment="Left" Margin="22,196,0,0" VerticalAlignment="Top" FontFamily="Candara" FontSize="14" Foreground="Red" ToolTip="More false-positives (least stringent is Benjamini-Hochberg)" HorizontalContentAlignment="Right"/>
+                    <Label x:Name="MTC_L2" Content="Among these options, Bonferroni offers most stringent (least false-positives) correction, while " HorizontalAlignment="Left" Margin="10,42,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.999,-0.189" Width="557" Foreground="White" FontFamily="Candara"/>
+                    <Label x:Name="MTC_L3" Content="Benjamini-Hochberg has least stringent (most false-positives) correction. The first three options," HorizontalAlignment="Left" Margin="10,63,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.999,-0.189" Width="557" Foreground="White" FontFamily="Candara"/>
+                    <Label x:Name="MTC_L3_Copy" Content="control Family Wise Error Rate (FWER) and Benjamini-Hochberg controls False Discovery Rate." HorizontalAlignment="Left" Margin="10,86,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.999,-0.189" Width="557" Foreground="White" FontFamily="Candara"/>
+                    <TextBox x:Name="alpha_TB" HorizontalAlignment="Left" Height="23" Margin="360,243,0,0" TextWrapping="Wrap" Text="0.05" VerticalAlignment="Top" Width="108" HorizontalContentAlignment="Center" Foreground="#FF00AEFF" FontSize="14" FontFamily="Segoe UI Symbol" Padding="1,0,1,1" TabIndex="3" ToolTip="Minimum intersecting regions required" KeyDown="alpha_TB_KeyDown" LostFocus="alpha_TB_LostFocus"/>
+                    <Label x:Name="Cop_L1" Content="False discovery rate ( α )" HorizontalAlignment="Left" Margin="200,242,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.999,-0.189" Width="159" Foreground="White" FontFamily="Candara" FontSize="14"/>
+                </Grid>
+                <Grid x:Name="MPI_O_Canvas" HorizontalAlignment="Left" Height="104" Margin="1,276,0,0" VerticalAlignment="Top" Width="589" Background="#FF329BFF">
+                    <Label x:Name="MPI_L1" Content="When multiple regions from a sample interesect with the region of study :" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.999,-0.189" Width="465" Foreground="White" FontFamily="Candara" FontSize="14"/>
+                    <RadioButton x:Name="MPI_O1" Content="Use lowest p-value (most stringent)" HorizontalAlignment="Left" Margin="108,45,0,0" VerticalAlignment="Top" FontFamily="Candara" FontSize="14" Foreground="White" IsChecked="True"/>
+                    <RadioButton x:Name="TecRep_RB1" Content="Use highest p-value (least stringent)" HorizontalAlignment="Left" Margin="108,70,0,0" VerticalAlignment="Top" FontFamily="Candara" FontSize="14" Foreground="White"/>
+                </Grid>
+            </Grid>
+        </ScrollViewer>
+        <Label x:Name="Run_Analysis_BT" Content="Run Analysis       " HorizontalAlignment="Center" Margin="13,0,18,61" VerticalAlignment="Bottom" RenderTransformOrigin="0.498,0.531" Width="613" HorizontalContentAlignment="Right" Foreground="#FF329BFF" FontFamily="Candara" FontSize="18" Background="#33FFFFFF" TabIndex="10" MouseEnter="Run_Analysis_BT_MouseEnter" MouseLeave="Run_Analysis_BT_MouseLeave" MouseDown="Run_Analysis_BT_MouseDown" Height="35" VerticalContentAlignment="Center"/>
+        <Label x:Name="Cancel_BT" Content="Cancel       " HorizontalAlignment="Center" Margin="13,0,18,21" RenderTransformOrigin="0.495,0.538" Width="613" HorizontalContentAlignment="Right" Foreground="#FF329BFF" FontFamily="Candara" FontSize="18" Background="#33FFFFFF" TabIndex="11" MouseEnter="Cancel_BT_MouseEnter" MouseLeave="Cancel_BT_MouseLeave" MouseDown="Cancel_BT_MouseDown" VerticalContentAlignment="Center" Height="35" VerticalAlignment="Bottom" />
+
+    </Grid>
+</Window>

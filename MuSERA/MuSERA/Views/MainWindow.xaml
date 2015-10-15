@@ -1,0 +1,1325 @@
+﻿<!--
+ * Copyright © 2013-2015 Vahid Jalili
+ * 
+ * This file is part of MuSERA project.
+ * MuSERA is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation,
+ * either version 3 of the License, or (at your option) any later version.
+ * MuSERA is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A 
+ * PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ * You should have received a copy of the GNU General Public License along with Foobar. If not, see http://www.gnu.org/licenses/.
+ *
+-->
+    
+<Window x:Name="Root"
+        x:Class="Polimi.DEIB.VahidJalili.MuSERA.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:D3 ="http://research.microsoft.com/DynamicDataDisplay/1.0"
+        Title="MuSERA" Height="1069.881" Width="2070.06" WindowState="Maximized" WindowStyle="None" MinWidth="1170"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+        xmlns:System="clr-namespace:System;assembly=mscorlib"
+        xmlns:Converters="clr-namespace:Polimi.DEIB.VahidJalili.MuSERA.Coverters"
+        xmlns:local="clr-namespace:Polimi.DEIB.VahidJalili.MuSERA"
+        Effect="{Binding UIElementEffect}">
+
+    <Window.Resources>
+        <Converters:SelectedSessionSamplesConverter x:Key="selectedSessionSamplesConverter"/>
+        <Converters:SessionSelectedSampleConverter x:Key="sessionSelectedSampleConverter"/>
+        <Converters:SelectedSessionSampleChrConverter x:Key="selectedSessionSampleChrConverter"/>
+        <Converters:SelectedSampleERSetsConverter x:Key="selectedSampleERSetsConverter"/>
+        <Converters:ERClassificationConverter x:Key="classificationConverter"/>
+        <Converters:SupportingERsConverter x:Key="supportingERsConverter"/>
+        <Converters:ReasonCodeConverter x:Key="reasonCodeConverter"/>
+        <Converters:SetsCountConverter x:Key="setsCounterConverter"/>
+        <Converters:XSqrdDistributionConverter x:Key="xSqrdDistributionConverter"/>
+        <Converters:ClassificationDistributionConverter x:Key="ClassDisConverter"/>
+        <Converters:ProgressBarValueToVisibilityConverter x:Key="pV2V"/>
+        <Converters:SelectedERValueConverter x:Key="selectedERValueConverter"/>
+        <Converters:MSCBNSamplesConverter x:Key="mSCBNSConverter"/>
+        <Converters:MSCBNGeneralFeaturesConverter x:Key="mSCBNGFConverter"/>
+        <Converters:UseGenesEnableDisableConverter x:Key="useGenesEnableDisableConverter"/>
+        <Converters:UseFeaturesEnableDisableConverter x:Key="useFeaturesEnableDisableConverter"/>
+        <Converters:UseFeaturesCBEnableDisableConverter x:Key="useFeaturesCBEnableDisableConverter"/>
+        <Converters:ERToFeatureDistanceConverter x:Key="erToFeatureDistanceConverter"/>
+        <Converters:SamplePValueDistributionConverter x:Key="inputPValueDisConverter"/>
+        <Converters:ERToFeatureCommandParameterConverter x:Key="ERToFeaturePC"/>
+        <Converters:NNCommandParameterConverter x:Key="NNCPConverter"/>
+        <Converters:NNDConverter x:Key="nndConverter"/>
+        <CollectionViewSource x:Key="SamplePValueDistribution">
+            <CollectionViewSource.Source>
+                <MultiBinding Converter="{StaticResource inputPValueDisConverter}">
+                    <Binding Path="cachedDataSummary"/>
+                    <Binding Path="sessionsViewModel.selectedSession"/>
+                    <Binding Path="sessionsViewModel.hAxisBinWidth"/>
+                </MultiBinding>
+            </CollectionViewSource.Source>
+            <CollectionViewSource.GroupDescriptions>
+                <PropertyGroupDescription PropertyName="Item1"/>
+            </CollectionViewSource.GroupDescriptions>
+        </CollectionViewSource>
+        <CollectionViewSource x:Key="CVS_1st_TypeA" Filter="CVS_1st_TypeA_Filter">
+            <CollectionViewSource.Source>
+                <MultiBinding Converter="{StaticResource ClassDisConverter}">
+                    <Binding Path="sessionsViewModel.selectedAnalysisResult"/>
+                    <Binding Path="sessionsViewModel.hAxisBinWidth"/>
+                    <Binding Source="1st"/>
+                </MultiBinding>
+            </CollectionViewSource.Source>
+        </CollectionViewSource>
+        <CollectionViewSource x:Key="CVS_1st_TypeB" Filter="CVS_1st_TypeB_Filter">
+            <CollectionViewSource.Source>
+                <MultiBinding Converter="{StaticResource ClassDisConverter}">
+                    <Binding Path="sessionsViewModel.selectedAnalysisResult"/>
+                    <Binding Path="sessionsViewModel.hAxisBinWidth"/>
+                    <Binding Source="1st"/>
+                </MultiBinding>
+            </CollectionViewSource.Source>
+        </CollectionViewSource>
+        <CollectionViewSource x:Key="CVS_2nd_TypeA" Filter="CVS_2nd_TypeA_Filter">
+            <CollectionViewSource.Source>
+                <MultiBinding Converter="{StaticResource ClassDisConverter}">
+                    <Binding Path="sessionsViewModel.selectedAnalysisResult"/>
+                    <Binding Path="sessionsViewModel.hAxisBinWidth"/>
+                    <Binding Source="2nd"/>
+                </MultiBinding>
+            </CollectionViewSource.Source>
+        </CollectionViewSource>
+        <CollectionViewSource x:Key="CVS_2nd_TypeB" Filter="CVS_2nd_TypeB_Filter">
+            <CollectionViewSource.Source>
+                <MultiBinding Converter="{StaticResource ClassDisConverter}">
+                    <Binding Path="sessionsViewModel.selectedAnalysisResult"/>
+                    <Binding Path="sessionsViewModel.hAxisBinWidth"/>
+                    <Binding Source="2nd"/>
+                </MultiBinding>
+            </CollectionViewSource.Source>
+        </CollectionViewSource>
+        <CollectionViewSource x:Key="CVS_3rd_TypeA" Filter="CVS_3rd_TypeA_Filter">
+            <CollectionViewSource.Source>
+                <MultiBinding Converter="{StaticResource ClassDisConverter}">
+                    <Binding Path="sessionsViewModel.selectedAnalysisResult"/>
+                    <Binding Path="sessionsViewModel.hAxisBinWidth"/>
+                    <Binding Source="3rd"/>
+                </MultiBinding>
+            </CollectionViewSource.Source>
+        </CollectionViewSource>
+        <CollectionViewSource x:Key="CVS_3rd_TypeB" Filter="CVS_3rd_TypeB_Filter">
+            <CollectionViewSource.Source>
+                <MultiBinding Converter="{StaticResource ClassDisConverter}">
+                    <Binding Path="sessionsViewModel.selectedAnalysisResult"/>
+                    <Binding Path="sessionsViewModel.hAxisBinWidth"/>
+                    <Binding Source="3rd"/>
+                </MultiBinding>
+            </CollectionViewSource.Source>
+        </CollectionViewSource>
+        <CollectionViewSource x:Key="CVS_4th_TypeA" Filter="CVS_4th_TypeA_Filter">
+            <CollectionViewSource.Source>
+                <MultiBinding Converter="{StaticResource ClassDisConverter}">
+                    <Binding Path="sessionsViewModel.selectedAnalysisResult"/>
+                    <Binding Path="sessionsViewModel.hAxisBinWidth"/>
+                    <Binding Source="4th"/>
+                </MultiBinding>
+            </CollectionViewSource.Source>
+        </CollectionViewSource>
+        <CollectionViewSource x:Key="CVS_4th_TypeB" Filter="CVS_4th_TypeB_Filter">
+            <CollectionViewSource.Source>
+                <MultiBinding Converter="{StaticResource ClassDisConverter}">
+                    <Binding Path="sessionsViewModel.selectedAnalysisResult"/>
+                    <Binding Path="sessionsViewModel.hAxisBinWidth"/>
+                    <Binding Source="4th"/>
+                </MultiBinding>
+            </CollectionViewSource.Source>
+        </CollectionViewSource>
+        <CollectionViewSource x:Key="CVSSimilarities" Source="{Binding Path=sessionsViewModel.selectedSession.flattenedSimilarities}">
+            <CollectionViewSource.GroupDescriptions>
+                <PropertyGroupDescription PropertyName="source"/>
+            </CollectionViewSource.GroupDescriptions>
+        </CollectionViewSource>
+
+
+        <Style TargetType="Border" x:Key="RacePitBorderStyle" >
+            <Style.Resources>
+                <LinearGradientBrush x:Key="BackBrush" StartPoint="0.5,0" EndPoint="0.5,1">
+                    <GradientStop Color="#EF3132" Offset="0.1" />
+                    <GradientStop Color="#D62B2B" Offset="0.9" />
+                </LinearGradientBrush>
+            </Style.Resources>
+            <Setter Property="Background" Value="{StaticResource BackBrush}"/>
+        </Style>
+
+    </Window.Resources>
+
+    <Grid Background="White" Margin="0,0,2,2" RenderTransformOrigin="0.419,0.271">
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <TabControl x:Name="Main_TabControl" Margin="40,0,10,10" Background="White" BorderThickness="0" BorderBrush="Transparent">
+            <TabItem x:Name="InteractiveModeParentGrid" Header="Interactive Mode" Visibility="Collapsed">
+                <Grid Background="Transparent" Margin="0,-3,5,3" RenderTransformOrigin="0.121,0.409">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="149*" MinHeight="150"/>
+                        <RowDefinition Height="191*" MinHeight="150"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="122*" MinWidth="330"/>
+                        <ColumnDefinition Width="238*" MinWidth="700"/>
+                    </Grid.ColumnDefinitions>
+                    <GridSplitter Grid.Column="0" Background="#7FDCDCDC" Width="5" HorizontalAlignment="Right" VerticalAlignment="Stretch" Grid.RowSpan="2"/>
+                    <GridSplitter Grid.Row="0" Background="#7FDCDCDC" Height="5" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Grid.ColumnSpan="1"/>
+                    <Grid x:Name="AnalysisUIElementsGrid" Margin="10,5,10,10" Background="Transparent" Grid.Row="1">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="125*" MinWidth="50"/>
+                            <ColumnDefinition Width="228*" MinWidth="50"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="40"/>
+                            <RowDefinition Height="529*"/>
+                        </Grid.RowDefinitions>
+                        <GridSplitter Grid.Column="0" Background="#FF9FAAB4" Width="1" HorizontalAlignment="Right" VerticalAlignment="Stretch" Grid.Row="1" Grid.RowSpan="1"/>
+                        <RichTextBox x:Name="SessionDetail_RTB" BorderThickness="0,0,1,1" Background="White" BorderBrush="#FF9FAAB4" Margin="0,26,10,0" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" Grid.Row="1" Grid.Column="1" IsReadOnly="True"/>
+                        <DataGrid x:Name="SessionsSummary_DG" ItemsSource="{Binding sessionsViewModel.sessionsSummary}" SelectedValue="{Binding sessionsViewModel.previewSession}" Margin="10,0,1,0" HorizontalScrollBarVisibility="Disabled" IsReadOnly="False" SelectionMode="Single" Grid.Row="1">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header=" " Binding="{Binding label}" IsReadOnly="False" Width="*"/>
+                            </DataGrid.Columns>
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="MouseDoubleClick">
+                                    <i:InvokeCommandAction Command="{Binding ShowSessionDetailsCommand}" CommandParameter="{Binding SelectedItem, ElementName=SessionsSummary_DG}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                        </DataGrid>
+                        <Grid x:Name="AnalysisBTGrid" Height="30" Margin="10,5,10,0" VerticalAlignment="Top" Grid.ColumnSpan="2">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Label x:Name="AnalysisET_L" Content="{Binding uiProperties.analysisET}" Visibility="{Binding uiProperties.analysisETVisibility}" Margin="0,1,0,0" Foreground="White" RenderTransformOrigin="0.035,0.507" VerticalContentAlignment="Bottom" Height="28" VerticalAlignment="Top" IsEnabled="False" FontSize="14" Padding="5,2,5,5" FontFamily="Arial" Background="#FF329BFF" FontStretch="SemiExpanded" Grid.Column="1"/>
+                            <Label x:Name="AnalysisETBusy_L" Content="BUSY" Visibility="{Binding uiProperties.analysisETVisibility}" Margin="1,1,0,0" Foreground="White" RenderTransformOrigin="3.035,0.507" Height="28" VerticalAlignment="Top" IsEnabled="False" HorizontalContentAlignment="Center" Padding="5,3,5,5" FontFamily="Candara" FontSize="14" FontWeight="Bold" VerticalContentAlignment="Bottom">
+                                <Label.Background>
+                                    <LinearGradientBrush EndPoint="1,0" StartPoint="0,1">
+                                        <GradientStop Color="#FF00FF17"/>
+                                        <GradientStop Color="#FF329BFF" Offset="0.896"/>
+                                    </LinearGradientBrush>
+                                </Label.Background>
+                            </Label>
+                            <Button x:Name="AnalysisBT" Content="Analyze" Command="{Binding AnalyzeCommand}" CommandParameter="{Binding SelectedItems, ElementName=CachedSamplesDG}" Visibility="{Binding uiProperties.sAAnBTVisibility}" VerticalAlignment="Top" Height="28" FontSize="16" FontFamily="Candara" HorizontalContentAlignment="Center" Margin="1,1,1,0"/>
+                            <Button x:Name="SaveSessionBT" Content="Save Results" CommandParameter="{Binding Path=sessionsViewModel.sessionsSummary}" Command="{Binding SaveCommand}"  Visibility="{Binding uiProperties.sAAnBTVisibility}" VerticalAlignment="Top" Height="28" FontSize="16" FontFamily="Candara" HorizontalContentAlignment="Center" Margin="1,1,1,0" Grid.Column="1"/>
+                        </Grid>
+                        <Label x:Name="Session_Details_Header_L" Content="Analysis Sessions" Foreground="#FF9FAAB4" RenderTransformOrigin="3.035,0.507" Height="26" VerticalAlignment="Top" IsEnabled="False" HorizontalContentAlignment="Center" FontFamily="Candara" TabIndex="2" Margin="10,0"  VerticalContentAlignment="Center" FontSize="13" Grid.Row="1" Grid.ColumnSpan="2" Background="#FF2E3438"/>
+                    </Grid>
+                    <TabControl x:Name="InteractiveModeDetailsTab" SelectedIndex="{Binding uiProperties.interactiveModeDetailsTabIndex}" Margin="5,10,10,10" Grid.Column="1" Grid.RowSpan="2" Background="Transparent">
+                        <TabItem Header="TabItem" Visibility="Collapsed">
+                            <Grid Background="#00000000">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="421*"/>
+                                    <RowDefinition Height="547*"/>
+                                </Grid.RowDefinitions>
+                                <GridSplitter ResizeDirection="Rows" Grid.Column="0" Background="#7FDCDCDC" Height="5" VerticalAlignment="Bottom" HorizontalAlignment="Stretch"/>
+                                <D3:ChartPlotter x:Name="Chart" Foreground="#FF54779B" Background="White" Margin="10">
+                                    <D3:VerticalAxisTitle x:Name="VerticalAxisTitle" Content=""/>
+                                    <D3:HorizontalAxisTitle x:Name="HorizontalAxisTitle" Content=""/>
+                                </D3:ChartPlotter>
+                                <Grid x:Name="Resolutions_Grid" Height="24" Margin="10,5,10,0" VerticalAlignment="Top" Background="#FF32C8FF" MinWidth="645" Grid.Row="1">
+                                    <Label x:Name="Resolution_L" Content="Binnarization" HorizontalAlignment="Left" Margin="10,-1,0,0" VerticalAlignment="Top" FontSize="10" Width="62" Height="22" Foreground="White"/>
+                                    <RadioButton x:Name="Resolution_A" Content="No-bin" HorizontalAlignment="Left" Margin="96,4,0,0" VerticalAlignment="Top" IsChecked="True" FontSize="10" Foreground="White" TabIndex="3" Width="50">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="Checked">
+                                                <i:InvokeCommandAction Command="{Binding ChangeBinWidth}" CommandParameter="1"/>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </RadioButton>
+                                    <RadioButton x:Name="Resolution_B" Content="10" IsChecked="True" HorizontalAlignment="Left" Margin="151,4,0,0" VerticalAlignment="Top" FontSize="10" Foreground="White" TabIndex="4" Width="40">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="Checked">
+                                                <i:InvokeCommandAction Command="{Binding ChangeBinWidth}" CommandParameter="10"/>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </RadioButton>
+                                    <RadioButton x:Name="Resolution_C" Content="100"  HorizontalAlignment="Left" Margin="196,4,0,0" VerticalAlignment="Top" FontSize="10" Foreground="White" TabIndex="5" Width="40">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="Checked">
+                                                <i:InvokeCommandAction Command="{Binding ChangeBinWidth}" CommandParameter="100"/>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </RadioButton>
+                                    <RadioButton x:Name="Resolution_D" Content="1K" HorizontalAlignment="Left" Margin="241,4,0,0" VerticalAlignment="Top" FontSize="10" Foreground="White" TabIndex="6" Width="40">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="Checked">
+                                                <i:InvokeCommandAction Command="{Binding ChangeBinWidth}" CommandParameter="1000"/>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </RadioButton>
+                                    <RadioButton x:Name="Resolution_E" Content="100K" HorizontalAlignment="Left" Margin="331,4,0,0" VerticalAlignment="Top" FontSize="10" Foreground="White" TabIndex="7" Width="40">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="Checked">
+                                                <i:InvokeCommandAction Command="{Binding ChangeBinWidth}" CommandParameter="100000"/>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </RadioButton>
+                                    <Label x:Name="PlotOptions_L" Content="Plot Options" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,3,31,-1" FontFamily="Candara" Foreground="White" FontSize="14" Height="22" Padding="5,0,5,5" Width="84">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="MouseDown">
+                                                <i:InvokeCommandAction Command="{Binding PlotOptionsCommand}"/>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </Label>
+                                    <Image x:Name="PlotOptions_Image" Height="20" Margin="0,3,11,0" VerticalAlignment="Top" HorizontalAlignment="Right" Width="20" Source="/MPC;component/icons/options.png">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="MouseDown">
+                                                <i:InvokeCommandAction Command="{Binding PlotOptionsCommand}"/>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </Image>
+                                    <RadioButton x:Name="Resolution_E_Copy" Content="1M" HorizontalAlignment="Left" Margin="376,4,0,0" VerticalAlignment="Top" FontSize="10" Foreground="White" TabIndex="7" Width="40">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="Checked">
+                                                <i:InvokeCommandAction Command="{Binding ChangeBinWidth}" CommandParameter="1000000"/>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </RadioButton>
+                                    <RadioButton x:Name="Resolution_E_Copy1" Content="Custom" HorizontalAlignment="Left" Margin="421,4,0,0" VerticalAlignment="Top" FontSize="10" Foreground="White" TabIndex="7" Width="60"/>
+                                    <RadioButton x:Name="Resolution_E_Copy2" Content="10K" HorizontalAlignment="Left" Margin="286,4,0,0" VerticalAlignment="Top" FontSize="10" Foreground="White" TabIndex="7" Width="40">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="Checked">
+                                                <i:InvokeCommandAction Command="{Binding ChangeBinWidth}" CommandParameter="10000"/>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </RadioButton>
+                                    <TextBox x:Name="customBinWidth" HorizontalAlignment="Left" Height="17" Padding="0,0,0,0" VerticalContentAlignment="Center" Margin="486,4,0,0" TextWrapping="Wrap" Text="2500" VerticalAlignment="Top" Width="42" FontSize="10"/>
+                                    <Button Content="Apply" Command="{Binding ChangeBinWidth}" CommandParameter="{Binding ElementName=customBinWidth, Path=Text}" HorizontalAlignment="Left" Margin="533,-1,0,0" VerticalAlignment="Top" Width="8" Height="21"/>
+                                </Grid>
+                                <Grid x:Name="SampleSelectionGrid" Height="24" Margin="10,34,10,0" VerticalAlignment="Top" Background="#FF329BFF" Grid.Row="1">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="479*"/>
+                                        <ColumnDefinition Width="560*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <ComboBox x:Name="SessionSamples_CB" ItemsSource="{Binding Path=sessionsViewModel.selectedSession, Converter={StaticResource selectedSessionSamplesConverter}}" SelectedItem="{Binding Path=sessionsViewModel.selectedSampleIndex, Converter={StaticResource sessionSelectedSampleConverter}}" Margin="82,2,10,0" VerticalAlignment="Top" TabIndex="14" Height="20" VerticalContentAlignment="Center" Background="#FFE2F6FF" RenderTransformOrigin="0.5,0.5" FontSize="11">
+                                        <ComboBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <Border>
+                                                    <StackPanel>
+                                                        <TextBlock Text="{Binding Path=Value}" />
+                                                    </StackPanel>
+                                                </Border>
+                                            </DataTemplate>
+                                        </ComboBox.ItemTemplate>
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="SelectionChanged">
+                                                <i:InvokeCommandAction Command="{Binding SessionSampleSelectionChangedCommand}" CommandParameter="{Binding SelectedIndex, ElementName=SessionSamples_CB}"/>
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </ComboBox>
+                                    <Label x:Name="Stat_1_Tab_Sample_L" Content="Sample" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="17,4,0,-2" FontFamily="Candara" Foreground="White" FontSize="14" Height="22" Padding="5,0,5,5"/>
+                                </Grid>
+                                <TabControl x:Name="ResultsTab" SelectedIndex="{Binding uiProperties.resultsTabIndex}" Margin="10,63,10,10" Background="Transparent" BorderThickness="0" Grid.Row="1">
+                                    <TabControl.Resources>
+                                        <Style TargetType="{x:Type TabPanel}">
+                                            <Setter Property="VerticalAlignment" Value="Center"/>
+                                        </Style>
+                                    </TabControl.Resources>
+                                    <TabControl.Template>
+                                        <ControlTemplate TargetType="{x:Type TabControl}">
+                                            <Grid>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto" />
+                                                    <RowDefinition />
+                                                </Grid.RowDefinitions>
+                                                <ScrollViewer HorizontalScrollBarVisibility="Auto"  VerticalScrollBarVisibility="Hidden" >
+                                                    <TabPanel x:Name="HeaderPanel" Panel.ZIndex ="1" KeyboardNavigation.TabIndex="1" Grid.Column="0" Grid.Row="0" Margin="2,2,2,0"	IsItemsHost="true"/>
+                                                </ScrollViewer>
+                                                <ContentPresenter x:Name="PART_SelectedContentHost"	SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"	Margin="{TemplateBinding Padding}" ContentSource="SelectedContent" Grid.Row="1"/>
+                                            </Grid>
+                                        </ControlTemplate>
+                                    </TabControl.Template>
+                                    <TabItem Header="Overview" Width="140" HorizontalAlignment="Center">
+                                        <Grid Margin="0,0">
+                                            <RichTextBox x:Name="SelectedSampleAnalysisOverview_RTB" BorderThickness="1" Background="White" BorderBrush="#FF32C8FF" Margin="-3,27,0,0" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto"/>
+                                            <RadioButton x:Name="Plot_RB_Tab1" IsChecked="{Binding Path=plotRadioButtons.Overview}" Content="Plot" VerticalAlignment="Top" HorizontalContentAlignment="Right" HorizontalAlignment="Right" Width="47" FontFamily="Candara" FontSize="14" FontWeight="Bold" ToolTip="Visualize" Margin="0,5,10,0" Height="17" TabIndex="42"/>
+                                        </Grid>
+                                    </TabItem>
+                                    <TabItem Header="Chr-wide stats" Width="140" HorizontalAlignment="Center">
+                                        <Grid Margin="0,0">
+                                            <DataGrid ItemsSource="{Binding Path=sessionsViewModel.selectedAnalysisResult.chrwideStats}" Margin="269,26,0,0" RowHeight="24" IsReadOnly="True">
+                                                <DataGrid.Columns>
+                                                    <DataGridTextColumn Header="Chr" Binding="{Binding Path=Key, Mode=OneWay}" Width="50"/>
+                                                    <DataGridTextColumn Header="#Total" Binding="{Binding Path=Value.R_j__t_c, Mode=OneWay}" Width="90"/>
+                                                    <DataGridTextColumn Header="#Stringent" Binding="{Binding Path=Value.R_j__s_c, Mode=OneWay}" Width="90"/>
+                                                    <DataGridTextColumn Header="%Stringent" Binding="{Binding Path=Value.R_j__s_p, Mode=OneWay}" Width="90"/>
+                                                    <DataGridTextColumn Header="#Weak" Binding="{Binding Path=Value.R_j__w_c, Mode=OneWay}" Width="90"/>
+                                                    <DataGridTextColumn Header="%Weak" Binding="{Binding Path=Value.R_j__w_p, Mode=OneWay}" Width="90"/>
+                                                    <DataGridTextColumn Header="#Confirmed" Binding="{Binding Path=Value.R_j__c_c, Mode=OneWay}" Width="90"/>
+                                                    <DataGridTextColumn Header="%Confirmed" Binding="{Binding Path=Value.R_j__c_p, Mode=OneWay}" Width="90"/>
+                                                    <DataGridTextColumn Header="#Discarded" Binding="{Binding Path=Value.R_j__d_c, Mode=OneWay}" Width="90"/>
+                                                    <DataGridTextColumn Header="%Discarded" Binding="{Binding Path=Value.R_j__d_p, Mode=OneWay}" Width="90"/>
+                                                    <DataGridTextColumn Header="#Output" Binding="{Binding Path=Value.R_j__o_c, Mode=OneWay}" Width="90"/>
+                                                    <DataGridTextColumn Header="%Output" Binding="{Binding Path=Value.R_j__o_p, Mode=OneWay}" Width="90"/>
+                                                    <DataGridTextColumn Header="#Multiple-Testing Confirmed" Binding="{Binding Path=Value.R_j_TP_c, Mode=OneWay}" Width="120"/>
+                                                    <DataGridTextColumn Header="%Multiple-Testing Confirmed" Binding="{Binding Path=Value.R_j_TP_p, Mode=OneWay}" Width="120"/>
+                                                    <DataGridTextColumn Header="#Multiple-Testing Discarded" Binding="{Binding Path=Value.R_j_FP_c, Mode=OneWay}" Width="120"/>
+                                                    <DataGridTextColumn Header="%Multiple-Testing Discarded" Binding="{Binding Path=Value.R_j_FP_p, Mode=OneWay}" Width="120"/>
+                                                </DataGrid.Columns>
+                                            </DataGrid>
+                                            <RadioButton Content="Plot" IsChecked="{Binding Path=plotRadioButtons.ChrwideStats}" VerticalAlignment="Top" HorizontalContentAlignment="Right" FontFamily="Candara" FontSize="14" Margin="0,5,10,0" HorizontalAlignment="Right" Width="47"/>
+                                            <ScrollViewer x:Name="SC_Viewer" HorizontalAlignment="Left" Width="259" Background="#00000000" Style="{StaticResource FavsScrollViewer}" Foreground="White" MaxHeight="709" Margin="0,9,0,1" VerticalScrollBarVisibility="Auto" FlowDirection="RightToLeft">
+                                                <Grid x:Name="Stat3_SV_Grid" Height="207" Width="240" FlowDirection="LeftToRight">
+                                                    <Label x:Name="Total_Peaks_Count_L" Content="Total" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" Padding="5,0,5,5" HorizontalContentAlignment="Right" FontFamily="Candara" FontSize="13" Margin="4,12,0,0" VerticalContentAlignment="Center" Width="84" FlowDirection="LeftToRight"/>
+                                                    <Label x:Name="Stringent_Peaks_Count_L" Content="Stringent" HorizontalAlignment="Left" VerticalAlignment="Top" Height="20" Padding="5,0,5,5" HorizontalContentAlignment="Right" FontFamily="Candara" FontSize="13" Margin="4,37,0,0" VerticalContentAlignment="Center" FlowDirection="LeftToRight" Width="84"/>
+                                                    <Label x:Name="Weak_Peaks_Counts_L" Content="Weak" HorizontalAlignment="Left" VerticalAlignment="Top" Padding="5,0,5,5" Height="20" FontFamily="Candara" FontSize="13" Margin="4,62,0,0" Width="84" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" FlowDirection="LeftToRight"/>
+                                                    <Label x:Name="Confirmed_Peaks_Counts_L" Content="Confirmed" HorizontalAlignment="Left" VerticalAlignment="Top" Padding="5,0,5,5" Height="20" FontFamily="Candara" FontSize="13" Margin="4,87,0,0" Width="84" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" FlowDirection="LeftToRight"/>
+                                                    <Label x:Name="Discarded_Peaks_Count_L" Content="Discarded" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="1.739,0.346" Padding="5,0,5,5" Height="20" HorizontalContentAlignment="Right" FontFamily="Candara" FontSize="13" Margin="4,112,0,0" VerticalContentAlignment="Center" FlowDirection="LeftToRight" Width="84"/>
+                                                    <Label x:Name="TP_L" Content="Multiple-Testing Confirmed" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="1.739,0.346" Padding="5,0,5,5" Height="20" HorizontalContentAlignment="Right" FontFamily="Candara" FontSize="13" Margin="4,162,0,0" VerticalContentAlignment="Center" FlowDirection="LeftToRight" Width="84"/>
+                                                    <Label x:Name="FP_L" Content="Multiple-Testing Discarded" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="1.739,0.346" Padding="5,0,5,5" Height="20" HorizontalContentAlignment="Right" FontFamily="Candara" FontSize="13" Margin="4,187,0,0" VerticalContentAlignment="Center" FlowDirection="LeftToRight" Width="84"/>
+                                                    <Label x:Name="Output_Set_Count_L" Content="Output set" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="1.739,0.346" Padding="5,0,5,5" Height="20" HorizontalContentAlignment="Right" FontFamily="Candara" FontSize="13" Margin="4,137,0,0" VerticalContentAlignment="Center" FlowDirection="LeftToRight" Width="84"/>
+                                                    <TextBox x:Name="Total_Peaks_Count_TB" HorizontalAlignment="Left" Height="20" TextWrapping="Wrap" VerticalAlignment="Top" Width="147" HorizontalContentAlignment="Center" Padding="1,0,1,1" IsReadOnly="True" TabIndex="29" Margin="93,9,0,0">
+                                                        <TextBox.Text>
+                                                            <MultiBinding Converter="{StaticResource setsCounterConverter}" Mode="OneWay">
+                                                                <Binding Path="sessionsViewModel.selectedAnalysisResult"/>
+                                                                <Binding Source="total"/>
+                                                            </MultiBinding>
+                                                        </TextBox.Text>
+                                                    </TextBox>
+                                                    <TextBox x:Name="R_j__s_c_TB" HorizontalAlignment="Left" Height="20" TextWrapping="Wrap" VerticalAlignment="Top" Width="80" HorizontalContentAlignment="Center" Padding="1,0,1,1" IsReadOnly="True" TabIndex="29" Margin="93,34,0,0">
+                                                        <TextBox.Text>
+                                                            <MultiBinding Converter="{StaticResource setsCounterConverter}" Mode="OneWay">
+                                                                <Binding Path="sessionsViewModel.selectedAnalysisResult"/>
+                                                                <Binding Source="R_j__s_c"/>
+                                                            </MultiBinding>
+                                                        </TextBox.Text>
+                                                    </TextBox>
+                                                    <TextBox x:Name="R_j__s_p_TB" HorizontalAlignment="Left" Height="20" TextWrapping="Wrap" VerticalAlignment="Top" Width="62" HorizontalContentAlignment="Center" Padding="1,0,1,1" IsReadOnly="True" TabIndex="29" Margin="178,34,0,0">
+                                                        <TextBox.Text>
+                                                            <MultiBinding Converter="{StaticResource setsCounterConverter}" Mode="OneWay">
+                                                                <Binding Path="sessionsViewModel.selectedAnalysisResult"/>
+                                                                <Binding Source="R_j__s_p"/>
+                                                            </MultiBinding>
+                                                        </TextBox.Text>
+                                                    </TextBox>
+                                                    <TextBox x:Name="R_j__w_c_TB" HorizontalAlignment="Left" Height="20" TextWrapping="Wrap" VerticalAlignment="Top" Width="80" HorizontalContentAlignment="Center" Padding="1,0,1,1" IsReadOnly="True" TabIndex="31" Margin="93,59,0,0">
+                                                        <TextBox.Text>
+                                                            <MultiBinding Converter="{StaticResource setsCounterConverter}" Mode="OneWay">
+                                                                <Binding Path="sessionsViewModel.selectedAnalysisResult"/>
+                                                                <Binding Source="R_j__w_c"/>
+                                                            </MultiBinding>
+                                                        </TextBox.Text>
+                                                    </TextBox>
+                                                    <TextBox x:Name="R_j__w_p_TB" HorizontalAlignment="Left" Height="20" TextWrapping="Wrap" VerticalAlignment="Top" Width="62" HorizontalContentAlignment="Center" Padding="1,0,1,1" IsReadOnly="True" TabIndex="31" Margin="178,59,0,0">
+                                                        <TextBox.Text>
+                                                            <MultiBinding Converter="{StaticResource setsCounterConverter}" Mode="OneWay">
+                                                                <Binding Path="sessionsViewModel.selectedAnalysisResult"/>
+                                                                <Binding Source="R_j__w_p"/>
+                                                            </MultiBinding>
+                                                        </TextBox.Text>
+                                                    </TextBox>
+                                                    <TextBox x:Name="R_j__c_c_TB" HorizontalAlignment="Left" Height="20" TextWrapping="Wrap" VerticalAlignment="Top" Width="80" HorizontalContentAlignment="Center" Padding="1,0,1,1" IsReadOnly="True" TabIndex="31" Margin="93,84,0,0">
+                                                        <TextBox.Text>
+                                                            <MultiBinding Converter="{StaticResource setsCounterConverter}" Mode="OneWay">
+                                                                <Binding Path="sessionsViewModel.selectedAnalysisResult"/>
+                                                                <Binding Source="R_j__c_c"/>
+                                                            </MultiBinding>
+                                                        </TextBox.Text>
+                                                    </TextBox>
+                                                    <TextBox x:Name="R_j__d_c_TB" HorizontalAlignment="Left" Height="20" TextWrapping="Wrap" VerticalAlignment="Top" Width="80" HorizontalContentAlignment="Center" Padding="1,0,1,1" IsReadOnly="True" TabIndex="33" Margin="93,109,0,0">
+                                                        <TextBox.Text>
+                                                            <MultiBinding Converter="{StaticResource setsCounterConverter}" Mode="OneWay">
+                                                                <Binding Path="sessionsViewModel.selectedAnalysisResult"/>
+                                                                <Binding Source="R_j__d_c"/>
+                                                            </MultiBinding>
+                                                        </TextBox.Text>
+                                                    </TextBox>
+                                                    <TextBox x:Name="R_j__c_p_TB" HorizontalAlignment="Left" Height="20" TextWrapping="Wrap" VerticalAlignment="Top" Width="62" HorizontalContentAlignment="Center" Padding="1,0,1,1" IsReadOnly="True" TabIndex="31" Margin="178,84,0,0">
+                                                        <TextBox.Text>
+                                                            <MultiBinding Converter="{StaticResource setsCounterConverter}" Mode="OneWay">
+                                                                <Binding Path="sessionsViewModel.selectedAnalysisResult"/>
+                                                                <Binding Source="R_j__c_p"/>
+                                                            </MultiBinding>
+                                                        </TextBox.Text>
+                                                    </TextBox>
+                                                    <TextBox x:Name="R_j__d_p_TB" HorizontalAlignment="Left" Height="20" TextWrapping="Wrap" VerticalAlignment="Top" Width="62" HorizontalContentAlignment="Center" Padding="1,0,1,1" IsReadOnly="True" TabIndex="33" Margin="178,109,0,0">
+                                                        <TextBox.Text>
+                                                            <MultiBinding Converter="{StaticResource setsCounterConverter}" Mode="OneWay">
+                                                                <Binding Path="sessionsViewModel.selectedAnalysisResult"/>
+                                                                <Binding Source="R_j__d_p"/>
+                                                            </MultiBinding>
+                                                        </TextBox.Text>
+                                                    </TextBox>
+                                                    <TextBox x:Name="R_j_TP_c_TB" HorizontalAlignment="Left" Height="20" TextWrapping="Wrap" VerticalAlignment="Top" Width="80" HorizontalContentAlignment="Center" Padding="1,0,1,1" IsReadOnly="True" TabIndex="33" Margin="93,159,0,0">
+                                                        <TextBox.Text>
+                                                            <MultiBinding Converter="{StaticResource setsCounterConverter}" Mode="OneWay">
+                                                                <Binding Path="sessionsViewModel.selectedAnalysisResult"/>
+                                                                <Binding Source="R_j_TP_c"/>
+                                                            </MultiBinding>
+                                                        </TextBox.Text>
+                                                    </TextBox>
+                                                    <TextBox x:Name="R_j_TP_p_TB" HorizontalAlignment="Left" Height="20" TextWrapping="Wrap" VerticalAlignment="Top" Width="62" HorizontalContentAlignment="Center" Padding="1,0,1,1" IsReadOnly="True" TabIndex="33" Margin="178,159,0,0">
+                                                        <TextBox.Text>
+                                                            <MultiBinding Converter="{StaticResource setsCounterConverter}" Mode="OneWay">
+                                                                <Binding Path="sessionsViewModel.selectedAnalysisResult"/>
+                                                                <Binding Source="R_j_TP_p"/>
+                                                            </MultiBinding>
+                                                        </TextBox.Text>
+                                                    </TextBox>
+                                                    <TextBox x:Name="R_j_FP_c_TB" HorizontalAlignment="Left" Height="20" TextWrapping="Wrap" VerticalAlignment="Top" Width="80" HorizontalContentAlignment="Center" Padding="1,0,1,1" IsReadOnly="True" TabIndex="33" Margin="93,184,0,0">
+                                                        <TextBox.Text>
+                                                            <MultiBinding Converter="{StaticResource setsCounterConverter}" Mode="OneWay">
+                                                                <Binding Path="sessionsViewModel.selectedAnalysisResult"/>
+                                                                <Binding Source="R_j_FP_c"/>
+                                                            </MultiBinding>
+                                                        </TextBox.Text>
+                                                    </TextBox>
+                                                    <TextBox x:Name="R_j_FP_p_TB" HorizontalAlignment="Left" Height="20" TextWrapping="Wrap" VerticalAlignment="Top" Width="62" HorizontalContentAlignment="Center" Padding="1,0,1,1" IsReadOnly="True" TabIndex="33" Margin="178,184,0,0">
+                                                        <TextBox.Text>
+                                                            <MultiBinding Converter="{StaticResource setsCounterConverter}" Mode="OneWay">
+                                                                <Binding Path="sessionsViewModel.selectedAnalysisResult"/>
+                                                                <Binding Source="R_j_FP_p"/>
+                                                            </MultiBinding>
+                                                        </TextBox.Text>
+                                                    </TextBox>
+                                                    <TextBox x:Name="R_j__o_c_TB" HorizontalAlignment="Left" Height="20" TextWrapping="Wrap" VerticalAlignment="Top" Width="80" HorizontalContentAlignment="Center" Padding="1,0,1,1" IsReadOnly="True" TabIndex="33" Margin="93,134,0,0">
+                                                        <TextBox.Text>
+                                                            <MultiBinding Converter="{StaticResource setsCounterConverter}" Mode="OneWay">
+                                                                <Binding Path="sessionsViewModel.selectedAnalysisResult"/>
+                                                                <Binding Source="R_j__o_c"/>
+                                                            </MultiBinding>
+                                                        </TextBox.Text>
+                                                    </TextBox>
+                                                    <TextBox x:Name="R_j__o_p_TB" HorizontalAlignment="Left" Height="20" TextWrapping="Wrap" VerticalAlignment="Top" Width="62" HorizontalContentAlignment="Center" Padding="1,0,1,1" IsReadOnly="True" TabIndex="33" Margin="178,134,0,0">
+                                                        <TextBox.Text>
+                                                            <MultiBinding Converter="{StaticResource setsCounterConverter}" Mode="OneWay">
+                                                                <Binding Path="sessionsViewModel.selectedAnalysisResult"/>
+                                                                <Binding Source="R_j__o_p"/>
+                                                            </MultiBinding>
+                                                        </TextBox.Text>
+                                                    </TextBox>
+                                                </Grid>
+                                            </ScrollViewer>
+                                        </Grid>
+                                    </TabItem>
+                                    <TabItem Header="Sets in Details" HorizontalAlignment="Center" Width="140">
+                                        <Grid Margin="0,0">
+                                            <TabControl Margin="0,28,0,0" TabStripPlacement="Left">
+                                                <TabControl.Resources>
+                                                    <Style TargetType="{x:Type TabPanel}">
+                                                        <Setter Property="Background" Value="#969696"/>
+                                                        <Setter Property="VerticalAlignment" Value="Center"/>
+                                                    </Style>
+                                                </TabControl.Resources>
+                                                <TabItem Header="Stringent ERs" Width="120" Height="30">
+                                                    <Grid Background="Transparent">
+                                                        <DataGrid x:Name="StringentERs_DG" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible" IsReadOnly="True">
+                                                            <DataGrid.ItemsSource>
+                                                                <MultiBinding Converter="{StaticResource selectedSampleERSetsConverter}" Mode="OneWay">
+                                                                    <Binding Path="sessionsViewModel.selectedAnalysisResult"/>
+                                                                    <Binding Path="sessionsViewModel.selectedChr"/>
+                                                                    <Binding Source="stringent"/>
+                                                                </MultiBinding>
+                                                            </DataGrid.ItemsSource>
+                                                            <DataGrid.Columns>
+                                                                <DataGridTextColumn Header="Chr" Binding="{Binding ElementName=Root, Path=DataContext.sessionsViewModel.selectedChr, Mode=OneWay}" IsReadOnly="True" Width="70"/>
+                                                                <DataGridTextColumn Header="Start" Binding="{Binding left, Mode=OneWay}" Width="100"/>
+                                                                <DataGridTextColumn Header="Stop" Binding="{Binding right, Mode=OneWay}" Width="100"/>
+                                                                <DataGridTextColumn Header="Summit" Binding="{Binding metadata.summit, Mode=OneWay}" Width="100"/>
+                                                                <DataGridTextColumn Header="Name" Binding="{Binding metadata.name, Mode=OneWay}" Width="140"/>
+                                                                <DataGridTextColumn Header="p-value" Binding="{Binding metadata.value, Mode=OneWay}" Width="160"/>
+                                                            </DataGrid.Columns>
+                                                            <i:Interaction.Triggers>
+                                                                <i:EventTrigger EventName="MouseDoubleClick">
+                                                                    <i:InvokeCommandAction Command="{Binding ChangeSelectedERCommand}">
+                                                                        <i:InvokeCommandAction.CommandParameter>
+                                                                            <MultiBinding Converter="{StaticResource selectedERValueConverter}">
+                                                                                <Binding Path="SelectedItem" ElementName="StringentERs_DG"/>
+                                                                                <Binding Source="stringent"/>
+                                                                            </MultiBinding>
+                                                                        </i:InvokeCommandAction.CommandParameter>
+                                                                    </i:InvokeCommandAction>
+                                                                </i:EventTrigger>
+                                                            </i:Interaction.Triggers>
+                                                        </DataGrid>
+                                                    </Grid>
+                                                </TabItem>
+                                                <TabItem Header="Weak ERs" Width="120" Height="30">
+                                                    <Grid Background="Transparent">
+                                                        <DataGrid x:Name="WeakERs_DG" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible" IsReadOnly="True">
+                                                            <DataGrid.ItemsSource>
+                                                                <MultiBinding Converter="{StaticResource selectedSampleERSetsConverter}" Mode="OneWay">
+                                                                    <Binding Path="sessionsViewModel.selectedAnalysisResult"/>
+                                                                    <Binding Path="sessionsViewModel.selectedChr"/>
+                                                                    <Binding Source="weak"/>
+                                                                </MultiBinding>
+                                                            </DataGrid.ItemsSource>
+                                                            <DataGrid.Columns>
+                                                                <DataGridTextColumn Header="Chr" Binding="{Binding ElementName=Root, Path=DataContext.sessionsViewModel.selectedChr, Mode=OneWay}" IsReadOnly="True" Width="70"/>
+                                                                <DataGridTextColumn Header="Start" Binding="{Binding left, Mode=OneWay}" Width="100"/>
+                                                                <DataGridTextColumn Header="Stop" Binding="{Binding right, Mode=OneWay}" Width="100"/>
+                                                                <DataGridTextColumn Header="Summit" Binding="{Binding metadata.summit, Mode=OneWay}" Width="100"/>
+                                                                <DataGridTextColumn Header="Name" Binding="{Binding metadata.name, Mode=OneWay}" Width="140"/>
+                                                                <DataGridTextColumn Header="p-value" Binding="{Binding metadata.value, Mode=OneWay}" Width="160"/>
+                                                            </DataGrid.Columns>
+                                                            <i:Interaction.Triggers>
+                                                                <i:EventTrigger EventName="MouseDoubleClick">
+                                                                    <i:InvokeCommandAction Command="{Binding ChangeSelectedERCommand}">
+                                                                        <i:InvokeCommandAction.CommandParameter>
+                                                                            <MultiBinding Converter="{StaticResource selectedERValueConverter}">
+                                                                                <Binding Path="SelectedItem" ElementName="WeakERs_DG"/>
+                                                                                <Binding Source="weak"/>
+                                                                            </MultiBinding>
+                                                                        </i:InvokeCommandAction.CommandParameter>
+                                                                    </i:InvokeCommandAction>
+                                                                </i:EventTrigger>
+                                                            </i:Interaction.Triggers>
+                                                        </DataGrid>
+                                                    </Grid>
+                                                </TabItem>
+                                                <TabItem Header="Confirmed ERs" Width="120" Height="30">
+                                                    <Grid Background="Transparent">
+                                                        <DataGrid x:Name="ConfirmedERs_DG" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible" CanUserResizeRows="True" RowHeight="{x:Static System:Double.NaN}" IsReadOnly="True">
+                                                            <DataGrid.ItemsSource>
+                                                                <MultiBinding Converter="{StaticResource selectedSampleERSetsConverter}" Mode="OneWay">
+                                                                    <Binding Path="sessionsViewModel.selectedAnalysisResult"/>
+                                                                    <Binding Path="sessionsViewModel.selectedChr"/>
+                                                                    <Binding Source="confirmed"/>
+                                                                </MultiBinding>
+                                                            </DataGrid.ItemsSource>
+                                                            <DataGrid.Columns>
+                                                                <DataGridTextColumn Header="Classification" Binding="{Binding Path=Value.classification, Converter={StaticResource classificationConverter}, Mode=OneWay}" Width="150"/>
+                                                                <DataGridTextColumn Header="Chr" Binding="{Binding ElementName=Root, Path=DataContext.sessionsViewModel.selectedChr, Mode=OneWay}" IsReadOnly="True" Width="70"/>
+                                                                <DataGridTextColumn Header="Start" Binding="{Binding Path=Value.er.left, Mode=OneWay}" Width="100"/>
+                                                                <DataGridTextColumn Header="Stop" Binding="{Binding Path=Value.er.right, Mode=OneWay}" Width="100"/>
+                                                                <DataGridTextColumn Header="Summit" Binding="{Binding Path=Value.er.metadata.summit, Mode=OneWay}" Width="100"/>
+                                                                <DataGridTextColumn Header="Name" Binding="{Binding Path=Value.er.metadata.name, Mode=OneWay}" Width="140"/>
+                                                                <DataGridTextColumn Header="p-value" Binding="{Binding Path=Value.er.metadata.value, Mode=OneWay}" Width="160"/>
+                                                                <DataGridTextColumn Header="X-squared" Binding="{Binding Path=Value.xSquared, Mode=OneWay}" Width="200"/>
+                                                                <DataGridTextColumn Header="Right-tail probability" Binding="{Binding Path=Value.rtp, Mode=OneWay}" Width="200"/>
+                                                                <DataGridTextColumn Header="Supporting ERs: Start , Stop , Summit , Name , p-value , File name" Binding="{Binding Path=Value.supportingERs, Converter={StaticResource supportingERsConverter}, Mode=OneWay}" Width="800"/>
+                                                            </DataGrid.Columns>
+                                                            <i:Interaction.Triggers>
+                                                                <i:EventTrigger EventName="MouseDoubleClick">
+                                                                    <i:InvokeCommandAction Command="{Binding ChangeSelectedERCommand}">
+                                                                        <i:InvokeCommandAction.CommandParameter>
+                                                                            <MultiBinding Converter="{StaticResource selectedERValueConverter}">
+                                                                                <Binding Path="SelectedItem" ElementName="ConfirmedERs_DG"/>
+                                                                                <Binding Source="confirmed"/>
+                                                                            </MultiBinding>
+                                                                        </i:InvokeCommandAction.CommandParameter>
+                                                                    </i:InvokeCommandAction>
+                                                                </i:EventTrigger>
+                                                            </i:Interaction.Triggers>
+                                                        </DataGrid>
+                                                    </Grid>
+                                                </TabItem>
+                                                <TabItem Header="Discarded ERs" Width="120" Height="30">
+                                                    <Grid Background="Transparent">
+                                                        <DataGrid x:Name="DiscardedERs_DG" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible" RowHeight="{x:Static System:Double.NaN}" CanUserResizeRows="True" IsReadOnly="True">
+                                                            <DataGrid.ItemsSource>
+                                                                <MultiBinding Converter="{StaticResource selectedSampleERSetsConverter}" Mode="OneWay">
+                                                                    <Binding Path="sessionsViewModel.selectedAnalysisResult"/>
+                                                                    <Binding Path="sessionsViewModel.selectedChr"/>
+                                                                    <Binding Source="discarded"/>
+                                                                </MultiBinding>
+                                                            </DataGrid.ItemsSource>
+                                                            <DataGrid.Columns>
+                                                                <DataGridTextColumn Header="Classification" Binding="{Binding Path=Value.classification, Converter={StaticResource classificationConverter}, Mode=OneWay}" Width="150"/>
+                                                                <DataGridTextColumn Header="Chr" Binding="{Binding ElementName=Root, Path=DataContext.sessionsViewModel.selectedChr, Mode=OneWay}" Width="70"/>
+                                                                <DataGridTextColumn Header="Start" Binding="{Binding Path=Value.er.left, Mode=OneWay}" Width="100"/>
+                                                                <DataGridTextColumn Header="Stop" Binding="{Binding Path=Value.er.right, Mode=OneWay}" Width="100"/>
+                                                                <DataGridTextColumn Header="Summit" Binding="{Binding Path=Value.er.metadata.summit, Mode=OneWay}" Width="100"/>
+                                                                <DataGridTextColumn Header="Name" Binding="{Binding Path=Value.er.metadata.name, Mode=OneWay}" Width="140"/>
+                                                                <DataGridTextColumn Header="p-value" Binding="{Binding Path=Value.er.metadata.value, Mode=OneWay}" Width="160"/>
+                                                                <DataGridTextColumn Header="X-squared" Binding="{Binding Path=Value.xSquared, Mode=OneWay}" Width="200"/>
+                                                                <DataGridTextColumn Header="Reason" Binding="{Binding Path=Value.reason, Mode=OneWay, Converter={StaticResource reasonCodeConverter}}" IsReadOnly="True" Width="350"/>
+                                                                <DataGridTextColumn Header="Supporting ERs: Start , Stop , Summit , Name , p-value , File name" Binding="{Binding Path=Value.supportingERs, Converter={StaticResource supportingERsConverter}, Mode=OneWay}" IsReadOnly="True" Width="800"/>
+                                                            </DataGrid.Columns>
+                                                            <i:Interaction.Triggers>
+                                                                <i:EventTrigger EventName="MouseDoubleClick">
+                                                                    <i:InvokeCommandAction Command="{Binding ChangeSelectedERCommand}">
+                                                                        <i:InvokeCommandAction.CommandParameter>
+                                                                            <MultiBinding Converter="{StaticResource selectedERValueConverter}">
+                                                                                <Binding Path="SelectedItem" ElementName="DiscardedERs_DG"/>
+                                                                                <Binding Source="discarded"/>
+                                                                            </MultiBinding>
+                                                                        </i:InvokeCommandAction.CommandParameter>
+                                                                    </i:InvokeCommandAction>
+                                                                </i:EventTrigger>
+                                                            </i:Interaction.Triggers>
+                                                        </DataGrid>
+                                                    </Grid>
+                                                </TabItem>
+                                                <TabItem Header="Output ERs" Width="120" Height="30">
+                                                    <Grid Background="Transparent">
+                                                        <DataGrid x:Name="OutputERs_DG" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible" RowHeight="{x:Static System:Double.NaN}" CanUserResizeRows="True" IsReadOnly="True">
+                                                            <DataGrid.ItemsSource>
+                                                                <MultiBinding Converter="{StaticResource selectedSampleERSetsConverter}" Mode="OneWay">
+                                                                    <Binding Path="sessionsViewModel.selectedAnalysisResult"/>
+                                                                    <Binding Path="sessionsViewModel.selectedChr"/>
+                                                                    <Binding Source="output"/>
+                                                                </MultiBinding>
+                                                            </DataGrid.ItemsSource>
+                                                            <DataGrid.Columns>
+                                                                <DataGridTextColumn Header="TP / FP" Binding="{Binding Path=statisticalClassification, Converter={StaticResource classificationConverter}, Mode=OneWay}" Width="150"/>
+                                                                <DataGridTextColumn Header="Chr" Binding="{Binding ElementName=Root, Path=DataContext.sessionsViewModel.selectedChr, Mode=OneWay}" Width="70"/>
+                                                                <DataGridTextColumn Header="Start" Binding="{Binding Path=er.left, Mode=OneWay}" Width="100"/>
+                                                                <DataGridTextColumn Header="Stop" Binding="{Binding Path=er.right, Mode=OneWay}" Width="100"/>
+                                                                <DataGridTextColumn Header="Summit" Binding="{Binding Path=er.metadata.summit, Mode=OneWay}" Width="100"/>
+                                                                <DataGridTextColumn Header="Name" Binding="{Binding Path=er.metadata.name, Mode=OneWay}" Width="140"/>
+                                                                <DataGridTextColumn Header="p-value" Binding="{Binding Path=er.metadata.value, Mode=OneWay}" Width="160"/>
+                                                                <DataGridTextColumn Header="Adjusted p-value" Binding="{Binding Path=adjPValue, Mode=OneWay}" Width="160"/>
+                                                                <DataGridTextColumn Header="X-squared" Binding="{Binding Path=xSquared, Mode=OneWay}" Width="200"/>
+                                                                <DataGridTextColumn Header="Right-tail probability" Binding="{Binding Path=rtp, Mode=OneWay}" Width="200"/>
+                                                                <DataGridTextColumn Header="Supporting ERs: Start , Stop , Summit , Name , p-value , File name" Binding="{Binding Path=supportingERs, Converter={StaticResource supportingERsConverter}, Mode=OneWay}" Width="800"/>
+                                                            </DataGrid.Columns>
+                                                            <i:Interaction.Triggers>
+                                                                <i:EventTrigger EventName="MouseDoubleClick">
+                                                                    <i:InvokeCommandAction Command="{Binding ChangeSelectedERCommand}">
+                                                                        <i:InvokeCommandAction.CommandParameter>
+                                                                            <MultiBinding Converter="{StaticResource selectedERValueConverter}">
+                                                                                <Binding Path="SelectedItem" ElementName="OutputERs_DG"/>
+                                                                                <Binding Source="output"/>
+                                                                            </MultiBinding>
+                                                                        </i:InvokeCommandAction.CommandParameter>
+                                                                    </i:InvokeCommandAction>
+                                                                </i:EventTrigger>
+                                                            </i:Interaction.Triggers>
+                                                        </DataGrid>
+                                                    </Grid>
+                                                </TabItem>
+                                                <TabItem Header="Noise ERs" Width="120" Height="30">
+                                                    <Grid Background="Transparent">
+                                                        <DataGrid x:Name="NoiseERs_DG" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible" IsReadOnly="True">
+                                                            <DataGrid.ItemsSource>
+                                                                <MultiBinding Converter="{StaticResource selectedSampleERSetsConverter}" Mode="OneWay">
+                                                                    <Binding Path="sessionsViewModel.selectedAnalysisResult"/>
+                                                                    <Binding Path="sessionsViewModel.selectedChr"/>
+                                                                    <Binding Source="garbage"/>
+                                                                </MultiBinding>
+                                                            </DataGrid.ItemsSource>
+                                                            <DataGrid.Columns>
+                                                                <DataGridTextColumn Header="Chr" Binding="{Binding ElementName=Root, Path=DataContext.sessionsViewModel.selectedChr, Mode=OneWay}" IsReadOnly="True" Width="70"/>
+                                                                <DataGridTextColumn Header="Start" Binding="{Binding left, Mode=OneWay}" Width="100"/>
+                                                                <DataGridTextColumn Header="Stop" Binding="{Binding right, Mode=OneWay}" Width="100"/>
+                                                                <DataGridTextColumn Header="Summit" Binding="{Binding metadata.summit, Mode=OneWay}" Width="100"/>
+                                                                <DataGridTextColumn Header="Name" Binding="{Binding metadata.name, Mode=OneWay}" Width="140"/>
+                                                                <DataGridTextColumn Header="p-value" Binding="{Binding metadata.value, Mode=OneWay}" Width="160"/>
+                                                            </DataGrid.Columns>
+                                                            <i:Interaction.Triggers>
+                                                                <i:EventTrigger EventName="MouseDoubleClick">
+                                                                    <i:InvokeCommandAction Command="{Binding ChangeSelectedERCommand}">
+                                                                        <i:InvokeCommandAction.CommandParameter>
+                                                                            <MultiBinding Converter="{StaticResource selectedERValueConverter}">
+                                                                                <Binding Path="SelectedItem" ElementName="NoiseERs_DG"/>
+                                                                                <Binding Source="noise"/>
+                                                                            </MultiBinding>
+                                                                        </i:InvokeCommandAction.CommandParameter>
+                                                                    </i:InvokeCommandAction>
+                                                                </i:EventTrigger>
+                                                            </i:Interaction.Triggers>
+                                                        </DataGrid>
+                                                    </Grid>
+                                                </TabItem>
+                                            </TabControl>
+                                            <Grid Background="#FF2E3438" Height="28" VerticalAlignment="Top">
+                                                <Label Content="chr" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="13" FontFamily="Candara" Foreground="#FF9FAAB4" Background="Transparent" Margin="26,1,0,0"/>
+                                                <ComboBox x:Name="SelectedChrRB" ItemsSource="{Binding sessionsViewModel.selectedAnalysisResult, Converter={StaticResource selectedSessionSampleChrConverter}}" HorizontalAlignment="Left" Margin="54,4,0,0" VerticalAlignment="Top" Width="65"  TabIndex="14" Background="#FF4F5C64" Foreground="#FF9FAAB4" FontFamily="Segoe UI" FontSize="12" VerticalContentAlignment="Center" FontWeight="Normal" FlowDirection="LeftToRight" BorderBrush="Black" BorderThickness="0" Height="20" Padding="4,0">
+                                                    <i:Interaction.Triggers>
+                                                        <i:EventTrigger EventName="SelectionChanged">
+                                                            <i:InvokeCommandAction Command="{Binding ChangeSetToViewChr}" CommandParameter="{Binding SelectedItems, ElementName=SelectedChrRB}"/>
+                                                        </i:EventTrigger>
+                                                    </i:Interaction.Triggers>
+                                                </ComboBox>
+                                                <Label Content="Dichotomies count" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="13" FontFamily="Candara" Foreground="#FF9FAAB4" Background="Transparent" Margin="157,2,0,0"/>
+                                                <TextBox x:Name="TabSeDe_dichotomies_count_TB" Text="{Binding sessionsViewModel.genomeBrowserDictomies}" HorizontalAlignment="Left" Height="20" TextWrapping="Wrap" VerticalAlignment="Top" Width="40" HorizontalContentAlignment="Center" Padding="1,0,1,1" TabIndex="29" Margin="271,4,0,0"/>
+                                                <CheckBox IsChecked="{Binding sessionsViewModel.genomeBrowserIncludeGenes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Content="Plot Genes" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="13" FontFamily="Candara" Foreground="#FF9FAAB4" Background="Transparent" Height="15" Margin="370,6,0,0"/>
+                                                <CheckBox IsChecked="{Binding sessionsViewModel.genomeBrowserIncludeGeneralFeatures, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Content="Plot General Features" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="13" FontFamily="Candara" Foreground="#FF9FAAB4" Background="Transparent" Height="15" Margin="480,6,0,0"/>
+                                                <ProgressBar x:Name="Di3UpdateProBar" Value="{Binding sessionsViewModel.di3.status}" Visibility="{Binding ElementName=Di3UpdateProBar, Path=Value, Converter={StaticResource pV2V}}" Margin="670,3,10,0" VerticalAlignment="Top" Height="20"/>
+                                            </Grid>
+                                        </Grid>
+                                    </TabItem>
+                                    <TabItem Header="Analysis Stats" HorizontalAlignment="Center" Width="140" IsSelected="True">
+                                        <Grid Margin="0,0">
+                                            <TabControl TabStripPlacement="Left">
+                                                <TabControl.Resources>
+                                                    <Style TargetType="{x:Type TabPanel}">
+                                                        <Setter Property="Background" Value="#969696"/>
+                                                        <Setter Property="VerticalAlignment" Value="Center"/>
+                                                    </Style>
+                                                </TabControl.Resources>
+                                                <TabItem Header="Input" Width="120" Height="30">
+                                                    <Grid Background="Transparent">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <DataGrid ItemsSource="{Binding Source={StaticResource SamplePValueDistribution}, Mode=OneWay}" Margin="0,26,0,0" RowBackground="White">
+                                                            <DataGrid.Columns>
+                                                                <DataGridTextColumn Header="Count" Binding="{Binding Path=Item2.frequency, Mode=OneWay}" Width="160" MinWidth="20"/>
+                                                                <DataGridTextColumn Header="Log10 (p-value)" Binding="{Binding Path=Item2.logpValue, Mode=OneWay}" Width="200" MinWidth="40"/>
+                                                                <DataGridTextColumn Header="p-value" Binding="{Binding Path=Item2.pValue, Mode=OneWay}" Width="200" MinWidth="20"/>
+                                                            </DataGrid.Columns>
+                                                            <DataGrid.GroupStyle>
+                                                                <GroupStyle>
+                                                                    <GroupStyle.ContainerStyle>
+                                                                        <Style TargetType="{x:Type GroupItem}">
+                                                                            <Setter Property="Template">
+                                                                                <Setter.Value>
+                                                                                    <ControlTemplate TargetType="{x:Type GroupItem}">
+                                                                                        <Expander IsExpanded="False" BorderThickness="1,1,1,1" Background="#FFD2D2D2">
+                                                                                            <Expander.Header>
+                                                                                                <Border Height="25">
+                                                                                                    <TextBlock Foreground="#FF505050" VerticalAlignment="Center" TextWrapping="Wrap" Text="{Binding Path=Name}" Margin="5,0,0,0"/>
+                                                                                                </Border>
+                                                                                            </Expander.Header>
+                                                                                            <Expander.Content>
+                                                                                                <ItemsPresenter />
+                                                                                            </Expander.Content>
+                                                                                        </Expander>
+                                                                                    </ControlTemplate>
+                                                                                </Setter.Value>
+                                                                            </Setter>
+                                                                        </Style>
+                                                                    </GroupStyle.ContainerStyle>
+                                                                </GroupStyle>
+                                                            </DataGrid.GroupStyle>
+                                                        </DataGrid>
+                                                        <RadioButton Content="Plot" IsChecked="{Binding Path=plotRadioButtons.SamplePValueDistribution}" VerticalAlignment="Top" HorizontalContentAlignment="Right" HorizontalAlignment="Right" FontFamily="Candara" FontSize="14" Margin="0,5,10,0"/>
+                                                    </Grid>
+                                                </TabItem>
+                                                <TabItem Header="X-squared" Width="120" Height="30">
+                                                    <Grid Background="Transparent">
+                                                        <RadioButton Content="Plot" IsChecked="{Binding Path=plotRadioButtons.Xsqrd}" VerticalAlignment="Top" HorizontalContentAlignment="Right" HorizontalAlignment="Right" FontFamily="Candara" FontSize="14" Margin="0,5,10,0"/>
+                                                        <DataGrid x:Name="Fishers_method_DG" Margin="0,26,0,0">
+                                                            <DataGrid.ItemsSource>
+                                                                <MultiBinding Converter="{StaticResource xSqrdDistributionConverter}" Mode="OneWay">
+                                                                    <Binding Path="sessionsViewModel.selectedAnalysisResult"/>
+                                                                    <Binding Path="sessionsViewModel.hAxisBinWidth"/>
+                                                                </MultiBinding>
+                                                            </DataGrid.ItemsSource>
+                                                            <DataGrid.Columns>
+                                                                <DataGridTextColumn Header="X-squared" Binding="{Binding xSqrd, Mode=OneWay}" Width="1*" MinWidth="20"/>
+                                                                <DataGridTextColumn Header="Right-Tail Probability" Binding="{Binding rtp, Mode=OneWay}" Width="1.5*" MinWidth="40"/>
+                                                                <DataGridTextColumn Header="Count" Binding="{Binding frequency, Mode=OneWay}" Width="1*" MinWidth="20"/>
+                                                            </DataGrid.Columns>
+                                                        </DataGrid>
+                                                        <Label Content="Combined probability distribution of confirmed ERs (i.e., R_j__c)" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" Width="338"/>
+                                                    </Grid>
+                                                </TabItem>
+                                                <TabItem Header="1st" Width="120" Height="30">
+                                                    <Grid Background="Transparent">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="207*"/>
+                                                            <ColumnDefinition Width="208*"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <DataGrid ItemsSource="{Binding Source={StaticResource CVS_1st_TypeA}, Mode=OneWay}" Margin="0,26,10,0" TabIndex="28">
+                                                            <DataGrid.Columns>
+                                                                <DataGridTextColumn Header="Count" Binding="{Binding frequency, Mode=OneWay}" Width="1*" MinWidth="20"/>
+                                                                <DataGridTextColumn Header="Log10 (p-value)" Binding="{Binding logpValue, Mode=OneWay}" Width="1.5*" MinWidth="40"/>
+                                                                <DataGridTextColumn Header="p-value" Binding="{Binding pValue, Mode=OneWay}" Width="1*" MinWidth="20"/>
+                                                            </DataGrid.Columns>
+                                                        </DataGrid>
+                                                        <DataGrid ItemsSource="{Binding Source={StaticResource CVS_1st_TypeB}, Mode=OneWay}" Margin="10,26,0,0" TabIndex="28" Grid.Column="1">
+                                                            <DataGrid.Columns>
+                                                                <DataGridTextColumn Header="Count" Binding="{Binding frequency, Mode=OneWay}" Width="1*" MinWidth="20"/>
+                                                                <DataGridTextColumn Header="Log10 (p-value)" Binding="{Binding logpValue, Mode=OneWay}" Width="1.5*" MinWidth="40"/>
+                                                                <DataGridTextColumn Header="p-value" Binding="{Binding pValue, Mode=OneWay}" Width="1*" MinWidth="20"/>
+                                                            </DataGrid.Columns>
+                                                        </DataGrid>
+                                                        <Label Content="Stringent ERs" Margin="10,0" VerticalAlignment="Top" HorizontalContentAlignment="Center"/>
+                                                        <Label Content="Weak ERs" Margin="10,0" VerticalAlignment="Top" HorizontalContentAlignment="Center" Grid.Column="1"/>
+                                                        <RadioButton Content="Plot" IsChecked="{Binding Path=plotRadioButtons.Classification_1st}" VerticalAlignment="Top" HorizontalContentAlignment="Right" HorizontalAlignment="Right" FontFamily="Candara" FontSize="14" Margin="0,5,10,0" Grid.Column="1"/>
+                                                    </Grid>
+                                                </TabItem>
+                                                <TabItem Header="2nd" Width="120" Height="30">
+                                                    <Grid Background="Transparent">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="207*"/>
+                                                            <ColumnDefinition Width="208*"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <DataGrid ItemsSource="{Binding Source={StaticResource CVS_2nd_TypeA}, Mode=OneWay}" Margin="0,52,10,0" TabIndex="28">
+                                                            <DataGrid.Columns>
+                                                                <DataGridTextColumn Header="Count" Binding="{Binding frequency, Mode=OneWay}" Width="1*" MinWidth="20"/>
+                                                                <DataGridTextColumn Header="Log10 (p-value)" Binding="{Binding logpValue, Mode=OneWay}" Width="1.5*" MinWidth="40"/>
+                                                                <DataGridTextColumn Header="p-value" Binding="{Binding pValue, Mode=OneWay}" Width="1*" MinWidth="20"/>
+                                                            </DataGrid.Columns>
+                                                        </DataGrid>
+                                                        <DataGrid ItemsSource="{Binding Source={StaticResource CVS_2nd_TypeB}, Mode=OneWay}" Margin="10,52,0,0" TabIndex="28" Grid.Column="1">
+                                                            <DataGrid.Columns>
+                                                                <DataGridTextColumn Header="Count" Binding="{Binding frequency, Mode=OneWay}" Width="1*" MinWidth="20"/>
+                                                                <DataGridTextColumn Header="Log10 (p-value)" Binding="{Binding logpValue, Mode=OneWay}" Width="1.5*" MinWidth="40"/>
+                                                                <DataGridTextColumn Header="p-value" Binding="{Binding pValue, Mode=OneWay}" Width="1*" MinWidth="20"/>
+                                                            </DataGrid.Columns>
+                                                        </DataGrid>
+                                                        <Label Content="Stringent and Weak Confirmed ERs" Margin="10,15,10,0" VerticalAlignment="Top" HorizontalContentAlignment="Center"/>
+                                                        <Label Content="Stringent and Weak Discarded ERs" Margin="10,15,10,0" VerticalAlignment="Top" HorizontalContentAlignment="Center" Grid.Column="1"/>
+                                                        <RadioButton Content="Plot 2in1" IsChecked="{Binding Path=plotRadioButtons.Classification_2nd_2in1}" VerticalAlignment="Top" HorizontalContentAlignment="Right" HorizontalAlignment="Right" FontFamily="Candara" FontSize="14" Margin="0,5,10,0" Grid.Column="1" Width="67"/>
+                                                        <RadioButton Content="Plot 4in1" IsChecked="{Binding Path=plotRadioButtons.Classification_2nd_4in1}" VerticalAlignment="Top" HorizontalContentAlignment="Right" HorizontalAlignment="Right" FontFamily="Candara" FontSize="14" Margin="0,27,11,0" Grid.Column="1"/>
+                                                    </Grid>
+                                                </TabItem>
+                                                <TabItem Header="3rd" Width="120" Height="30">
+                                                    <Grid Background="Transparent">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="207*"/>
+                                                            <ColumnDefinition Width="208*"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <DataGrid ItemsSource="{Binding Source={StaticResource CVS_3rd_TypeA}, Mode=OneWay}" Margin="0,26,10,0" TabIndex="28">
+                                                            <DataGrid.Columns>
+                                                                <DataGridTextColumn Header="Count" Binding="{Binding frequency, Mode=OneWay}" Width="1*" MinWidth="20"/>
+                                                                <DataGridTextColumn Header="Log10 (p-value)" Binding="{Binding logpValue, Mode=OneWay}" Width="1.5*" MinWidth="40"/>
+                                                                <DataGridTextColumn Header="p-value" Binding="{Binding pValue, Mode=OneWay}" Width="1*" MinWidth="20"/>
+                                                            </DataGrid.Columns>
+                                                        </DataGrid>
+                                                        <DataGrid ItemsSource="{Binding Source={StaticResource CVS_3rd_TypeB}, Mode=OneWay}" Margin="10,26,0,0" TabIndex="28" Grid.Column="1">
+                                                            <DataGrid.Columns>
+                                                                <DataGridTextColumn Header="Count" Binding="{Binding frequency, Mode=OneWay}" Width="1*" MinWidth="20"/>
+                                                                <DataGridTextColumn Header="Log10 (p-value)" Binding="{Binding logpValue, Mode=OneWay}" Width="1.5*" MinWidth="40"/>
+                                                                <DataGridTextColumn Header="p-value" Binding="{Binding pValue, Mode=OneWay}" Width="1*" MinWidth="20"/>
+                                                            </DataGrid.Columns>
+                                                        </DataGrid>
+                                                        <Label Content="Stringent Confirmed ERs in Output set" Margin="10,0" VerticalAlignment="Top" HorizontalContentAlignment="Center"/>
+                                                        <Label Content="Weak Confirmed ERs in Output set" Margin="10,0" VerticalAlignment="Top" HorizontalContentAlignment="Center" Grid.Column="1"/>
+                                                        <RadioButton Content="Plot" IsChecked="{Binding Path=plotRadioButtons.Classification_3rd}" VerticalAlignment="Top" HorizontalContentAlignment="Right" HorizontalAlignment="Right" FontFamily="Candara" FontSize="14" Margin="0,5,10,0" Grid.Column="1"/>
+                                                    </Grid>
+                                                </TabItem>
+                                                <TabItem Header="4th" Width="120" Height="30">
+                                                    <Grid Background="Transparent">
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="207*"/>
+                                                            <ColumnDefinition Width="208*"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <DataGrid ItemsSource="{Binding Source={StaticResource CVS_4th_TypeA}, Mode=OneWay}" Margin="0,26,10,0" TabIndex="28">
+                                                            <DataGrid.Columns>
+                                                                <DataGridTextColumn Header="Count" Binding="{Binding frequency, Mode=OneWay}" Width="1*" MinWidth="20"/>
+                                                                <DataGridTextColumn Header="Log10 (p-value)" Binding="{Binding logpValue, Mode=OneWay}" Width="1.5*" MinWidth="40"/>
+                                                                <DataGridTextColumn Header="p-value" Binding="{Binding pValue, Mode=OneWay}" Width="1*" MinWidth="20"/>
+                                                            </DataGrid.Columns>
+                                                        </DataGrid>
+                                                        <DataGrid ItemsSource="{Binding Source={StaticResource CVS_4th_TypeB}, Mode=OneWay}" Margin="10,26,0,0" TabIndex="28" Grid.Column="1">
+                                                            <DataGrid.Columns>
+                                                                <DataGridTextColumn Header="Count" Binding="{Binding frequency, Mode=OneWay}" Width="1*" MinWidth="20"/>
+                                                                <DataGridTextColumn Header="Log10 (p-value)" Binding="{Binding logpValue, Mode=OneWay}" Width="1.5*" MinWidth="40"/>
+                                                                <DataGridTextColumn Header="p-value" Binding="{Binding pValue, Mode=OneWay}" Width="1*" MinWidth="20"/>
+                                                            </DataGrid.Columns>
+                                                        </DataGrid>
+                                                        <Label Content="Multiple-Testing Confirmed ERs" Margin="10,0" VerticalAlignment="Top" HorizontalContentAlignment="Center"/>
+                                                        <Label Content="Multiple-Testing Discarded ERs" Margin="10,0" VerticalAlignment="Top" HorizontalContentAlignment="Center" Grid.Column="1"/>
+                                                        <RadioButton Content="Plot" IsChecked="{Binding Path=plotRadioButtons.Classification_4th}" VerticalAlignment="Top" HorizontalContentAlignment="Right" HorizontalAlignment="Right" FontFamily="Candara" FontSize="14"  Margin="0,5,10,0" Grid.Column="1"/>
+                                                    </Grid>
+                                                </TabItem>
+                                            </TabControl>
+                                        </Grid>
+                                    </TabItem>
+                                    <TabItem Header="Similarity" Width="140" HorizontalAlignment="Center">
+                                        <Grid Margin="0,0">
+                                            <DataGrid ItemsSource="{Binding Source={StaticResource CVSSimilarities}}" Margin="0,27,-1,0" RowBackground="White">
+                                                <DataGrid.Columns>
+                                                    <DataGridTextColumn Header="ER Classification" Binding="{Binding Path=erClassificationType, Mode=OneWay}" Width="140" MinWidth="60"/>
+                                                    <DataGridTextColumn Header="B-Level intersection" Binding="{Binding Path=bpInter, Mode=OneWay}" Width="140" MinWidth="60"/>
+                                                    <DataGridTextColumn Header="B-Level union" Binding="{Binding Path=bpUnion, Mode=OneWay}" Width="140" MinWidth="60"/>
+                                                    <DataGridTextColumn Header="B-Level Jaccard index" Binding="{Binding Path=bpJIndx, Mode=OneWay}" Width="140" MinWidth="60"/>
+                                                    <DataGridTextColumn Header="R-Level intersection" Binding="{Binding Path=reInter, Mode=OneWay}" Width="140" MinWidth="60"/>
+                                                    <DataGridTextColumn Header="R-Level union" Binding="{Binding Path=reUnion, Mode=OneWay}" Width="140" MinWidth="60"/>
+                                                    <DataGridTextColumn Header="R-Level Jaccard index" Binding="{Binding Path=reJIndx, Mode=OneWay}" Width="140" MinWidth="60"/>
+                                                </DataGrid.Columns>
+                                                <DataGrid.GroupStyle>
+                                                    <GroupStyle>
+                                                        <GroupStyle.ContainerStyle>
+                                                            <Style TargetType="{x:Type GroupItem}">
+                                                                <Setter Property="Template">
+                                                                    <Setter.Value>
+                                                                        <ControlTemplate TargetType="{x:Type GroupItem}">
+                                                                            <Expander IsExpanded="False" BorderThickness="1,1,1,1" Background="#FFD2D2D2">
+                                                                                <Expander.Header>
+                                                                                    <Border Height="25">
+                                                                                        <TextBlock Foreground="#FF505050" VerticalAlignment="Center" TextWrapping="Wrap" Text="{Binding Path=Name}" Margin="5,0,0,0"/>
+                                                                                    </Border>
+                                                                                </Expander.Header>
+                                                                                <Expander.Content>
+                                                                                    <ItemsPresenter />
+                                                                                </Expander.Content>
+                                                                            </Expander>
+                                                                        </ControlTemplate>
+                                                                    </Setter.Value>
+                                                                </Setter>
+                                                            </Style>
+                                                        </GroupStyle.ContainerStyle>
+                                                    </GroupStyle>
+                                                </DataGrid.GroupStyle>
+                                            </DataGrid>
+                                            <RadioButton IsChecked="{Binding Path=plotRadioButtons.Similarity}" IsEnabled="False" Content="Plot" VerticalAlignment="Top" HorizontalContentAlignment="Right" HorizontalAlignment="Right" Width="47" FontFamily="Candara" FontSize="14" Margin="0,5,10,0" Height="17"/>
+                                            <ProgressBar x:Name="SimProBar" Value="{Binding Path=sessionsViewModel.selectedSession.similarityEstimationProgress}" Visibility="{Binding ElementName=SimProBar, Path=Value, Converter={StaticResource pV2V}}"  HorizontalAlignment="Left" Height="32" Margin="10,10,0,0" VerticalAlignment="Top" Width="504"/>
+                                        </Grid>
+                                    </TabItem>
+                                    <TabItem Width="140" Header="Functional Analysis" HorizontalAlignment="Center">
+                                        <Grid Margin="0,0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="207"/>
+                                                <ColumnDefinition Width="1060*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <Grid Background="#FF2E3438" Margin="0,26,0,0">
+                                                <ComboBox ItemsSource="{Binding sessionsViewModel.di3.ER2FDD.indexedChrs}" HorizontalAlignment="Left" Margin="6,32,0,0" VerticalAlignment="Top" Width="57">
+                                                    <ComboBox.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <StackPanel Orientation="Horizontal">
+                                                                <CheckBox IsChecked="{Binding isChecked}" Width="20"/>
+                                                                <TextBlock Text="{Binding chr}"/>
+                                                            </StackPanel>
+                                                        </DataTemplate>
+                                                    </ComboBox.ItemTemplate>
+                                                </ComboBox>
+                                                <Label Content="Chr" Padding="0,1,0,0" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Foreground="#FF9FAAB4" Margin="7,33,0,0" VerticalAlignment="Top" Width="39" Background="#FF2E3438" Height="20" BorderBrush="White" BorderThickness="1"/>
+                                                <ComboBox ItemsSource="{Binding sessionsViewModel.di3.ER2FDD.ERClassifications}" HorizontalAlignment="Left" Margin="68,32,0,0" VerticalAlignment="Top" Width="129">
+                                                    <ComboBox.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <StackPanel Orientation="Horizontal">
+                                                                <CheckBox IsChecked="{Binding isChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="20"/>
+                                                                <TextBlock Text="{Binding classification}"/>
+                                                            </StackPanel>
+                                                        </DataTemplate>
+                                                    </ComboBox.ItemTemplate>
+                                                </ComboBox>
+                                                <Label Content="ER Classification" Padding="0,1,0,0" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Foreground="#FF9FAAB4" Margin="69,33,0,0" VerticalAlignment="Top" Width="111" Background="#FF2E3438" Height="20" BorderBrush="White" BorderThickness="1"/>
+                                                <ComboBox ItemsSource="{Binding sessionsViewModel.di3.ER2FDD.indexedSamples}" HorizontalAlignment="Left" Margin="5,5,0,0" VerticalAlignment="Top" Width="192">
+                                                    <ComboBox.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <StackPanel Orientation="Horizontal">
+                                                                <CheckBox IsChecked="{Binding isChecked}" Width="20"/>
+                                                                <TextBlock>
+                                                                    <TextBlock.Text>
+                                                                        <MultiBinding Converter="{StaticResource mSCBNSConverter}" Mode="TwoWay">
+                                                                            <Binding ElementName="Root" Path="DataContext.cachedDataSummary" UpdateSourceTrigger="PropertyChanged"/>
+                                                                            <Binding Path="sampleID" UpdateSourceTrigger="PropertyChanged"/>
+                                                                        </MultiBinding>
+                                                                    </TextBlock.Text>
+                                                                </TextBlock>
+                                                            </StackPanel>
+                                                        </DataTemplate>
+                                                    </ComboBox.ItemTemplate>
+                                                </ComboBox>
+                                                <Label Content="Source Samples" Padding="0,1,0,0" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Foreground="#FF9FAAB4" Margin="6,6,0,0" VerticalAlignment="Top" Width="174" Background="#FF2E3438" Height="20" BorderBrush="White" BorderThickness="1"/>
+                                                <RadioButton Content="use Genes" IsChecked="{Binding sessionsViewModel.di3.ER2FDD.useGenes, Mode=TwoWay}" IsEnabled="{Binding sessionsViewModel.selectedSession, Converter={StaticResource useGenesEnableDisableConverter}, Mode=OneWay}" HorizontalAlignment="Left" Height="19" Margin="15,79,0,0" VerticalAlignment="Top" Foreground="#FF9FAAB4"/>
+                                                <ComboBox ItemsSource="{Binding sessionsViewModel.di3.ER2FDD.indexedGeneralFeaturesSummary}" HorizontalAlignment="Left" Margin="6,102,0,0" VerticalAlignment="Top" Width="191">
+                                                    <ComboBox.IsEnabled>
+                                                        <MultiBinding Converter="{StaticResource useFeaturesCBEnableDisableConverter}">
+                                                            <Binding Path="IsEnabled" ElementName="useGeneralFeatures_CB"/>
+                                                            <Binding Path="IsChecked" ElementName="useGeneralFeatures_CB"/>
+                                                        </MultiBinding>
+                                                    </ComboBox.IsEnabled>
+                                                    <ComboBox.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <StackPanel Orientation="Horizontal">
+                                                                <CheckBox IsChecked="{Binding isChecked}" Width="20"/>
+                                                                <TextBlock>
+                                                                    <TextBlock.Text>
+                                                                        <MultiBinding Converter="{StaticResource mSCBNGFConverter}" Mode="TwoWay">
+                                                                            <Binding ElementName="Root" Path="DataContext.cachedFeaturesSummary" UpdateSourceTrigger="PropertyChanged"/>
+                                                                            <Binding Path="sampleID" UpdateSourceTrigger="PropertyChanged"/>
+                                                                            <Binding Path="featureCode" UpdateSourceTrigger="PropertyChanged"/>
+                                                                        </MultiBinding>
+                                                                    </TextBlock.Text>
+                                                                </TextBlock>
+                                                            </StackPanel>
+                                                        </DataTemplate>
+                                                    </ComboBox.ItemTemplate>
+                                                </ComboBox>
+                                                <Button Command="{Binding FunctionalAnalyzeCommand}" Content="Update" HorizontalAlignment="Left" Margin="10,153,0,0" VerticalAlignment="Top" Width="187">
+                                                    <Button.CommandParameter>
+                                                        <MultiBinding Converter="{StaticResource ERToFeaturePC}">
+                                                            <Binding Path="sessionsViewModel.di3.status"/>
+                                                            <Binding Path="sessionsViewModel.di3.ER2FDD.useGenes"/>
+                                                            <Binding Path="sessionsViewModel.di3.ER2FDD.useGeneralFeatures"/>
+                                                        </MultiBinding>
+                                                    </Button.CommandParameter>
+                                                </Button>
+                                                <Label HorizontalAlignment="Left" Margin="7,103,0,0" VerticalAlignment="Top" Width="173" Background="#FF2E3438" Height="20" BorderBrush="White" BorderThickness="1"/>
+                                                <RadioButton x:Name="useGeneralFeatures_CB" Content="use General Features" IsChecked="{Binding sessionsViewModel.di3.ER2FDD.useGeneralFeatures, Mode=TwoWay}" IsEnabled="{Binding sessionsViewModel.selectedSession, Converter={StaticResource useFeaturesEnableDisableConverter}, Mode=OneWay}" HorizontalAlignment="Left" Height="16" Margin="15,105,0,0" VerticalAlignment="Top" Foreground="#FF9FAAB4" Background="#FF2E3438" Width="153"/>
+                                                <ProgressBar Value="{Binding sessionsViewModel.di3.status}" Visibility="{Binding ElementName=Di3UpdateProBar, Path=Value, Converter={StaticResource pV2V}}" Margin="10,178,10,0" VerticalAlignment="Top" Height="8"/>
+                                                <ProgressBar x:Name="ERToFProgressBar" Value="{Binding sessionsViewModel.di3.ER2FDD.status}" Visibility="{Binding ElementName=ERToFProgressBar, Path=Value, Converter={StaticResource pV2V}}" Margin="10,186,10,0" VerticalAlignment="Top" Height="8"/>
+                                            </Grid>
+                                            <RadioButton x:Name="TabFunAna_Plot_RB" IsChecked="{Binding Path=plotRadioButtons.ERToFeature}" Content="Plot" VerticalAlignment="Top" HorizontalContentAlignment="Right" HorizontalAlignment="Right" Width="47" FontFamily="Candara" FontSize="14" Margin="0,5,10,0" Height="17" TabIndex="42" Grid.Column="1"/>
+                                            <Label x:Name="annotation_stats_being_generated1" Content="Statistics are being generated" HorizontalAlignment="Left" Margin="35,0,0,10" Width="143" Height="26" VerticalAlignment="Bottom" FontSize="10" Foreground="Red" Visibility="Hidden"/>
+                                            <DataGrid Margin="0,26,0,0" Grid.Column="1">
+                                                <DataGrid.ItemsSource>
+                                                    <MultiBinding Converter="{StaticResource erToFeatureDistanceConverter}" Mode="OneWay">
+                                                        <Binding Path="sessionsViewModel.di3"/>
+                                                        <Binding Path="sessionsViewModel.hAxisBinWidth"/>
+                                                        <Binding Path="sessionsViewModel.di3.ER2FDD.updatedFlag"/>
+                                                    </MultiBinding>
+                                                </DataGrid.ItemsSource>
+                                                <DataGrid.Columns>
+                                                    <DataGridTextColumn Header="Distance" Binding="{Binding Key, Mode=OneWay}" Width="1*" MinWidth="20"/>
+                                                    <DataGridTextColumn Header="Count" Binding="{Binding Value, Mode=OneWay}" Width="1*" MinWidth="40"/>
+                                                </DataGrid.Columns>
+                                            </DataGrid>
+                                        </Grid>
+                                    </TabItem>
+                                    <TabItem Header="Nearest Neighbour Distribution" Width="200" HorizontalAlignment="Center">
+                                        <Grid Margin="0,0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="207"/>
+                                                <ColumnDefinition Width="1080*"/>
+                                            </Grid.ColumnDefinitions>
+                                            <RadioButton Content="Plot" IsChecked="{Binding Path=plotRadioButtons.NND}" VerticalAlignment="Top" HorizontalContentAlignment="Right" HorizontalAlignment="Right" Width="47" FontFamily="Candara" FontSize="14" Margin="0,5,10,0" Height="17" TabIndex="42" Grid.Column="1"/>
+                                            <DataGrid Margin="0,26,-1,0" RowBackground="White" Grid.Column="1">
+                                                <DataGrid.ItemsSource>
+                                                    <MultiBinding Converter="{StaticResource nndConverter}" Mode="OneWay">
+                                                        <Binding Path="sessionsViewModel.di3"/>
+                                                        <Binding Path="sessionsViewModel.hAxisBinWidth"/>
+                                                        <Binding Path="sessionsViewModel.di3.NNDD.updatedFlag"/>
+                                                    </MultiBinding>
+                                                </DataGrid.ItemsSource>
+                                                <DataGrid.Columns>
+                                                    <DataGridTextColumn Header="Classification" Binding="{Binding Path=Item1, Mode=OneWay}" Width="1*" MinWidth="20"/>
+                                                    <DataGridTextColumn Header="Distance (bp)" Binding="{Binding Path=Item2, Mode=OneWay}" Width="1*" MinWidth="20"/>
+                                                    <DataGridTextColumn Header="Count" Binding="{Binding Path=Item3, Mode=OneWay}" Width="1*" MinWidth="40"/>
+                                                </DataGrid.Columns>
+                                            </DataGrid>
+                                            <Grid Background="#FF2E3438" Margin="0,26,0,0">
+                                                <CheckBox Content="Differentiate ER Classifications" ToolTip="If checked: aggregates all selected ER classifications into one track. If un-checked: provides separate neighbor distribution for each ER classification" IsChecked="{Binding sessionsViewModel.di3.NNDD.treadERClassificationsSeparately}" Foreground="#FF9FAAB4" HorizontalAlignment="Left" Height="14" Margin="7,59,0,0" VerticalAlignment="Top"/>
+                                                <ComboBox ItemsSource="{Binding sessionsViewModel.di3.NNDD.indexedChrs}" HorizontalAlignment="Left" Margin="6,32,0,0" VerticalAlignment="Top" Width="57">
+                                                    <ComboBox.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <StackPanel Orientation="Horizontal">
+                                                                <CheckBox IsChecked="{Binding isChecked}" Width="20"/>
+                                                                <TextBlock Text="{Binding chr}"/>
+                                                            </StackPanel>
+                                                        </DataTemplate>
+                                                    </ComboBox.ItemTemplate>
+                                                </ComboBox>
+                                                <ComboBox ItemsSource="{Binding sessionsViewModel.di3.NNDD.ERClassifications}" HorizontalAlignment="Left" Margin="68,32,0,0" VerticalAlignment="Top" Width="129">
+                                                    <ComboBox.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <StackPanel Orientation="Horizontal">
+                                                                <CheckBox IsChecked="{Binding isChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="20"/>
+                                                                <TextBlock Text="{Binding classification}"/>
+                                                            </StackPanel>
+                                                        </DataTemplate>
+                                                    </ComboBox.ItemTemplate>
+                                                </ComboBox>
+                                                <ComboBox ItemsSource="{Binding sessionsViewModel.di3.NNDD.indexedSamples}" HorizontalAlignment="Left" Margin="6,5,0,0" VerticalAlignment="Top" Width="191">
+                                                    <ComboBox.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <StackPanel Orientation="Horizontal">
+                                                                <CheckBox IsChecked="{Binding isChecked}" Width="20"/>
+                                                                <TextBlock>
+                                                                    <TextBlock.Text>
+                                                                        <MultiBinding Converter="{StaticResource mSCBNSConverter}" Mode="TwoWay">
+                                                                            <Binding ElementName="Root" Path="DataContext.cachedDataSummary" UpdateSourceTrigger="PropertyChanged"/>
+                                                                            <Binding Path="sampleID" UpdateSourceTrigger="PropertyChanged"/>
+                                                                        </MultiBinding>
+                                                                    </TextBlock.Text>
+                                                                </TextBlock>
+                                                            </StackPanel>
+                                                        </DataTemplate>
+                                                    </ComboBox.ItemTemplate>
+                                                </ComboBox>
+                                                <Button Command="{Binding NNDCommand}" Content="Update" HorizontalAlignment="Left" Margin="10,103,0,0" VerticalAlignment="Top" Width="187">
+                                                    <Button.CommandParameter>
+                                                        <MultiBinding Converter="{StaticResource NNCPConverter}">
+                                                            <Binding Path="sessionsViewModel.di3.status"/>
+                                                            <Binding Path="sessionsViewModel.selectedSampleID"/>
+                                                        </MultiBinding>
+                                                    </Button.CommandParameter>
+                                                </Button>
+                                                <Label Content="Chr" Padding="0,1,0,0" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Foreground="#FF9FAAB4" Margin="7,33,0,0" VerticalAlignment="Top" Width="39" Background="#FF2E3438" Height="20" BorderBrush="White" BorderThickness="1"/>
+                                                <Label Content="ER Classification" Padding="0,1,0,0" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Foreground="#FF9FAAB4" Margin="69,33,0,0" VerticalAlignment="Top" Width="111" Background="#FF2E3438" Height="20" BorderBrush="White" BorderThickness="1"/>
+                                                <Label Content="Source Samples" Padding="0,1,0,0" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Foreground="#FF9FAAB4" Margin="7,6,0,0" VerticalAlignment="Top" Width="173" Background="#FF2E3438" Height="20" BorderBrush="White" BorderThickness="1"/>
+                                                <ProgressBar Value="{Binding sessionsViewModel.di3.status}" Visibility="{Binding ElementName=Di3UpdateProBar, Path=Value, Converter={StaticResource pV2V}}" Margin="10,131,10,0" VerticalAlignment="Top" Height="8"/>
+                                                <ProgressBar x:Name="NNDProgressBar" Value="{Binding sessionsViewModel.di3.NNDD.status}" Visibility="{Binding ElementName=NNDProgressBar, Path=Value, Converter={StaticResource pV2V}}" Margin="10,139,10,0" VerticalAlignment="Top" Height="8"/>
+                                            </Grid>
+                                        </Grid>
+                                    </TabItem>
+                                </TabControl>
+                            </Grid>
+                        </TabItem>
+                        <TabItem Header="TabItem" Visibility="Collapsed">
+                            <Grid x:Name="sampleDetailsGrid" Background="#00000000">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="181*"/>
+                                    <RowDefinition Height="585*"/>
+                                    <RowDefinition Height="198*"/>
+                                </Grid.RowDefinitions>
+                                <GridSplitter Grid.Row="1" Background="#7FDCDCDC" Height="5" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Grid.ColumnSpan="1"/>
+                                <Label x:Name="Max_P_Value_L" Content="" Margin="148,138,265,0" VerticalAlignment="Top" Height="26"/>
+                                <Label x:Name="Min_P_Value_L" Content="" Margin="148,169,280,0" VerticalAlignment="Top" Height="26" Grid.RowSpan="2"/>
+                                <DataGrid x:Name="chromosome_Details_DG" ColumnHeaderHeight="40" Margin="0,7,0,10" Grid.Row="1">
+                                    <DataGrid.Columns>
+                                        <DataGridTextColumn Header="Chr" Binding="{Binding Key}" IsReadOnly="True" Width="60"/>
+                                        <DataGridTextColumn Header="Peaks count" Binding="{Binding Value.count}" IsReadOnly="True" Width="120"/>
+                                        <DataGridTextColumn Header="Percentage" Binding="{Binding Value.percentage}" IsReadOnly="True" Width="120"/>
+                                        <DataGridTextColumn Header="Peak width: Max" Binding="{Binding Value.peakWidthMax}" IsReadOnly="True" Width="120"/>
+                                        <DataGridTextColumn Header="Peak width: Min" Binding="{Binding Value.peakWidthMin}" IsReadOnly="True" Width="120"/>
+                                        <DataGridTextColumn Header="Peak width: Mean" Binding="{Binding Value.peakWidthMean}" IsReadOnly="True" Width="120"/>
+                                        <DataGridTextColumn Header="Peak width: STDV" Binding="{Binding Value.peakWidthSTDV}" IsReadOnly="True" Width="120"/>
+                                        <DataGridTextColumn Header="Peak p-value: Max" Binding="{Binding Value.pValueMax}" IsReadOnly="True" Width="180"/>
+                                        <DataGridTextColumn Header="Peak p-value: Min" Binding="{Binding Value.pValueMin}" IsReadOnly="True" Width="180"/>
+                                        <DataGridTextColumn Header="Peak p-value: Mean" Binding="{Binding Value.pValueMean}" IsReadOnly="True" Width="180"/>
+                                        <DataGridTextColumn Header="Peak p-value: STDV" Binding="{Binding Value.pValueSTDV}" IsReadOnly="True" Width="180"/>
+                                        <DataGridTextColumn Header="Coverage" Binding="{Binding Value.coverage}" IsReadOnly="True" Width="180"/>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                                <DataGrid x:Name="Parsing_Message_DG" Grid.Row="2"/>
+                                <Label x:Name="Back_BT" Content="←" VerticalAlignment="Top" Height="46" FontSize="36" FontWeight="ExtraBlack" Foreground="#FF379BFF" HorizontalAlignment="Left" Width="44" Padding="5,0,0,0" RenderTransformOrigin="-0.156,-0.289" FontFamily="Calibri" MouseEnter="Back_BT_MouseEnter" MouseLeave="Back_BT_MouseLeave" MouseDown="Back_BT_MouseDown" Margin="4,0,0,0" TabIndex="1"/>
+                                <RichTextBox x:Name="CachedDataOverviewRTB" Margin="53,10,0,0" BorderThickness="0" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto" IsReadOnly="True">
+                                    <RichTextBox.BorderBrush>
+                                        <LinearGradientBrush EndPoint="0,20" MappingMode="Absolute" StartPoint="0,0">
+                                            <GradientStop Color="#FFABADB3" Offset="0.05"/>
+                                            <GradientStop Color="#FFE2E3EA" Offset="0.07"/>
+                                            <GradientStop Color="Transparent" Offset="1"/>
+                                        </LinearGradientBrush>
+                                    </RichTextBox.BorderBrush>
+                                    <FlowDocument>
+                                        <Paragraph>
+                                            <Run Text="RichTextBox"/>
+                                        </Paragraph>
+                                    </FlowDocument>
+                                </RichTextBox>
+                            </Grid>
+                        </TabItem>
+                    </TabControl>
+                    <TabControl x:Name="CachedDataTabControl" Margin="10,43,10,10" BorderBrush="Transparent" Background="Transparent">
+                        <TabItem x:Name="CachedSamplesTab" Header="     Samples     ">
+                            <Grid Background="#00000000">
+                                <DataGrid x:Name="CachedSamplesDG" ItemsSource="{Binding cachedDataSummary}" MouseDoubleClick="CachedSamplesDG_MouseDoubleClick" >
+                                    <DataGrid.Columns>
+                                        <DataGridTemplateColumn Width="40">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <TextBlock Text="♣" Foreground="{Binding Path=color}" FontSize="18" FontFamily="Arial"/>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                            <i:Interaction.Triggers>
+                                                <i:EventTrigger EventName="MouseDoubleClick">
+                                                    <i:InvokeCommandAction Command="{Binding ChangeSampleColorCommand}"/>
+                                                </i:EventTrigger>
+                                            </i:Interaction.Triggers>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTextColumn Header="   Label   " Binding="{Binding label, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="False" Width="194"/>
+                                        <DataGridTextColumn Header="   #Feature   " Binding="{Binding featureCount}" IsReadOnly="True" Width="Auto"/>
+                                        <DataGridTextColumn Header="   Genome   " Binding="{Binding genome}" IsReadOnly="True" Width="Auto"/>
+                                        <DataGridTextColumn Header="   Assembly   " Binding="{Binding assembly}" IsReadOnly="True" Width="Auto"/>
+                                    </DataGrid.Columns>
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="MouseDown">
+                                            <i:InvokeCommandAction Command="{Binding ChangeSampleColorCommand}" CommandParameter="{Binding SelectedItem, ElementName=CachedSamplesDG}"/>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </DataGrid>
+                            </Grid>
+                        </TabItem>
+                        <TabItem x:Name="CachedFeaturesTab" Header="     Features     " BorderBrush="Transparent">
+                            <TabItem.Background>
+                                <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                                    <GradientStop Color="#FFF3F3F3" Offset="0"/>
+                                    <GradientStop Color="#FFEBEBEB" Offset="0.5"/>
+                                    <GradientStop Color="#FFDDDDDD" Offset="0.5"/>
+                                    <GradientStop Color="Transparent" Offset="1"/>
+                                </LinearGradientBrush>
+                            </TabItem.Background>
+                            <Grid Background="#00000000">
+                                <DataGrid x:Name="CachedFeaturesDG" ItemsSource="{Binding cachedFeaturesSummary}" MouseDoubleClick="CachedFeaturesDG_MouseDoubleClick">
+                                    <DataGrid.Columns>
+                                        <DataGridTemplateColumn Header="   In use   ">
+                                            <DataGridTemplateColumn.CellTemplate>
+                                                <DataTemplate>
+                                                    <CheckBox IsChecked="{Binding selected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="True" Width="Auto" HorizontalAlignment="Center"/>
+                                                </DataTemplate>
+                                            </DataGridTemplateColumn.CellTemplate>
+                                        </DataGridTemplateColumn>
+                                        <DataGridTextColumn Header="   Label   " Binding="{Binding label}" IsReadOnly="False" Width="105"/>
+                                        <DataGridTextColumn Header="   #Feature   " Binding="{Binding featureCount}" IsReadOnly="True" Width="Auto"/>
+                                        <DataGridTextColumn Header="   Genome   " Binding="{Binding genome}" IsReadOnly="True" Width="Auto"/>
+                                        <DataGridTextColumn Header="   Assembly   " Binding="{Binding assembly}" IsReadOnly="True" Width="Auto"/>
+                                        <DataGridTextColumn Header="   Data Type   " Binding="{Binding dataType}" IsReadOnly="True" Width="Auto"/>
+                                    </DataGrid.Columns>
+                                </DataGrid>
+                            </Grid>
+                        </TabItem>
+                    </TabControl>
+                    <Button Content="Add Samples" Command="{Binding AddSamples}" VerticalAlignment="Top" Height="28" FontSize="16" FontFamily="Candara" HorizontalContentAlignment="Center" Margin="10,9,0,0" HorizontalAlignment="Left" Width="207"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Batch Mode" Visibility="Collapsed">
+                <Grid Background="White" Margin="0,-3,0,3" RenderTransformOrigin="0.121,0.409">
+                    <RichTextBox x:Name="Console_RTB" Margin="380,10,10,10" Background="#FF010B15" Foreground="#FFD6D6D6" FontFamily="OCR A Std" IsReadOnly="True" AcceptsTab="True" HorizontalScrollBarVisibility="Auto" SelectionBrush="OrangeRed" TextOptions.TextHintingMode="Animated" UndoLimit="0" VerticalScrollBarVisibility="Auto">
+                        <FlowDocument/>
+                    </RichTextBox>
+                    <Canvas HorizontalAlignment="Left" Margin="21,10,0,10" Width="341" Background="#682079">
+                        <Canvas x:Name="Batch_Run_Main_Controlers_Canvas" HorizontalAlignment="Left" Height="175" VerticalAlignment="Top" Width="341" Background="Transparent" Canvas.Top="10">
+                            <Button Content="Browse    " Command="{Binding batchModeViewModel.BrowseAtJob}" Style="{StaticResource BatchBrowseButtonStyle}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="341" Canvas.Top="59"/>
+                            <TextBox Text="{Binding Path=batchModeViewModel.atJobFileAbsolutePath, Mode=TwoWay}" IsEnabled="{Binding Path=batchModeViewModel.isFree}" HorizontalAlignment="Left" Height="20" VerticalAlignment="Top" VerticalContentAlignment="Center" Width="232" Foreground="#88FFFFFF" FontFamily="Segoe UI Symbol" FontSize="12" Padding="1,0,1,1" TabIndex="2" MaxLines="1" Canvas.Left="13" Canvas.Top="67" Background="#7040004f" BorderThickness="0"/>
+                            <Label Content="Load config file ( at-job )" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="#d37ce8" FontFamily="Candara" FontSize="16" Width="341" VerticalContentAlignment="Center" Canvas.Top="14" HorizontalContentAlignment="Center"/>
+                            <Label Content="{Binding Path=batchModeViewModel.ETLabelContent}" Visibility="{Binding Path=batchModeViewModel.ETLabelVisibility}" Foreground="#EFA8FF" HorizontalAlignment="Left" Width="187" FontSize="16" Background="Transparent" Height="36" VerticalAlignment="Top" VerticalContentAlignment="Center" Canvas.Top="100" Canvas.Left="9" FontFamily="Tahoma"/>
+                            <Button Content="Load &amp; Run    " Command="{Binding Path=batchModeViewModel.BatchLoadRun}" Style="{StaticResource BatchSaveButtonStyle}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="341" Canvas.Top="100"/>
+                            <Button Content="?" Command="{Binding batchModeViewModel.CreatSampleAtJobXML}" Style="{StaticResource BatchHelpButtonStyle}" HorizontalAlignment="Left" VerticalAlignment="Top" MinWidth="5" Width="36" FontSize="32" Padding="0,0,0,0" ToolTip="Will save a sample config file to desktop which can be used as template." Canvas.Left="304" Height="47" Canvas.Top="4"/>
+                            <Button Content="Abort    " Command="{Binding batchModeViewModel.BatchAbort}" Style="{StaticResource ResourceKey=BatchAbortButtonStyle}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="341" Canvas.Top="141"/>
+                        </Canvas>
+                        <Grid x:Name="Batch_Run_Finished_Tasks_Grid" HorizontalAlignment="Left" Width="341" Height="173" VerticalAlignment="Top" Background="Transparent" Canvas.Top="213">
+                            <Label Foreground="#d37ce8" Content="@ Batch Completion" HorizontalAlignment="Left" Width="341" HorizontalContentAlignment="Center" FontFamily="Candara" FontSize="16" TabIndex="10" Height="33" VerticalAlignment="Top" IsEnabled="False" VerticalContentAlignment="Center" Margin="0,6,0,0"/>
+                            <Label Foreground="#d37ce8" Content="At batch completion do :" HorizontalAlignment="Left" FontFamily="Candara" Background="{x:Null}" TabIndex="10" VerticalAlignment="Top" VerticalContentAlignment="Center" Margin="10,44,0,0"/>
+                            <RadioButton Content="Do Nothing" Foreground="#00bbf1" HorizontalAlignment="Left" Margin="38,74,0,0" VerticalAlignment="Top" FontFamily="Candara" FontSize="13" IsChecked="True">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Checked">
+                                        <i:InvokeCommandAction Command="{Binding Path=batchModeViewModel.SetAtBatchCompletionAction}" CommandParameter="nothing"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </RadioButton>
+                            <RadioButton Content="Exit program" Foreground="#00bbf1" HorizontalAlignment="Left" Margin="38,95,0,0" VerticalAlignment="Top" FontFamily="Candara" FontSize="13">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Checked">
+                                        <i:InvokeCommandAction Command="{Binding Path=batchModeViewModel.SetAtBatchCompletionAction}" CommandParameter="exit"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </RadioButton>
+                            <RadioButton Content="Force Windows to Reboot " Foreground="#00bbf1" HorizontalAlignment="Left" Margin="38,116,0,0" VerticalAlignment="Top" FontFamily="Candara" FontSize="13">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Checked">
+                                        <i:InvokeCommandAction Command="{Binding Path=batchModeViewModel.SetAtBatchCompletionAction}" CommandParameter="reboot"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </RadioButton>
+                            <RadioButton Content="Force Windows to Shutdown " Foreground="#00bbf1" HorizontalAlignment="Left" Margin="38,137,0,0" VerticalAlignment="Top" FontFamily="Candara" FontSize="13">
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="Checked">
+                                        <i:InvokeCommandAction Command="{Binding Path=batchModeViewModel.SetAtBatchCompletionAction}" CommandParameter="shutdown"/>
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </RadioButton>
+                        </Grid>
+                        <Canvas x:Name="Priority_Canvas" HorizontalAlignment="Left" Width="341" Background="Transparent" Height="203" VerticalAlignment="Top" Canvas.Top="402">
+                            <Slider x:Name="ProcessPrioritySlider" Value="{Binding Path=batchModeViewModel.prioritySliderValue, Mode=TwoWay}" HorizontalAlignment="Left" VerticalAlignment="Top" Width="24" Orientation="Vertical" Height="133" Maximum="4" SmallChange="1" TickPlacement="BottomRight" MaxHeight="133" MinHeight="133" Canvas.Left="25" Canvas.Top="54" Interval="1" ValueChanged="ProcessPrioritySlider_ValueChanged" />
+                            <Label x:Name="Priority_L1" Content="Lowest" Foreground="#00bbf1" HorizontalAlignment="Left" RenderTransformOrigin="0.498,0.531"    FontFamily="Candara"  TabIndex="10" VerticalAlignment="Top" VerticalContentAlignment="Center" Canvas.Left="59" Canvas.Top="168" MouseDown="Priority_L1_MouseDown"/>
+                            <Label x:Name="Priority_L2" Content="Below Normal" Foreground="#00bbf1" HorizontalAlignment="Left" RenderTransformOrigin="0.498,0.531"    FontFamily="Candara"  TabIndex="10" VerticalAlignment="Top" VerticalContentAlignment="Center" Canvas.Left="59" Canvas.Top="138" MouseDown="Priority_L2_MouseDown"/>
+                            <Label x:Name="Priority_L3" Content="Normal" Foreground="#00bbf1" HorizontalAlignment="Left" RenderTransformOrigin="0.498,0.531"    FontFamily="Candara"  TabIndex="10" VerticalAlignment="Top" VerticalContentAlignment="Center" Canvas.Left="59" Canvas.Top="108" MouseDown="Priority_L3_MouseDown" FontWeight="ExtraBold"/>
+                            <Label x:Name="Priority_L4" Content="Above Normal" Foreground="#00bbf1" HorizontalAlignment="Left" RenderTransformOrigin="0.498,0.531"    FontFamily="Candara"  TabIndex="10" VerticalAlignment="Top" VerticalContentAlignment="Center" Canvas.Left="59" Canvas.Top="78" MouseDown="Priority_L4_MouseDown"/>
+                            <Label x:Name="Priority_L5" Content="Highest" Foreground="#00bbf1" HorizontalAlignment="Left" RenderTransformOrigin="0.498,0.531"    FontFamily="Candara"  TabIndex="10" VerticalAlignment="Top" VerticalContentAlignment="Center" Canvas.Left="59" Canvas.Top="48" MouseDown="Priority_L5_MouseDown"/>
+                            <Label Foreground="#d37ce8" Content="Batch Running Process Priority" HorizontalAlignment="Left" Width="341" HorizontalContentAlignment="Center"  FontFamily="Candara" FontSize="16" TabIndex="10" Height="33" VerticalAlignment="Top" VerticalContentAlignment="Center" Canvas.Top="6" />
+                            <RichTextBox x:Name="PriorityExplanationRTB" HorizontalAlignment="Left" Height="85" VerticalAlignment="Top" Width="131" Canvas.Left="170" Canvas.Top="78" BorderThickness="0" Foreground="#00bbf1" Background="{x:Null}" FontFamily="Candara" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Center">
+                                <FlowDocument>
+                                    <Paragraph>
+                                        <Run Text="The response time of program, and the speed of batch running process will be in balance"/>
+                                    </Paragraph>
+                                </FlowDocument>
+                            </RichTextBox>
+                        </Canvas>
+                        <Separator x:Name="Separator_2_1" Height="5" Margin="0" Width="341" Canvas.Top="196"/>
+                        <Separator x:Name="Separator_2_2" Height="5" Margin="0" Width="341" Canvas.Top="391"/>
+                        <Separator x:Name="Separator_2_3" Height="5" Margin="0" Width="341" Canvas.Top="613"/>
+                    </Canvas>
+                </Grid>
+            </TabItem>
+        </TabControl>
+        <Label x:Name="Select_Interactive_Mode" Content="Interactive Mode" Margin="4,236,0,0" VerticalAlignment="Top" Height="33" FontSize="16" FontFamily="Candara" Foreground="#FF329BFF" HorizontalAlignment="Left" Width="140" Padding="5,0,0,0" TabIndex="0" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" RenderTransformOrigin="0,0" UseLayoutRounding="False" Background="#00000000" MouseEnter="Select_Interactive_Mode_MouseEnter" MouseLeave="Select_Interactive_Mode_MouseLeave" MouseDown="Select_Interactive_Mode_MouseDown">
+            <Label.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="-90"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Label.RenderTransform>
+        </Label>
+        <Label x:Name="Select_Batch_Mode" Content="Batch Mode" Margin="4,384,0,0" VerticalAlignment="Top" Height="33" FontSize="16" FontFamily="Candara" Foreground="#FF329BFF" HorizontalAlignment="Left" Width="140" Padding="5,0,0,0" TabIndex="0" HorizontalContentAlignment="Center" RenderTransformOrigin="0,0" UseLayoutRounding="False" MouseEnter="Select_Batch_Mode_MouseEnter" MouseLeave="Select_Batch_Mode_MouseLeave" Background="#00000000" VerticalContentAlignment="Center" MouseDown="Select_Batch_Mode_MouseDown">
+            <Label.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="-90"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Label.RenderTransform>
+        </Label>
+    </Grid>
+</Window>

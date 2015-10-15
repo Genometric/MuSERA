@@ -1,0 +1,79 @@
+﻿<!--
+ * Copyright © 2013-2015 Vahid Jalili
+ * 
+ * This file is part of MuSERA project.
+ * MuSERA is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation,
+ * either version 3 of the License, or (at your option) any later version.
+ * MuSERA is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A 
+ * PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ * You should have received a copy of the GNU General Public License along with Foobar. If not, see http://www.gnu.org/licenses/.
+ *
+-->
+    
+<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="Polimi.DEIB.VahidJalili.MuSERA.Views.SaveView"
+        Title="SaveView" Height="703.007" Width="539.138" WindowStartupLocation="CenterScreen" ResizeMode="NoResize" AllowsTransparency="True" WindowStyle="None" WindowState="Maximized" Background="#33FFFFFF">
+    <Grid x:Name="Main_Grid" Margin="10,34,11,34" HorizontalAlignment="Center" Width="518">
+        <Grid.Background>
+            <ImageBrush TileMode="FlipXY" Stretch="UniformToFill"/>
+        </Grid.Background>
+        <Grid MaxHeight="605" Margin="10,18,10,15" Background="#7FFFFFFF">
+            <Label x:Name="Save_BT" Content="{Binding saveButtonLabel}" IsEnabled="{Binding buttonsEnable}" HorizontalAlignment="Left" Margin="5,0,0,47" VerticalAlignment="Bottom" Width="483" HorizontalContentAlignment="Right"  Foreground="#FF329BFF"  FontFamily="Candara" FontSize="18" Background="#4CFFFFFF" TabIndex="10" MouseEnter="Save_BT_MouseEnter" MouseLeave="Save_BT_MouseLeave" MouseDown="Save_BT_MouseDown"   IsEnabledChanged="Save_BT_IsEnabledChanged" Height="32"/>
+            <Label x:Name="Cancel_BT" Content="{Binding cancelButtonLable}" IsEnabled="{Binding buttonsEnable}" HorizontalAlignment="Left" Margin="5,0,0,10" VerticalAlignment="Bottom" Width="483" HorizontalContentAlignment="Right" Foreground="#FF329BFF"  FontFamily="Candara" FontSize="18" Background="#4CFFFFFF" TabIndex="11" MouseEnter="Cancel_BT_MouseEnter" MouseLeave="Cancel_BT_MouseLeave" MouseDown="Cancel_BT_MouseDown" IsEnabledChanged="Cancel_BT_IsEnabledChanged" Height="32" />
+            <ProgressBar Value="{Binding Path=fileProgress, Mode=OneWay}"  Maximum="{Binding maxFileProgressBarValue}" Visibility="{Binding progressBarsVisibility}" HorizontalAlignment="Left" Height="20" Margin="18,0,0,53" VerticalAlignment="Bottom" Width="280"/>
+            <ProgressBar Value="{Binding Path=sampleProgress, Mode=OneWay}" Maximum="{Binding maxSampleProgressBarValue}" Visibility="{Binding progressBarsVisibility}" HorizontalAlignment="Left" Height="20" Margin="18,0,0,16" VerticalAlignment="Bottom" Width="280"/>
+            <ScrollViewer HorizontalAlignment="Left" Margin="5,10,0,84" Width="483" Background="#00000000" Style="{StaticResource FavsScrollViewer}" FlowDirection="RightToLeft" Foreground="White" MaxHeight="510">
+                <Grid Background="#7FFFFFFF" Height="504" Width="462" FlowDirection="LeftToRight">
+                    <Grid x:Name="Gr_C" HorizontalAlignment="Left" Height="160" Margin="0,74,-1,0" VerticalAlignment="Top" Width="463" Background="#FF329BFF">
+                        <DataGrid ItemsSource="{Binding sessionsSelections}">
+                            <DataGrid.Columns>
+                                <DataGridTemplateColumn Header="Save ?" Width="60">
+                                    <DataGridTemplateColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <CheckBox IsChecked="{Binding isChecked, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" IsEnabled="True" HorizontalAlignment="Center"/>
+                                        </DataTemplate>
+                                    </DataGridTemplateColumn.CellTemplate>
+                                </DataGridTemplateColumn>
+                                <DataGridTextColumn Header="Label" Binding="{Binding label}" IsReadOnly="True" Width="*"/>
+                                <DataGridTextColumn Header="Folder" Binding="{Binding folder}" IsReadOnly="False" Width="*"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Grid>
+                    <Grid x:Name="Grid_C" HorizontalAlignment="Left" Height="225" Margin="0,239,-1,0" VerticalAlignment="Top" Width="463" Background="#FF329BFF">
+                        <CheckBox Content="XAML" IsChecked="{Binding export_Overview}" HorizontalAlignment="Left" Margin="276,21,0,0" VerticalAlignment="Top" Foreground="White" FontFamily="Candara" FontSize="15"/>
+                        <Label Content="Stringent ERs" HorizontalAlignment="Left" Margin="102,44,0,0" VerticalAlignment="Top" Foreground="White" FontFamily="Candara" FontSize="15"/>
+                        <Label Content="Weak ERs" HorizontalAlignment="Left" Margin="125,72,0,0" VerticalAlignment="Top" Foreground="White" FontFamily="Candara" FontSize="15"/>
+                        <Label Content="Background ERs" HorizontalAlignment="Left" Margin="84,100,0,0" VerticalAlignment="Top" Foreground="White" FontFamily="Candara" FontSize="15"/>
+                        <Label Content="Confirmed ERs" HorizontalAlignment="Left" Margin="94,128,0,0" VerticalAlignment="Top" Foreground="White" FontFamily="Candara" FontSize="15"/>
+                        <Label Content="Discarded ERs" HorizontalAlignment="Left" Margin="98,156,0,0" VerticalAlignment="Top" Foreground="White" FontFamily="Candara" FontSize="15"/>
+                        <Label Content="Output ERs" HorizontalAlignment="Left" Margin="115,184,0,0" VerticalAlignment="Top" Foreground="White" FontFamily="Candara" FontSize="15"/>
+                        <Label Content="Overview" HorizontalAlignment="Left" Margin="127,16,0,0" VerticalAlignment="Top" Foreground="White" FontFamily="Candara" FontSize="15"/>
+                        <CheckBox Content="BED" IsChecked="{Binding export_R_j__s_BED}" HorizontalAlignment="Left" Margin="202,49,0,0" VerticalAlignment="Top" Foreground="White" FontFamily="Candara" FontSize="15"/>
+                        <CheckBox Content="BED" IsChecked="{Binding export_R_j__w_BED}" HorizontalAlignment="Left" Margin="202,77,0,0" VerticalAlignment="Top" Foreground="White" FontFamily="Candara" FontSize="15"/>
+                        <CheckBox Content="BED" IsChecked="{Binding export_R_j__b_BED}" HorizontalAlignment="Left" Margin="202,105,0,0" VerticalAlignment="Top" Foreground="White" FontFamily="Candara" FontSize="15"/>
+                        <CheckBox Content="BED" IsChecked="{Binding export_R_j__c_BED}" HorizontalAlignment="Left" Margin="202,133,0,0" VerticalAlignment="Top" Foreground="White" FontFamily="Candara" FontSize="15"/>
+                        <CheckBox Content="BED" IsChecked="{Binding export_R_j__d_BED}" HorizontalAlignment="Left" Margin="202,161,0,0" VerticalAlignment="Top" Foreground="White" FontFamily="Candara" FontSize="15"/>
+                        <CheckBox Content="BED" IsChecked="{Binding export_R_j__o_BED}" HorizontalAlignment="Left" Margin="202,189,0,0" VerticalAlignment="Top" Foreground="White" FontFamily="Candara" FontSize="15"/>
+                        <CheckBox Content="BED" HorizontalAlignment="Left" Margin="202,21,0,0" VerticalAlignment="Top" Foreground="White" FontFamily="Candara" FontSize="15" IsEnabled="False"/>
+                        <CheckBox Content="XML" HorizontalAlignment="Left" Margin="276,49,0,0" VerticalAlignment="Top" Foreground="White" FontFamily="Candara" FontSize="15" IsEnabled="False"/>
+                        <CheckBox Content="XML" HorizontalAlignment="Left" Margin="276,77,0,0" VerticalAlignment="Top" Foreground="White" FontFamily="Candara" FontSize="15" IsEnabled="False"/>
+                        <CheckBox Content="XML" HorizontalAlignment="Left" Margin="276,105,0,0" VerticalAlignment="Top" Foreground="White" FontFamily="Candara" FontSize="15" IsEnabled="False"/>
+                        <CheckBox Content="XML" IsChecked="{Binding export_R_j__c_XML}" HorizontalAlignment="Left" Margin="276,133,0,0" VerticalAlignment="Top" Foreground="White" FontFamily="Candara" FontSize="15"/>
+                        <CheckBox Content="XML" IsChecked="{Binding export_R_j__d_XML}" HorizontalAlignment="Left" Margin="276,161,0,0" VerticalAlignment="Top" Foreground="White" FontFamily="Candara" FontSize="15"/>
+                        <CheckBox Content="XML" IsChecked="{Binding export_R_j__o_XML}" HorizontalAlignment="Left" Margin="276,189,0,0" VerticalAlignment="Top" Foreground="White" FontFamily="Candara" FontSize="15"/>
+                    </Grid>
+                    <Grid x:Name="Grid_D" HorizontalAlignment="Left" Height="35" Margin="0,469,0,0" VerticalAlignment="Top" Width="462" Background="#FF329BFF">
+                        <CheckBox IsChecked="{Binding addBEDHeader}" Content="Add a header to BED files" HorizontalAlignment="Left" Margin="146,8,0,0" VerticalAlignment="Top" Foreground="White" FontFamily="Candara" FontSize="15"/>
+                    </Grid>
+                    <Grid x:Name="Grid_B" HorizontalAlignment="Left" Height="69" Margin="-1,0,0,0" VerticalAlignment="Top" Width="463" Background="#FF329BFF">
+                        <Label Content="Save to : " HorizontalAlignment="Left" Margin="10,10,0,10" Foreground="White" FontFamily="Candara" FontSize="14" Width="58" VerticalContentAlignment="Center"/>
+                        <TextBox Text="{Binding savePath}" Foreground="#329BFF" Background="#FFF9FF" HorizontalAlignment="Left" Height="26" Margin="73,22,0,0" VerticalAlignment="Top" Width="291"  FontFamily="Segoe UI Symbol" FontSize="14" Padding="1,0,1,1" TabIndex="2" MaxLines="1" VerticalContentAlignment="Center"/>
+                        <Label x:Name="Browse_Save_to_Folder" Content="Browse" HorizontalAlignment="Left" Margin="369,22,0,0" VerticalAlignment="Top" Foreground="White" FontFamily="Candara" FontSize="16" Width="84" HorizontalContentAlignment="Center" MouseEnter="Browse_Save_to_Folder_MouseEnter" MouseLeave="Browse_Save_to_Folder_MouseLeave" MouseDown="Browse_Save_to_Folder_MouseDown" Height="26" Padding="0" VerticalContentAlignment="Center"/>
+                    </Grid>
+                </Grid>
+            </ScrollViewer>
+        </Grid>
+    </Grid>
+</Window>
