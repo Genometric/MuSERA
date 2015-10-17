@@ -1233,7 +1233,7 @@
             </TabItem>
             <TabItem Header="Batch Mode" Visibility="Collapsed">
                 <Grid Background="White" Margin="0,-3,0,3" RenderTransformOrigin="0.121,0.409">
-                    <RichTextBox x:Name="Console_RTB" Margin="380,10,10,10" Background="#FF010B15" Foreground="#FFD6D6D6" FontFamily="OCR A Std" IsReadOnly="True" AcceptsTab="True" HorizontalScrollBarVisibility="Auto" SelectionBrush="OrangeRed" TextOptions.TextHintingMode="Animated" UndoLimit="0" VerticalScrollBarVisibility="Auto">
+                    <RichTextBox x:Name="Console_RTB" Margin="380,10,10,10" Background="#FF010B15" Foreground="#FFD6D6D6" FontFamily="OCR A Std" FontSize="14" IsReadOnly="True" AcceptsTab="True" HorizontalScrollBarVisibility="Auto" SelectionBrush="OrangeRed" TextOptions.TextHintingMode="Animated" UndoLimit="0" VerticalScrollBarVisibility="Auto">
                         <FlowDocument/>
                     </RichTextBox>
                     <Canvas HorizontalAlignment="Left" Margin="21,10,0,10" Width="341" Background="#682079">

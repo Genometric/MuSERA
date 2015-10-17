@@ -451,7 +451,7 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.Functions.BatchMode
                 #region .::.   Save Path                        .::.
                 writer.WriteStartElement("Setter");
                 writer.WriteAttributeString("Property", "Save Path");
-                writer.WriteAttributeString("Value", "E:\\myStudies\\");
+                writer.WriteAttributeString("Value", desktopFolder);
                 writer.WriteEndElement();
                 #endregion
                 #region .::.   Overview                         .::.
@@ -466,7 +466,7 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.Functions.BatchMode
                 writer.WriteStartElement("LogFile");
                 writer.WriteStartElement("Setter");
                 writer.WriteAttributeString("Property", "Path");
-                writer.WriteAttributeString("Value", "E:\\myStudies\\");
+                writer.WriteAttributeString("Value", desktopFolder);
                 writer.WriteEndElement();
                 writer.WriteEndElement();
                 #endregion
@@ -477,19 +477,19 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.Functions.BatchMode
                 #region .::.   Input Sample                     .::.
                 writer.WriteStartElement("Setter");
                 writer.WriteAttributeString("Property", "Input Sample");
-                writer.WriteAttributeString("Value", "E:\\mySamples\\K562CmycAlnRep1.BED");
+                writer.WriteAttributeString("Value", desktopFolder + "K562CmycAlnRep1.BED");
                 writer.WriteEndElement();
                 #endregion
                 #region .::.   Input Sample                     .::.
                 writer.WriteStartElement("Setter");
                 writer.WriteAttributeString("Property", "Input Sample");
-                writer.WriteAttributeString("Value", "E:\\mySamples\\K562CmycAlnRep2.BED");
+                writer.WriteAttributeString("Value", desktopFolder + "K562CmycAlnRep2.BED");
                 writer.WriteEndElement();
                 #endregion
                 #region .::.   Output Path                      .::.
                 writer.WriteStartElement("Setter");
                 writer.WriteAttributeString("Property", "Output Path");
-                writer.WriteAttributeString("Value", "E:\\myStudies\\");
+                writer.WriteAttributeString("Value", desktopFolder);
                 writer.WriteEndElement();
                 #endregion
                 #region .::.   Export Output Set (BED)          .::.
@@ -669,25 +669,25 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.Functions.BatchMode
                 #region .::.   Input Sample                     .::.
                 writer.WriteStartElement("Setter");
                 writer.WriteAttributeString("Property", "Input Sample");
-                writer.WriteAttributeString("Value", "E:\\ENCODE Samples\\K562CmycIfng30StdAlnRep1.BED");
+                writer.WriteAttributeString("Value", desktopFolder + "K562CmycIfng30StdAlnRep1.BED");
                 writer.WriteEndElement();
                 #endregion
                 #region .::.   Input Sample                     .::.
                 writer.WriteStartElement("Setter");
                 writer.WriteAttributeString("Property", "Input Sample");
-                writer.WriteAttributeString("Value", "E:\\ENCODE Samples\\K562CmycIfng30StdAlnRep2.BED");
+                writer.WriteAttributeString("Value", desktopFolder + "K562CmycIfng30StdAlnRep2.BED");
                 writer.WriteEndElement();
                 #endregion
                 #region .::.   Input Sample                     .::.
                 writer.WriteStartElement("Setter");
                 writer.WriteAttributeString("Property", "Input Sample");
-                writer.WriteAttributeString("Value", "E:\\ENCODE Samples\\K562CmycIfng30StdAlnRep3.BED");
+                writer.WriteAttributeString("Value", desktopFolder + "K562CmycIfng30StdAlnRep3.BED");
                 writer.WriteEndElement();
                 #endregion
                 #region .::.   Output Path                      .::.
                 writer.WriteStartElement("Setter");
                 writer.WriteAttributeString("Property", "Output Path");
-                writer.WriteAttributeString("Value", "E:\\myStudies\\");
+                writer.WriteAttributeString("Value", desktopFolder);
                 writer.WriteEndElement();
                 #endregion
                 #region .::.   Export Output Set (BED)          .::.
