@@ -61,7 +61,7 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.Exporter
         }
 
 
-        private Dictionary<UInt32, AnalysisResult<Peak, Metadata>> _analysisResults { set; get; }
+        private Dictionary<uint, AnalysisResult<Peak, Metadata>> _analysisResults { set; get; }
         private Session<Peak, Metadata> _session { set; get; }
 
         public void Export(ExportOptions options)

@@ -107,35 +107,65 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.Functions.BatchMode
                 Status = "Processing Session  " + (++counter).ToString() + " \\ " + _batchOptions.sessions.Count.ToString() + "\t:\t" + session.title;
 
                 Status = "\t\tLoading samples";
-                LoadSamples(session);
+                try { LoadSamples(session); }
+                catch (Exception e)
+                {
+                    Status = string.Format("Error in loading sample(s) ! {0}", e.Message);
+                    Status = "Session is skipped !";
+                    continue;
+                }
                 Status = "\t\tLoad completed ; " + session.samples.Count.ToString() + " samples are loaded";
 
-                if (_samples.Count > 1)
-                {
-                    Status = "\t\tAnalysis started";
-                    RunAnalysis(session);
-                    Status = "\t\tAnalysis completed";
-
-
-                    Status = "\t\tSaving analysis results";
-                    ExportResults(session, counter);
-                    Status = "\t\tSave completed";
-
-
-                    Status = "\t\tPlotting started";
-                    PlotOverview(session);
-                    Status = "\t\tPlotting completed";
-
-
-                    Status = "\t\tExporting Log";
-                    ExportLog(session, counter);
-                    Status = "\t\tLog added";
-                }
-                else
+                if (_samples.Count < 2)
                 {
                     Status = "\t\tInsufficient samples; session skipped";
+                    continue;
                 }
+
+                Status = "\t\tAnalysis started";
+                try { RunAnalysis(session); }
+                catch (Exception e)
+                {
+                    Status = string.Format("Error in analyzing samples ! {0}", e.Message);
+                    Status = "Session is skipped !";
+                    continue;
+                }
+                Status = "\t\tAnalysis completed";
+
+
+                Status = "\t\tSaving analysis results";
+                try { ExportResults(session, counter); }
+                catch(Exception e)
+                {
+                    Status = string.Format("Error in saving results ! {0}", e.Message);
+                    Status = "Session is skipped !";
+                    continue;
+                }
+                Status = "\t\tSave completed";
+
+
+                Status = "\t\tPlotting started";
+                try { PlotOverview(session); }
+                catch(Exception e)
+                {
+                    Status = string.Format("Error in plotting ! {0}", e.Message);
+                    Status = "Session is skipped !";
+                    continue;
+                }
+                Status = "\t\tPlotting completed";
+
+
+                Status = "\t\tExporting Log";
+                try { ExportLog(session, counter); }
+                catch (Exception e)
+                {
+                    Status = string.Format("Error in exporting log ! {0}", e.Message);
+                    Status = "Session is skipped !";
+                    continue;
+                }
+                Status = "\t\tLog added";
             }
+        
 
             Status = "at-Job process completed";
         }
