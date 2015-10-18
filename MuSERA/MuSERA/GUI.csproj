@@ -194,7 +194,6 @@
     <Compile Include="Functions\BatchMode\ExecuteAtJob.cs" />
     <Compile Include="Functions\BatchMode\LogExporter.cs" />
     <Compile Include="Functions\ChrComparer.cs" />
-    <Compile Include="Functions\ColorManipulations.cs" />
     <Compile Include="Functions\ExtendedDI3\ERToFeatureDD.cs" />
     <Compile Include="Functions\ExtendedDI3\ExtendedDi3.cs" />
     <Compile Include="Functions\ExtendedDI3\NNDistribution.cs" />

@@ -32,10 +32,10 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.Exporter
         protected AnalysisResult<Peak, Metadata> data { set; get; }
         protected void Export_Overview(FlowDocument overview)
         {
-            using (FileStream fs = new FileStream(samplePath + Path.DirectorySeparatorChar + "Overview.xaml", FileMode.OpenOrCreate, FileAccess.Write))
+            using (FileStream fs = new FileStream(samplePath + Path.DirectorySeparatorChar + "Overview.txt", FileMode.OpenOrCreate, FileAccess.Write))
             {
                 TextRange textRange = new TextRange(overview.ContentStart, overview.ContentEnd);
-                textRange.Save(fs, DataFormats.Xaml);
+                textRange.Save(fs, DataFormats.Text);
             }
         }
         protected void Export__R_j__o_BED()

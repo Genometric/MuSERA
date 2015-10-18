@@ -77,6 +77,17 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.Functions.BatchMode
         private BatchPlotOptions ParsePlotInformation(XmlNode parent)
         {
             var rtv = new BatchPlotOptions();
+            rtv.showOverviewLegend = true;
+            rtv.plotHeight = 1500;
+            rtv.plotWidth = 3500;
+            rtv.markerSize = 32;
+            rtv.fontSize = 32;
+            rtv.axisFontSize = 32;
+            rtv.actualDataLabelFontSize = 32;
+            rtv.headerFontSize = 40;
+            rtv.savePath = Environment.GetFolderPath(Environment.SpecialFolder.DesktopDirectory) + "\\";
+            rtv.saveOverview = true;
+
             foreach (XmlNode childNode in parent.ChildNodes)
             {
                 if (childNode.Attributes == null || childNode.Attributes.Count == 0) continue;
@@ -111,7 +122,7 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.Functions.BatchMode
                         break;
 
                     case "Save Path":
-                        rtv.savePath = childNode.Attributes[1].Value;
+                        rtv.savePath = Path.GetDirectoryName(childNode.Attributes[1].Value) + Path.DirectorySeparatorChar;
                         break;
 
                     case "Overview":
@@ -128,6 +139,8 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.Functions.BatchMode
                         break;
                 }
             }
+
+            rtv.showOverviewLegend = true;
             return rtv;
         }
         private string ParseLogFileInformation(XmlNode parent)
@@ -138,7 +151,7 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.Functions.BatchMode
                 switch (childNode.Attributes[0].Value)
                 {
                     case "Path":
-                        return Convert.ToString(childNode.Attributes[1].Value);
+                        return Path.GetDirectoryName(Convert.ToString(childNode.Attributes[1].Value)) + Path.DirectorySeparatorChar;
                 }
             }
             return "";
@@ -180,62 +193,62 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.Functions.BatchMode
                                     break;
 
                                 case "Output Path":
-                                    session.outputPath = setter.Attributes[1].Value;
+                                    session.outputPath = Path.GetDirectoryName(setter.Attributes[1].Value) + Path.DirectorySeparatorChar;
                                     break;
 
                                 case "Export Output Set (BED)":
-                                    if (!Boolean.TryParse(setter.Attributes[1].Value, out Export_R_j__o_BED))
+                                    if (!bool.TryParse(setter.Attributes[1].Value, out Export_R_j__o_BED))
                                         throw new Exception();
                                     break;
 
                                 case "Export Output Set (XML)":
-                                    if (!Boolean.TryParse(setter.Attributes[1].Value, out Export_R_j__o_XML))
+                                    if (!bool.TryParse(setter.Attributes[1].Value, out Export_R_j__o_XML))
                                         throw new Exception();
                                     break;
 
                                 case "Export Stringent ERs":
-                                    if (!Boolean.TryParse(setter.Attributes[1].Value, out Export_R_j__s_BED))
+                                    if (!bool.TryParse(setter.Attributes[1].Value, out Export_R_j__s_BED))
                                         throw new Exception();
                                     break;
 
                                 case "Export Weak ERs":
-                                    if (!Boolean.TryParse(setter.Attributes[1].Value, out Export_R_j__w_BED))
+                                    if (!bool.TryParse(setter.Attributes[1].Value, out Export_R_j__w_BED))
                                         throw new Exception();
                                     break;
 
                                 case "Export Background ERs":
-                                    if (!Boolean.TryParse(setter.Attributes[1].Value, out Export_R_j__b_BED))
+                                    if (!bool.TryParse(setter.Attributes[1].Value, out Export_R_j__b_BED))
                                         throw new Exception();
                                     break;
 
                                 case "Export Confirmed ERs (BED)":
-                                    if (!Boolean.TryParse(setter.Attributes[1].Value, out Export_R_j__c_BED))
+                                    if (!bool.TryParse(setter.Attributes[1].Value, out Export_R_j__c_BED))
                                         throw new Exception();
                                     break;
 
                                 case "Export Confirmed ERs (XML)":
-                                    if (!Boolean.TryParse(setter.Attributes[1].Value, out Export_R_j__c_XML))
+                                    if (!bool.TryParse(setter.Attributes[1].Value, out Export_R_j__c_XML))
                                         throw new Exception();
                                     break;
 
                                 case "Export Discarded ERs (BED)":
-                                    if (!Boolean.TryParse(setter.Attributes[1].Value, out Export_R_j__d_BED))
+                                    if (!bool.TryParse(setter.Attributes[1].Value, out Export_R_j__d_BED))
                                         throw new Exception();
                                     break;
 
                                 case "Export Discarded ERs (XML)":
-                                    if (!Boolean.TryParse(setter.Attributes[1].Value, out Export_R_j__d_XML))
+                                    if (!bool.TryParse(setter.Attributes[1].Value, out Export_R_j__d_XML))
                                         throw new Exception();
                                     break;
 
                                 case "Export Chromosome-wide statistics":
-                                    if (!Boolean.TryParse(setter.Attributes[1].Value, out Export_Chromosomewide_stats))
+                                    if (!bool.TryParse(setter.Attributes[1].Value, out Export_Chromosomewide_stats))
                                         throw new Exception();
                                     break;
                             }
                         }
 
-                        session.exportOptions = new Polimi.DEIB.VahidJalili.MuSERA.Exporter.ExportOptions(
+                        session.exportOptions = new Exporter.ExportOptions(
                             sessionPath: session.outputPath,
                             includeBEDHeader: true,
                             Export_R_j__o_BED: Export_R_j__o_BED,
@@ -268,15 +281,15 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.Functions.BatchMode
                                     break;
 
                                 case "TauS":
-                                    session.analysisOptions.tauS = Double.Parse(setter.Attributes[1].Value);
+                                    session.analysisOptions.tauS = double.Parse(setter.Attributes[1].Value);
                                     break;
 
                                 case "TauW":
-                                    session.analysisOptions.tauW = Double.Parse(setter.Attributes[1].Value);
+                                    session.analysisOptions.tauW = double.Parse(setter.Attributes[1].Value);
                                     break;
 
                                 case "Gamma":
-                                    gammaIsDetermined = Double.Parse(setter.Attributes[1].Value);
+                                    gammaIsDetermined = double.Parse(setter.Attributes[1].Value);
                                     processTGamma = true;
                                     break;
 
@@ -285,7 +298,7 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.Functions.BatchMode
                                     break;
 
                                 case "C":
-                                    session.analysisOptions.C = Byte.Parse(setter.Attributes[1].Value);
+                                    session.analysisOptions.C = byte.Parse(setter.Attributes[1].Value);
                                     break;
 
                                 case "Multiple Testing Correction":
@@ -311,38 +324,38 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.Functions.BatchMode
                             switch (setter.Attributes[0].Value)
                             {
                                 case "Start Offset":
-                                    parserParameters.startOffset = Byte.Parse(setter.Attributes[1].Value);
+                                    parserParameters.startOffset = byte.Parse(setter.Attributes[1].Value);
                                     break;
 
                                 case "Chr Column":
-                                    parserParameters.chrColumn = Byte.Parse(setter.Attributes[1].Value);
+                                    parserParameters.chrColumn = byte.Parse(setter.Attributes[1].Value);
                                     break;
 
                                 case "Start Column":
-                                    parserParameters.leftColumn = Byte.Parse(setter.Attributes[1].Value);
+                                    parserParameters.leftColumn = byte.Parse(setter.Attributes[1].Value);
                                     break;
 
                                 case "Stop Column":
-                                    parserParameters.rightColumn = Byte.Parse(setter.Attributes[1].Value);
+                                    parserParameters.rightColumn = byte.Parse(setter.Attributes[1].Value);
                                     break;
 
                                 case "Name Column":
-                                    parserParameters.nameColumn = Byte.Parse(setter.Attributes[1].Value);
+                                    parserParameters.nameColumn = byte.Parse(setter.Attributes[1].Value);
                                     break;
 
                                 case "p-value Column":
-                                    parserParameters.pValueColumn = Byte.Parse(setter.Attributes[1].Value);
+                                    parserParameters.pValueColumn = byte.Parse(setter.Attributes[1].Value);
                                     break;
 
                                 case "Drop Line if no p-value":
-                                    parserParameters.dropIfNopValue = Boolean.Parse(setter.Attributes[1].Value);
+                                    parserParameters.dropIfNopValue = bool.Parse(setter.Attributes[1].Value);
                                     break;
 
                                 case "Default p-value":
-                                    parserParameters.defaultpValue = Double.Parse(setter.Attributes[1].Value);
+                                    parserParameters.defaultpValue = double.Parse(setter.Attributes[1].Value);
                                     break;
 
-                                case "p-value Convertion Option":
+                                case "p-value Conversion Option":
                                     switch (setter.Attributes[1].Value.Trim().ToLower())
                                     {
                                         case "-10 x log10 (p-value)":
@@ -359,7 +372,7 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.Functions.BatchMode
                                             parserParameters.pValueConversion = pValueFormat.minus1_Log10_pValue;
                                             break;
 
-                                        default: // No convertion.
+                                        default: // No Conversion.
                                             parserParameters.pValueConversion = pValueFormat.SameAsInput;
                                             break;
                                     }
@@ -379,7 +392,7 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.Functions.BatchMode
                 if (gammaIsDetermined < 1.0 && gammaIsDetermined >= 0.0 && gammaIsDetermined > 1E-20)
                     session.analysisOptions.gamma = gammaIsDetermined;// Don't modify "gammaIsDetermined"                    
                 else
-                    gammaIsDetermined = 1E-19;
+                    session.analysisOptions.gamma = 1E-19;
             }
             return session;
         }
@@ -421,13 +434,13 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.Functions.BatchMode
                 #region .::.   Marker Size                      .::.
                 writer.WriteStartElement("Setter");
                 writer.WriteAttributeString("Property", "Marker Size");
-                writer.WriteAttributeString("Value", "24");
+                writer.WriteAttributeString("Value", "32");
                 writer.WriteEndElement();
                 #endregion
                 #region .::.   Font Size                        .::.
                 writer.WriteStartElement("Setter");
                 writer.WriteAttributeString("Property", "Font Size");
-                writer.WriteAttributeString("Value", "24");
+                writer.WriteAttributeString("Value", "32");
                 writer.WriteEndElement();
                 #endregion
                 #region .::.   Axis Font Size                   .::.
@@ -439,7 +452,7 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.Functions.BatchMode
                 #region .::.   Data Label Font Size             .::.
                 writer.WriteStartElement("Setter");
                 writer.WriteAttributeString("Property", "Data Label Font Size");
-                writer.WriteAttributeString("Value", "24");
+                writer.WriteAttributeString("Value", "32");
                 writer.WriteEndElement();
                 #endregion
                 #region .::.   Header font size                 .::.
@@ -451,7 +464,7 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.Functions.BatchMode
                 #region .::.   Save Path                        .::.
                 writer.WriteStartElement("Setter");
                 writer.WriteAttributeString("Property", "Save Path");
-                writer.WriteAttributeString("Value", desktopFolder);
+                writer.WriteAttributeString("Value", desktopFolder + "\\");
                 writer.WriteEndElement();
                 #endregion
                 #region .::.   Overview                         .::.
@@ -466,7 +479,7 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.Functions.BatchMode
                 writer.WriteStartElement("LogFile");
                 writer.WriteStartElement("Setter");
                 writer.WriteAttributeString("Property", "Path");
-                writer.WriteAttributeString("Value", desktopFolder);
+                writer.WriteAttributeString("Value", desktopFolder + "\\");
                 writer.WriteEndElement();
                 writer.WriteEndElement();
                 #endregion
@@ -477,19 +490,19 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.Functions.BatchMode
                 #region .::.   Input Sample                     .::.
                 writer.WriteStartElement("Setter");
                 writer.WriteAttributeString("Property", "Input Sample");
-                writer.WriteAttributeString("Value", desktopFolder + "K562CmycAlnRep1.BED");
+                writer.WriteAttributeString("Value", desktopFolder + "\\K562CmycAlnRep1.BED");
                 writer.WriteEndElement();
                 #endregion
                 #region .::.   Input Sample                     .::.
                 writer.WriteStartElement("Setter");
                 writer.WriteAttributeString("Property", "Input Sample");
-                writer.WriteAttributeString("Value", desktopFolder + "K562CmycAlnRep2.BED");
+                writer.WriteAttributeString("Value", desktopFolder + "\\K562CmycAlnRep2.BED");
                 writer.WriteEndElement();
                 #endregion
                 #region .::.   Output Path                      .::.
                 writer.WriteStartElement("Setter");
                 writer.WriteAttributeString("Property", "Output Path");
-                writer.WriteAttributeString("Value", desktopFolder);
+                writer.WriteAttributeString("Value", desktopFolder + "\\");
                 writer.WriteEndElement();
                 #endregion
                 #region .::.   Export Output Set (BED)          .::.
@@ -649,9 +662,9 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.Functions.BatchMode
                 writer.WriteAttributeString("Value", "1.00E-6");
                 writer.WriteEndElement();
                 #endregion
-                #region .::.   p-value Convertion Option        .::.
+                #region .::.   p-value Conversion Option        .::.
                 writer.WriteStartElement("Setter");
-                writer.WriteAttributeString("Property", "p-value Convertion Option");
+                writer.WriteAttributeString("Property", "p-value Conversion Option");
                 writer.WriteAttributeString("Value", "-1 x Log10 (p-value)");
                 writer.WriteEndElement();
                 writer.WriteComment("Possible values are (without square bracket):");
@@ -669,25 +682,25 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.Functions.BatchMode
                 #region .::.   Input Sample                     .::.
                 writer.WriteStartElement("Setter");
                 writer.WriteAttributeString("Property", "Input Sample");
-                writer.WriteAttributeString("Value", desktopFolder + "K562CmycIfng30StdAlnRep1.BED");
+                writer.WriteAttributeString("Value", desktopFolder + "\\K562CmycIfng30StdAlnRep1.BED");
                 writer.WriteEndElement();
                 #endregion
                 #region .::.   Input Sample                     .::.
                 writer.WriteStartElement("Setter");
                 writer.WriteAttributeString("Property", "Input Sample");
-                writer.WriteAttributeString("Value", desktopFolder + "K562CmycIfng30StdAlnRep2.BED");
+                writer.WriteAttributeString("Value", desktopFolder + "\\K562CmycIfng30StdAlnRep2.BED");
                 writer.WriteEndElement();
                 #endregion
                 #region .::.   Input Sample                     .::.
                 writer.WriteStartElement("Setter");
                 writer.WriteAttributeString("Property", "Input Sample");
-                writer.WriteAttributeString("Value", desktopFolder + "K562CmycIfng30StdAlnRep3.BED");
+                writer.WriteAttributeString("Value", desktopFolder + "\\K562CmycIfng30StdAlnRep3.BED");
                 writer.WriteEndElement();
                 #endregion
                 #region .::.   Output Path                      .::.
                 writer.WriteStartElement("Setter");
                 writer.WriteAttributeString("Property", "Output Path");
-                writer.WriteAttributeString("Value", desktopFolder);
+                writer.WriteAttributeString("Value", desktopFolder + "\\");
                 writer.WriteEndElement();
                 #endregion
                 #region .::.   Export Output Set (BED)          .::.
@@ -847,9 +860,9 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.Functions.BatchMode
                 writer.WriteAttributeString("Value", "1.00E-65");
                 writer.WriteEndElement();
                 #endregion
-                #region .::.   p-value Convertion Option        .::.
+                #region .::.   p-value Conversion Option        .::.
                 writer.WriteStartElement("Setter");
-                writer.WriteAttributeString("Property", "p-value Convertion Option");
+                writer.WriteAttributeString("Property", "p-value Conversion Option");
                 writer.WriteAttributeString("Value", "-10 x Log10 (p-value)");
                 writer.WriteEndElement();
                 writer.WriteComment("Possible values are (without square bracket):");

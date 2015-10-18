@@ -339,7 +339,7 @@
                     </Canvas>
                 </Grid>
                 <Grid x:Name="Grid_C" HorizontalAlignment="Left" Height="117" Margin="0,392,0,0" VerticalAlignment="Top" Width="969" IsEnabled="False" Background="#FF329BFF">
-                    <Canvas x:Name="p_value_convertion_ops_Canvas" Margin="270,19,445,10">
+                    <Canvas x:Name="p_value_Conversion_ops_Canvas" Margin="270,19,445,10">
                         <Label x:Name="p_values_L1" Content="p-values are represented in the form of :" HorizontalAlignment="Left" VerticalAlignment="Top" RenderTransformOrigin="1.999,-0.189" Foreground="White" FontFamily="Candara" FontSize="14"/>
                         <RadioButton x:Name="p_value_op1" Content="-10  x  Log10  ( p-value )" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="White" FontFamily="Candara" FontSize="14" Width="155" TabIndex="2" IsChecked="True" Canvas.Left="92" Canvas.Top="32"/>
                         <RadioButton x:Name="p_value_op2" Content="-1    x  Log10  ( p-value )" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="White" FontFamily="Candara" FontSize="14" Width="155" TabIndex="3" IsChecked="True" Canvas.Left="92" Canvas.Top="58"/>

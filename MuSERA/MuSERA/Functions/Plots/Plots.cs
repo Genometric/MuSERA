@@ -48,7 +48,7 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.Functions.Plots
         protected int dichotomies { set; get; }
         protected bool includeGenes { set; get; }
         protected bool includeGeneralFeatures { set; get; }
-        protected UInt32 selectedERSampleID { set; get; }
+        protected uint selectedERSampleID { set; get; }
         protected AnalysisResult<Interval<int, MChIPSeqPeak>, MChIPSeqPeak>.ProcessedER selectedER { set; get; }
         protected Session<Interval<int, MChIPSeqPeak>, MChIPSeqPeak> selectedSession { set; get; }
         protected AnalysisResult<Interval<int, MChIPSeqPeak>, MChIPSeqPeak> selectedAnalysisResult { set; get; }

@@ -9,7 +9,6 @@
  **/
 
 using Polimi.DEIB.VahidJalili.MuSERA.Warehouse;
-using System;
 using System.Collections.Generic;
 using System.Windows.Media;
 
@@ -32,20 +31,27 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.Models
         public Dictionary<ERClassificationType, SolidColorBrush> ColorClassificationsMarker { set; get; }
         public SolidColorBrush ColorGenesLine { set; get; }
         public SolidColorBrush ColorGenesMarker { set; get; }
-        public Dictionary<UInt32, SolidColorBrush> SampleColor { set; get; }
+        public Dictionary<uint, SolidColorBrush> SampleColor { set; get; }
+
+
+        public SolidColorBrush ColorSDT { get { return new SolidColorBrush(Color.FromArgb(255, 116, 2, 126)); } }
+        public SolidColorBrush ColorWDT { get { return new SolidColorBrush(Color.FromArgb(255, 120, 0, 0)); } }
+        public SolidColorBrush ColorSO { get { return new SolidColorBrush(Color.FromArgb(255, 0, 255, 0)); } }
+        public SolidColorBrush ColorWO { get { return new SolidColorBrush(Color.FromArgb(255, 0, 255, 255)); } }
+
 
         private void InitializeLineColors()
         {
             ColorClassificationsLine = new Dictionary<ERClassificationType, SolidColorBrush>();
             ColorClassificationsLine.Add(ERClassificationType.Input, new SolidColorBrush(Color.FromArgb(255, 30, 144, 255)));
             ColorClassificationsLine.Add(ERClassificationType.Stringent, new SolidColorBrush(Color.FromArgb(255, 34, 139, 34)));
-            ColorClassificationsLine.Add(ERClassificationType.Weak, new SolidColorBrush(Color.FromArgb(255, 255, 255, 0)));
+            ColorClassificationsLine.Add(ERClassificationType.Weak, new SolidColorBrush(Color.FromArgb(255, 250, 218, 5)));
             ColorClassificationsLine.Add(ERClassificationType.Background, new SolidColorBrush(Color.FromArgb(255, 255, 0, 0)));
             ColorClassificationsLine.Add(ERClassificationType.Confirmed, new SolidColorBrush(Color.FromArgb(255, 70, 255, 0)));
             ColorClassificationsLine.Add(ERClassificationType.Discarded, new SolidColorBrush(Color.FromArgb(255, 255, 70, 0)));
             ColorClassificationsLine.Add(ERClassificationType.StringentConfirmed, new SolidColorBrush(Color.FromArgb(255, 0, 100, 0)));
             ColorClassificationsLine.Add(ERClassificationType.StringentDiscarded, new SolidColorBrush(Color.FromArgb(255, 255, 20, 147)));
-            ColorClassificationsLine.Add(ERClassificationType.WeakConfirmed, new SolidColorBrush(Color.FromArgb(255, 0, 250, 154)));
+            ColorClassificationsLine.Add(ERClassificationType.WeakConfirmed, new SolidColorBrush(Color.FromArgb(255, 0, 200, 75)));
             ColorClassificationsLine.Add(ERClassificationType.WeakDiscarded, new SolidColorBrush(Color.FromArgb(255, 255, 69, 0)));
             ColorClassificationsLine.Add(ERClassificationType.Output, new SolidColorBrush(Color.FromArgb(255, 120, 230, 0)));
             ColorClassificationsLine.Add(ERClassificationType.TruePositive, new SolidColorBrush(Color.FromArgb(255, 124, 252, 0)));

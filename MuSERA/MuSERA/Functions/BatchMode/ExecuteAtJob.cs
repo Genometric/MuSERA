@@ -72,8 +72,8 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.Functions.BatchMode
         private Dictionary<uint, ParsedChIPseqPeaks<int, Interval<int, MChIPSeqPeak>, MChIPSeqPeak>> _samples { set; get; }
         private Session<Interval<int, MChIPSeqPeak>, MChIPSeqPeak> _currentSession { set; get; }
 
-        public ExecuteAtJob()
-        {
+        public ExecuteAtJob(PlotOptions plotOptions)
+        {           
             _chartPlotter = new ChartPlotter();
             _vAxisTitle = new VerticalAxisTitle();
             _hAxisTitle = new HorizontalAxisTitle();
@@ -85,7 +85,8 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.Functions.BatchMode
                 verticalAxisTitle: _vAxisTitle,
                 di3: null,
                 hAxisBinWidth: 1);
-            _plotData.Update(PlotType.Overview);
+
+            _plotData.plotOptions = plotOptions;
         }
         public void Run(BatchOptions batchOptions)
         {
@@ -165,7 +166,6 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.Functions.BatchMode
                 }
                 Status = "\t\tLog added";
             }
-        
 
             Status = "at-Job process completed";
         }
@@ -239,8 +239,8 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.Functions.BatchMode
         {
             var exporter = new Exporter<Interval<int, MChIPSeqPeak>, MChIPSeqPeak>(_currentSession);
 
-            if (session.title != null) exporter.samplePath = session.outputPath + Path.DirectorySeparatorChar + session.title + Path.DirectorySeparatorChar;
-            else exporter.samplePath = session.outputPath + Path.DirectorySeparatorChar + "Session_" + counter.ToString();
+            if (session.title != null) exporter.samplePath = session.outputPath + session.title + Path.DirectorySeparatorChar;
+            else exporter.samplePath = session.outputPath + "Session_" + counter.ToString();
 
             var options = new ExportOptions(
                         sessionPath: exporter.samplePath,
@@ -263,7 +263,11 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.Functions.BatchMode
             foreach (var result in _currentSession.analysisResults)
             {
                 _plotData.Update(result.Value);
-                _chartPlotter.SaveScreenshot(session.outputPath + session.title + Path.DirectorySeparatorChar + Path.GetFileNameWithoutExtension(result.Value.FileName) + "__overview.png");
+
+                _chartPlotter.SaveScreenshot(
+                    session.outputPath +
+                    session.title + Path.DirectorySeparatorChar +
+                    Path.GetFileNameWithoutExtension(result.Value.FileName) + "__overview.png");
             }
         }
         private void ExportLog(AtJobSession session, int counter)
@@ -280,7 +284,7 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.Functions.BatchMode
                     IDsFile: _batchOptions.logFile,
                     statsFile: _batchOptions.logFile,
                     sessionTitle: session.title,
-                    sessionIndex: counter.ToString(), // TODO : make sure this is correct
+                    sessionIndex: counter.ToString(),
                     sampleFile: analysisResult.Value.FileName,
                     sampleIndex: (sampleIndex++).ToString(),
                     supSamples: supFiles,

@@ -158,7 +158,7 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.Functions.Plots
             _bars[5].StrokeThickness = _plotOptions.strokeThickness;
 
             _bars[6].Bounds = new Rect(drawingStart, _data.total__sdc, _plotOptions.actualBarWidth, _data.total__sdt);
-            _bars[6].Fill = DarkenColor(_plotOptions.ColorClassificationsLine[ERClassificationType.StringentDiscarded]);
+            _bars[6].Fill = _plotOptions.ColorSDT;
             _bars[6].Stroke = new SolidColorBrush(Colors.Black);
             _bars[6].StrokeThickness = _plotOptions.strokeThickness;
 
@@ -168,7 +168,7 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.Functions.Plots
             _bars[7].StrokeThickness = _plotOptions.strokeThickness;
 
             _bars[8].Bounds = new Rect(drawingStart, _data.total__sdc + _data.total__sdt + _data.total__wdc, _plotOptions.actualBarWidth, _data.total__wdt);
-            _bars[8].Fill = DarkenColor(_plotOptions.ColorClassificationsLine[ERClassificationType.WeakDiscarded]);
+            _bars[8].Fill = _plotOptions.ColorWDT;
             _bars[8].Stroke = new SolidColorBrush(Colors.Black);
             _bars[8].StrokeThickness = _plotOptions.strokeThickness;
 
@@ -185,12 +185,12 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.Functions.Plots
             drawingStart = (_plotOptions.actualBarWidth * 5) + (_plotOptions.actualBarWidth + (_plotOptions.actualInterBarGap * 5));
 
             _bars[9].Bounds = new Rect(drawingStart, 0, _plotOptions.actualBarWidth, _data.total___so);
-            _bars[9].Fill = LightenColor(_plotOptions.ColorClassificationsLine[ERClassificationType.StringentConfirmed]);
+            _bars[9].Fill = _plotOptions.ColorSO;
             _bars[9].Stroke = new SolidColorBrush(Colors.Black);
             _bars[9].StrokeThickness = _plotOptions.strokeThickness;
 
             _bars[10].Bounds = new Rect(drawingStart, _data.total___so, _plotOptions.actualBarWidth, _data.total___wo);
-            _bars[10].Fill = LightenColor(_plotOptions.ColorClassificationsLine[ERClassificationType.WeakConfirmed]);
+            _bars[10].Fill = _plotOptions.ColorWO;
             _bars[10].Stroke = new SolidColorBrush(Colors.Black);
             _bars[10].StrokeThickness = _plotOptions.strokeThickness;
 
@@ -285,7 +285,7 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.Functions.Plots
 
             _legendInfo.Add(new LegendInfo()
             {
-                brush = DarkenColor(_plotOptions.ColorClassificationsLine[ERClassificationType.StringentDiscarded]),
+                brush = _plotOptions.ColorSDT,
                 lineDescription = "Stringent Discarded (Reason : TEST)\t"
             });
 
@@ -297,19 +297,19 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.Functions.Plots
 
             _legendInfo.Add(new LegendInfo()
             {
-                brush = DarkenColor(_plotOptions.ColorClassificationsLine[ERClassificationType.WeakDiscarded]),
+                brush =_plotOptions.ColorWDT,
                 lineDescription = "Weak Discarded (Reason : TEST)\t"
             });
 
             _legendInfo.Add(new LegendInfo()
             {
-                brush = LightenColor(_plotOptions.ColorClassificationsLine[ERClassificationType.StringentConfirmed]),
+                brush =_plotOptions.ColorSO,
                 lineDescription = "Stringent Confirmed in Output set\t"
             });
 
             _legendInfo.Add(new LegendInfo()
             {
-                brush = LightenColor(_plotOptions.ColorClassificationsLine[ERClassificationType.WeakConfirmed]),
+                brush =_plotOptions.ColorWO,
                 lineDescription = "Weak Confirmed in Output set\t"
             });
 
@@ -407,20 +407,6 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.Functions.Plots
             ((HorizontalAxis)_chartPlotter.HorizontalAxis).ShowMinorTicks = false;
             ((HorizontalAxis)_chartPlotter.HorizontalAxis).Visibility = Visibility.Collapsed;
             ((VerticalAxis)_chartPlotter.VerticalAxis).LabelProvider = new ExponentialLabelProvider();
-        }
-        private SolidColorBrush DarkenColor(SolidColorBrush solidColorBrush)
-        {
-            var HSB = solidColorBrush.Color.ToHsbColor();
-            HSB.Brightness -= _colorDLC;
-            return new SolidColorBrush(HSB.ToArgb());
-
-        }
-        private SolidColorBrush LightenColor(SolidColorBrush solidColorBrush)
-        {
-            var HSB = solidColorBrush.Color.ToHsbColor();
-            HSB.Brightness += _colorDLC;
-            if (HSB.Brightness > 1.0) HSB.Brightness = 1;
-            return new SolidColorBrush(HSB.ToArgb());
         }
     }
 }

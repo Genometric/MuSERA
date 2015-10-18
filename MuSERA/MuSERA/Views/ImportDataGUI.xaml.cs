@@ -300,7 +300,7 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.Views
 
         private void ChIPseqAssays_Checked(object sender, RoutedEventArgs e)
         {
-            p_value_convertion_ops_Canvas.IsEnabled = true;
+            p_value_Conversion_ops_Canvas.IsEnabled = true;
             p_value_validity_ops_Canvas.IsEnabled = true;
             MidPointAsSummit.IsEnabled = true;
 
@@ -314,7 +314,7 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.Views
         }
         private void RefseqGenes_Checked(object sender, RoutedEventArgs e)
         {
-            p_value_convertion_ops_Canvas.IsEnabled = false;
+            p_value_Conversion_ops_Canvas.IsEnabled = false;
             p_value_validity_ops_Canvas.IsEnabled = false;
             MidPointAsSummit.IsEnabled = false;
 
@@ -325,7 +325,7 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.Views
         }
         private void General_Feature__RB_Checked(object sender, RoutedEventArgs e)
         {
-            p_value_convertion_ops_Canvas.IsEnabled = false;
+            p_value_Conversion_ops_Canvas.IsEnabled = false;
             p_value_validity_ops_Canvas.IsEnabled = false;
             MidPointAsSummit.IsEnabled = false;
 

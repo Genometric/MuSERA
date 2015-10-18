@@ -164,35 +164,12 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.ViewModels
         {
             _paragraph.Inlines.Add("\n>  at-Job <- " + atJobFileAbsolutePath);
 
-            var parser = new AtJobParser(atJobFileAbsolutePath);
-            _batchOptions = parser.Parse();
-            if (_batchOptions == null)
-            {
-                _paragraph.Inlines.Add("\n>  Invalid XML structure !");
-                _flowDocument.Blocks.Add(_paragraph);
-                _batchConsole.Document = _flowDocument;
-                return;
-            }
-
-            _paragraph.Inlines.Add("\n>  Load completed");
-
-            if (_batchOptions.sessions.Count == 0)
-                _paragraph.Inlines.Add("\n>  Selected at-Job doesn't contain any valid sessions");
-            else
-            {
-                _startTime = DateTime.Now;
-                _runTimer.Start();
-                prioritySliderIsEnabled = true;
-                _paragraph.Inlines.Add("\n>  " + _batchOptions.sessions.Count.ToString() + " valid session(s) determined");
-                _paragraph.Inlines.Add("\n>  @ " + DateTime.Now.ToShortDateString() + " - " + DateTime.Now.ToLongTimeString() + "  :  Process started");
-
-                isFree = false;
-                _thread = new Thread(new ThreadStart(Execute));
-                _thread.SetApartmentState(ApartmentState.STA);
-                _thread.IsBackground = true;
-                _thread.Priority = _priority;
-                _thread.Start();
-            }
+            isFree = false;
+            _thread = new Thread(new ThreadStart(Execute));
+            _thread.SetApartmentState(ApartmentState.STA);
+            _thread.IsBackground = true;
+            _thread.Priority = _priority;
+            _thread.Start();
 
             _flowDocument.Blocks.Add(_paragraph);
             _batchConsole.Document = _flowDocument;
@@ -210,7 +187,40 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.ViewModels
         }
         private void Execute()
         {
-            using (ExecuteAtJob executer = new ExecuteAtJob())
+            var parser = new AtJobParser(atJobFileAbsolutePath);
+            _batchOptions = parser.Parse();
+
+            if (_batchOptions == null)
+            {
+                Application.Current.Dispatcher.Invoke((Action)(() =>
+                {
+                    _paragraph.Inlines.Add("\n>  Invalid XML structure !");
+                    _flowDocument.Blocks.Add(_paragraph);
+                    _batchConsole.Document = _flowDocument;
+                }));
+                return;
+            }
+
+            Application.Current.Dispatcher.Invoke((
+                () => { _paragraph.Inlines.Add("\n>  Load completed"); }));
+
+            if (_batchOptions.sessions.Count == 0)
+            {
+                Application.Current.Dispatcher.Invoke((
+                    () => { _paragraph.Inlines.Add("\n>  Selected at-Job doesn't contain any valid sessions"); }));
+                return;
+            }
+
+            _startTime = DateTime.Now;
+            _runTimer.Start();
+            Application.Current.Dispatcher.Invoke((() =>
+            {
+                prioritySliderIsEnabled = true;
+                _paragraph.Inlines.Add("\n>  " + _batchOptions.sessions.Count.ToString() + " valid session(s) determined");
+                _paragraph.Inlines.Add("\n>  @ " + DateTime.Now.ToShortDateString() + " - " + DateTime.Now.ToLongTimeString() + "  :  Process started");
+            }));
+
+            using (ExecuteAtJob executer = new ExecuteAtJob(_batchOptions.plotOptions))
             {
                 executer.StatusChanged += StatusChanged;
                 executer.Run(_batchOptions);

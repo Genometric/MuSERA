@@ -1256,7 +1256,7 @@
                                     </i:EventTrigger>
                                 </i:Interaction.Triggers>
                             </RadioButton>
-                            <RadioButton Content="Exit program" Foreground="#00bbf1" HorizontalAlignment="Left" Margin="38,95,0,0" VerticalAlignment="Top" FontFamily="Candara" FontSize="13">
+                            <RadioButton Content="Exit Program" Foreground="#00bbf1" HorizontalAlignment="Left" Margin="38,95,0,0" VerticalAlignment="Top" FontFamily="Candara" FontSize="13">
                                 <i:Interaction.Triggers>
                                     <i:EventTrigger EventName="Checked">
                                         <i:InvokeCommandAction Command="{Binding Path=batchModeViewModel.SetAtBatchCompletionAction}" CommandParameter="exit"/>

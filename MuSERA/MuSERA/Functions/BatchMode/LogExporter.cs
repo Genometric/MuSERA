@@ -151,11 +151,11 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.Functions.BatchMode
                         line += "# Output\t";
                         line += "% Output\t";
 
-                        line += "# TP\t";
-                        line += "% TP\t";
+                        line += "# MTC\t";
+                        line += "% MTC\t";
 
-                        line += "# FP\t";
-                        line += "% FP\t";
+                        line += "# MTD\t";
+                        line += "% MTD\t";
 
                         line += "# Stringent.Confirmed\t";
                         line += "% Stringent.Confirmed\t";
