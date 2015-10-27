@@ -151,7 +151,7 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.ViewModels
         /// <summary>
         /// Sets and gets the ID of the sample selected in samples ComboBox of selected session.
         /// </summary>
-        public UInt32 selectedSampleID_old
+        public uint selectedSampleID_old
         {
             set
             {
@@ -160,7 +160,7 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.ViewModels
             }
             get { return _selectedSampleID_old; }
         }
-        private UInt32 _selectedSampleID_old;
+        private uint _selectedSampleID_old;
 
 
         // TODO : IMPORTANT => why the ID is string ? should not it be UInt32 ?
@@ -306,8 +306,6 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.ViewModels
         public DataGrid SetsInDetails { set; get; }
         internal PlotData plotData { set; get; }
 
-
-
         public void UpdateSessionsSummary()
         {
             foreach (var session in sessions)
@@ -318,7 +316,6 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.ViewModels
                     sessionsSummary.Add(new SessionSummary(session.Key, session.Value.index, session.Key));
                 }
         }
-
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected void NotifyPropertyChanged(string name)
@@ -333,11 +330,20 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.ViewModels
                 if (name == "selectedER") { } // plot the ER genome browser
                 if (name == "plotType") plotData.Update(plotType);
                 if (name == "hAxisBinWidth") plotData.Update(hAxisBinWidth);
-                if (name == "selectedAnalysisResult") plotData.Update(selectedAnalysisResult);
+                if (name == "selectedAnalysisResult")
+                {
+                    _selectedER = null;
+                    plotData.Update(selectedAnalysisResult);
+                }
                 if (name == "selectedER" && selectedER != null)
+                {
+                    ApplicationViewModel.Default.plotRadioButtons.GenomeBrowser = true;
                     plotData.Update(selectedER, Convert.ToUInt32(selectedSampleID), selectedChr, genomeBrowserDictomies, genomeBrowserIncludeGenes, genomeBrowserIncludeGeneralFeatures);
+                }
                 if (name == "selectedSession") // Then update Di3.
                 {
+                    _selectedER = null;
+
                     di3.Update(
                         selectedSession,
                         (from f in ApplicationViewModel.Default.cachedFeaturesSummary

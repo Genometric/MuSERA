@@ -79,6 +79,8 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.Functions.Plots
             while (_chartPlotter.Children.Count > 12)
                 _chartPlotter.Children.RemoveAt(_chartPlotter.Children.Count - 1);
 
+            if (_selectedER == null) return;
+
             try
             {
                 _YAxis.Reset();
@@ -334,7 +336,7 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.Functions.Plots
                 pointsDS.SetXMapping(x => x.x);
                 pointsDS.SetYMapping(y => y.y);
                 pointsDS.AddMapping(CircleElementPointMarker.ToolTipTextProperty,
-                    t => string.Format("Start : {0}\nStop : {1}\nRefSeqID : {0}\nGene Symbol : {1}", t.left.ToString(), t.right.ToString(), t.refSeqID.ToString(), t.officialGeneSymbol.ToString()));
+                    t => string.Format("Start : {0}\nStop : {1}\nRefSeqID : {2}\nGene Symbol : {3}", t.left.ToString(), t.right.ToString(), t.refSeqID.ToString(), t.officialGeneSymbol.ToString()));
 
                 Pen pen = new Pen();
                 pen.Brush = _plotOptions.ColorGenesLine;

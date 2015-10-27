@@ -75,7 +75,7 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.Views
         /// will be used to assign column numbers to each of the 
         /// essential fields.
         /// </summary>
-        private string[] _fileSchema = new string[] { "chrom", "start", "stop", "name", "p-value", "pass", "pass", "pass", "pass", "pass", "pass", "pass" };
+        private string[] _fileSchema = new string[] { "chr", "start", "stop", "name", "p-value", "pass", "pass", "pass", "pass", "pass", "pass", "pass" };
 
         private Dictionary<Genomes, GenomeAssemblies.GenomeInfo> _genomeInfo { set; get; }
 
@@ -306,9 +306,9 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.Views
 
             _fileSchema = null;
             if (MidPointAsSummit.IsChecked == true)
-                _fileSchema = new string[] { "chrom", "start", "stop", "name", "p-value", "pass", "pass", "pass", "pass", "pass", "pass", "pass" };
+                _fileSchema = new string[] { "chr", "start", "stop", "name", "p-value", "pass", "pass", "pass", "pass", "pass", "pass", "pass" };
             else
-                _fileSchema = new string[] { "chrom", "start", "stop", "name", "p-value", "summit", "pass", "pass", "pass", "pass", "pass", "pass" };
+                _fileSchema = new string[] { "chr", "start", "stop", "name", "p-value", "summit", "pass", "pass", "pass", "pass", "pass", "pass" };
 
             UpdateFieldTitlesWithFileSchema();
         }
@@ -319,7 +319,7 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.Views
             MidPointAsSummit.IsEnabled = false;
 
             _fileSchema = null;
-            _fileSchema = new string[] { "refseq.ID", "gene.symb", "chrom", "pass", "start", "stop", "pass", "pass", "pass", "pass", "pass", "pass" };
+            _fileSchema = new string[] { "refseq.ID", "gene.symb", "chr", "pass", "start", "stop", "pass", "pass", "pass", "pass", "pass", "pass" };
 
             UpdateFieldTitlesWithFileSchema();
         }
@@ -330,20 +330,20 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.Views
             MidPointAsSummit.IsEnabled = false;
 
             _fileSchema = null;
-            _fileSchema = new string[] { "chrom", "pass", "feature", "start", "stop", "pass", "pass", "pass", "attribute", "pass", "pass", "pass" };
+            _fileSchema = new string[] { "chr", "pass", "feature", "start", "stop", "pass", "pass", "pass", "attribute", "pass", "pass", "pass" };
 
             UpdateFieldTitlesWithFileSchema();
         }
 
         private void MidPointAsSummit_Checked(object sender, RoutedEventArgs e)
         {
-            _fileSchema = new string[] { "chrom", "start", "stop", "name", "p-value", "pass", "pass", "pass", "pass", "pass", "pass", "pass" };
+            _fileSchema = new string[] { "chr", "start", "stop", "name", "p-value", "pass", "pass", "pass", "pass", "pass", "pass", "pass" };
             UpdateFieldTitlesWithFileSchema();
         }
 
         private void MidPointAsSummit_Unchecked(object sender, RoutedEventArgs e)
         {
-            _fileSchema = new string[] { "chrom", "start", "stop", "name", "p-value", "summit", "pass", "pass", "pass", "pass", "pass", "pass" };
+            _fileSchema = new string[] { "chr", "start", "stop", "name", "p-value", "summit", "pass", "pass", "pass", "pass", "pass", "pass" };
             UpdateFieldTitlesWithFileSchema();
         }
 
@@ -423,7 +423,7 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.Views
                 {
                     switch (_fileSchema[i])
                     {
-                        case "chrom": runKey.chrColumn = i; break;
+                        case "chr": runKey.chrColumn = i; break;
                         case "start": runKey.leftColumn = i; break;
                         case "stop": runKey.rightColumn = i; break;
                         case "name": runKey.nameColumn = i; break;
@@ -438,7 +438,7 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.Views
                 {
                     switch (_fileSchema[i])
                     {
-                        case "chrom": runKey.chrColumn = i; break;
+                        case "chr": runKey.chrColumn = i; break;
                         case "start": runKey.leftColumn = i; break;
                         case "stop": runKey.rightColumn = i; break;
                         case "refseq.ID": runKey.refseqIDColum = i; break;
@@ -452,7 +452,7 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.Views
                 {
                     switch (_fileSchema[i])
                     {
-                        case "chrom": runKey.chrColumn = i; break;
+                        case "chr": runKey.chrColumn = i; break;
                         case "start": runKey.leftColumn = i; break;
                         case "stop": runKey.rightColumn = i; break;
                         case "feature": runKey.featureColumn = i; break;
@@ -1206,7 +1206,7 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.Views
             {
                 switch (Inquire_Key)
                 {
-                    case "chrom":
+                    case "chr":
                         string[] splitted_chromosome_number = ((string)obj).Split('r');
                         int chr_number = 0;
 

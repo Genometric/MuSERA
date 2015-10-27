@@ -51,7 +51,7 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.Functions.Plots
         internal void Update(SortedDictionary<double, double> ERToFeatureDistances, PlotType plotOption)
         {
             this.ERToFeatureDistances = ERToFeatureDistances;
-            this.plotType = plotOption;
+            plotType = plotOption;
             Update();
         }
         internal void Update(AnalysisResult<Interval<int, MChIPSeqPeak>, MChIPSeqPeak>.ProcessedER selectedER, UInt32 selectedERSampleID, string selectedChr, int dichotomies, bool includeGenes, bool includeGeneralFeatures)
@@ -67,10 +67,12 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.Functions.Plots
         }
         internal void Update(Session<Interval<int, MChIPSeqPeak>, MChIPSeqPeak> selectedSession)
         {
+            selectedER = null;
             this.selectedSession = selectedSession;
         }
         internal void Update(AnalysisResult<Interval<int, MChIPSeqPeak>, MChIPSeqPeak> selectedAnalysisResult)
         {
+            selectedER = null;
             this.selectedAnalysisResult = selectedAnalysisResult;
             Update();
         }

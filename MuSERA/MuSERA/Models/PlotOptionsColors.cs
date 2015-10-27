@@ -64,13 +64,13 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.Models
             ColorClassificationsMarker = new Dictionary<ERClassificationType, SolidColorBrush>();
             ColorClassificationsMarker.Add(ERClassificationType.Input, new SolidColorBrush(Color.FromArgb(255, 30, 144, 255)));
             ColorClassificationsMarker.Add(ERClassificationType.Stringent, new SolidColorBrush(Color.FromArgb(255, 34, 139, 34)));
-            ColorClassificationsMarker.Add(ERClassificationType.Weak, new SolidColorBrush(Color.FromArgb(255, 255, 255, 0)));
+            ColorClassificationsMarker.Add(ERClassificationType.Weak, new SolidColorBrush(Color.FromArgb(255, 250, 218, 5)));
             ColorClassificationsMarker.Add(ERClassificationType.Background, new SolidColorBrush(Color.FromArgb(255, 255, 0, 0)));
             ColorClassificationsMarker.Add(ERClassificationType.Confirmed, new SolidColorBrush(Color.FromArgb(255, 70, 255, 0)));
             ColorClassificationsMarker.Add(ERClassificationType.Discarded, new SolidColorBrush(Color.FromArgb(255, 255, 70, 0)));
             ColorClassificationsMarker.Add(ERClassificationType.StringentConfirmed, new SolidColorBrush(Color.FromArgb(255, 0, 100, 0)));
             ColorClassificationsMarker.Add(ERClassificationType.StringentDiscarded, new SolidColorBrush(Color.FromArgb(255, 255, 20, 147)));
-            ColorClassificationsMarker.Add(ERClassificationType.WeakConfirmed, new SolidColorBrush(Color.FromArgb(255, 0, 250, 154)));
+            ColorClassificationsMarker.Add(ERClassificationType.WeakConfirmed, new SolidColorBrush(Color.FromArgb(255, 0, 200, 75)));
             ColorClassificationsMarker.Add(ERClassificationType.WeakDiscarded, new SolidColorBrush(Color.FromArgb(255, 255, 69, 0)));
             ColorClassificationsMarker.Add(ERClassificationType.Output, new SolidColorBrush(Color.FromArgb(255, 120, 230, 0)));
             ColorClassificationsMarker.Add(ERClassificationType.TruePositive, new SolidColorBrush(Color.FromArgb(255, 124, 252, 0)));

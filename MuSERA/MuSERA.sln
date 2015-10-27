@@ -9,9 +9,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Warehouse", "Warehouse\Ware
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{498662D0-06FD-4661-BBD4-6A4211370B50}"
 	ProjectSection(SolutionItems) = preProject
+		Libraries\DI3.dll = Libraries\DI3.dll
 		Libraries\DynamicDataDisplay.Controls.dll = Libraries\DynamicDataDisplay.Controls.dll
 		Libraries\DynamicDataDisplay.Controls.xml = Libraries\DynamicDataDisplay.Controls.xml
 		Libraries\DynamicDataDisplay.dll = Libraries\DynamicDataDisplay.dll
+		Libraries\DynamicDataDisplay.resources.dll = Libraries\DynamicDataDisplay.resources.dll
 		Libraries\GIFP.dll = Libraries\GIFP.dll
 		Libraries\GIFP.pdb = Libraries\GIFP.pdb
 		Libraries\IGenomics.dll = Libraries\IGenomics.dll

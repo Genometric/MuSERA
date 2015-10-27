@@ -53,7 +53,7 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>icon.ico</ApplicationIcon>
+    <ApplicationIcon>Icons\icon.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject>MuSERA.App</StartupObject>
@@ -67,6 +67,7 @@
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>
   </PropertyGroup>
+  <PropertyGroup />
   <PropertyGroup>
     <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
   </PropertyGroup>
@@ -81,7 +82,7 @@
       <HintPath>..\Libraries\DynamicDataDisplay.Controls.dll</HintPath>
     </Reference>
     <Reference Include="DynamicDataDisplay.resources">
-      <HintPath>..\Libraries\ru-ru\DynamicDataDisplay.resources.dll</HintPath>
+      <HintPath>..\Libraries\DynamicDataDisplay.resources.dll</HintPath>
     </Reference>
     <Reference Include="GIFP">
       <HintPath>..\Libraries\GIFP.dll</HintPath>
@@ -297,6 +298,7 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include="Properties\app.manifest" />
     <None Include="Properties\Settings.settings">
@@ -307,9 +309,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="icon.ico" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Analyzer\Analyzer.csproj">
