@@ -417,7 +417,7 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.Views
 
             runKey.startOffset = byte.Parse(Off_Set_Line_TB.Text);
             runKey.summitColumn = -1;
-            if (ChIP_seq_Assays_RB.IsChecked == true)
+            if (Assays_RB.IsChecked == true)
             {
                 for (byte i = 0; i < _fileSchema.Length; i++)
                 {
@@ -467,7 +467,7 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.Views
                 runKey.pValueConversion = pValueFormat.minus10_Log10_pValue;
             else runKey.pValueConversion = pValueFormat.minus1_Log10_pValue;
             if (No_p_Value_C1.IsChecked == true) runKey.dropIfNopValue = true; else runKey.dropIfNopValue = false;
-            if (ChIP_seq_Assays_RB.IsChecked == true) runKey.inputType = ParserOptions.InputType.ChIPseqAssays;
+            if (Assays_RB.IsChecked == true) runKey.inputType = ParserOptions.InputType.ChIPseqAssays;
             else if (Refseq_genes_RB.IsChecked == true) runKey.inputType = ParserOptions.InputType.RefseqGene;
             else if (General_Feature__RB.IsChecked == true) runKey.inputType = ParserOptions.InputType.GeneralFeatures;
 

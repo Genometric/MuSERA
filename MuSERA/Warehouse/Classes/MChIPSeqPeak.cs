@@ -14,7 +14,7 @@ using System;
 namespace Polimi.DEIB.VahidJalili.MuSERA.Warehouse
 {
     /// <summary>
-    /// Metadata : ChIP-Seq er.
+    /// Metadata : Enriched Region.
     /// </summary>
     public class MChIPSeqPeak : IChIPSeqPeak, IComparable<MChIPSeqPeak>
     {

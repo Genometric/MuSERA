@@ -363,14 +363,13 @@
                 </Grid>
                 <Grid x:Name="Grid_AR" HorizontalAlignment="Left" Height="90" VerticalAlignment="Top" Width="482" IsEnabled="False" Background="#FF329BFF" Margin="487,0,0,0">
                     <Label x:Name="Sample_Contains_L" Content="Sample Contains" Margin="97,20,0,0" VerticalAlignment="Top" RenderTransformOrigin="1.999,-0.189" Foreground="White" FontFamily="Candara" FontSize="18" FontWeight="Bold" HorizontalContentAlignment="Right" HorizontalAlignment="Left" Width="150"/>
-                    <RadioButton x:Name="ChIP_seq_Assays_RB" Content="ChIP-seq Assays" Margin="252,18,0,0" VerticalAlignment="Top" Foreground="White" FontFamily="Candara" FontSize="14" TabIndex="2" IsChecked="True" Checked="ChIPseqAssays_Checked" HorizontalAlignment="Left" Width="119"/>
-                    <RadioButton x:Name="Refseq_genes_RB" Content="RefSeqGene" HorizontalAlignment="Left" Margin="252,40,0,0" VerticalAlignment="Top" Foreground="White" FontFamily="Candara" FontSize="14" Width="103" TabIndex="3" Checked="RefseqGenes_Checked"/>
+                    <RadioButton x:Name="Assays_RB" Content="Assays" Margin="252,18,0,0" VerticalAlignment="Top" Foreground="White" FontFamily="Candara" FontSize="14" TabIndex="2" IsChecked="True" Checked="ChIPseqAssays_Checked" HorizontalAlignment="Left" Width="119"/>
+                    <RadioButton x:Name="Refseq_genes_RB" Content="RefSeqGenes" HorizontalAlignment="Left" Margin="252,40,0,0" VerticalAlignment="Top" Foreground="White" FontFamily="Candara" FontSize="14" Width="103" TabIndex="3" Checked="RefseqGenes_Checked"/>
                     <RadioButton x:Name="General_Feature__RB" Content="General Features" HorizontalAlignment="Left" Margin="252,62,0,0" VerticalAlignment="Top" Foreground="White" FontFamily="Candara" FontSize="14" Width="119" TabIndex="3" Checked="General_Feature__RB_Checked"/>
                 </Grid>
             </Grid>
         </ScrollViewer>
         <ProgressBar x:Name="CurrentSample_PB" HorizontalAlignment="Left" Height="22" Margin="223,0,0,66" VerticalAlignment="Bottom" Width="348" SmallChange="0.01"/>
         <ProgressBar x:Name="OverallProcess_PB" HorizontalAlignment="Left" Height="22" Margin="223,0,0,28" VerticalAlignment="Bottom" Width="348" SmallChange="0.01"/>
-
     </Grid>
 </Window>
