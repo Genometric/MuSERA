@@ -54,10 +54,10 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.ViewModels
             _runTimer.Interval = new TimeSpan(0, 0, 0, 0, 1);
         }
 
+        private BatchOptions _batchOptions;
         private RichTextBox _batchConsole { set; get; }
         private Paragraph _paragraph { set; get; }
         private FlowDocument _flowDocument { set; get; }
-        private BatchOptions _batchOptions { set; get; }
         public ICommand BatchLoadRun { set; get; }
         public ICommand BrowseAtJob { set; get; }
         public ICommand CreatSampleAtJobXML { set; get; }
@@ -65,6 +65,7 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.ViewModels
         public ICommand SetAtBatchCompletionAction { set; get; }
 
         private DateTime _startTime;
+        private TimeSpan _tempDuration { set; get; }
         private DispatcherTimer _runTimer { set; get; }
         private Thread _thread { set; get; }
 
@@ -181,23 +182,35 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.ViewModels
             _paragraph.Inlines.Add("\n>\n>\n>  @ " + DateTime.Now.ToShortDateString() + " - " + DateTime.Now.ToLongTimeString() + "  :  " + "Process aborted by user");
             _flowDocument.Blocks.Add(_paragraph);
             _batchConsole.Document = _flowDocument;
-            _batchConsole.ScrollToEnd();
             _runTimer.Stop();
             isFree = true;
         }
         private void Execute()
         {
             var parser = new AtJobParser(atJobFileAbsolutePath);
-            _batchOptions = parser.Parse();
 
-            if (_batchOptions == null)
+            if (!parser.Parse(out _batchOptions))
             {
                 Application.Current.Dispatcher.Invoke((Action)(() =>
                 {
                     _paragraph.Inlines.Add("\n>  Invalid XML structure !");
                     _flowDocument.Blocks.Add(_paragraph);
                     _batchConsole.Document = _flowDocument;
+
+                    /// Why this command ?
+                    /// The AtJobParser shows an error message in a message box, 
+                    /// which takes the focus from MainWindow. The effect is, the
+                    /// visual effects are not applied till the user actually clicks
+                    /// somwwhere on the MainWindow. In other words, MainWindow is 
+                    /// out of focus after the error message box. To bring MainWindow
+                    /// to focus, I'm setting forcus to a UIElement of the window
+                    /// which implicitly brings the MainWindow in focus and hence
+                    /// the logics are applied. 
+                    _batchConsole.Focus();
                 }));
+
+                _runTimer.Stop();
+                isFree = true;
                 return;
             }
 
@@ -206,8 +219,13 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.ViewModels
 
             if (_batchOptions.sessions.Count == 0)
             {
-                Application.Current.Dispatcher.Invoke((
-                    () => { _paragraph.Inlines.Add("\n>  Selected at-Job doesn't contain any valid sessions"); }));
+                Application.Current.Dispatcher.Invoke((() =>
+                {
+                    _paragraph.Inlines.Add("\n>  Selected at-Job doesn't contain any valid sessions");                    
+                }));
+
+                _runTimer.Stop();
+                isFree = true;
                 return;
             }
 
@@ -217,7 +235,7 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.ViewModels
             {
                 prioritySliderIsEnabled = true;
                 _paragraph.Inlines.Add("\n>  " + _batchOptions.sessions.Count.ToString() + " valid session(s) determined");
-                _paragraph.Inlines.Add("\n>  @ " + DateTime.Now.ToShortDateString() + " - " + DateTime.Now.ToLongTimeString() + "  :  Process started");
+                _paragraph.Inlines.Add("\n>  @" + DateTime.Now.ToShortDateString() + " - " + DateTime.Now.ToLongTimeString() + "  :  Process started");
             }));
 
             using (ExecuteAtJob executer = new ExecuteAtJob(_batchOptions.plotOptions))
@@ -245,10 +263,13 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.ViewModels
         {
             switch (task)
             {
-                case OnBatchCompletionTask.NoThing: break; ;
+                case OnBatchCompletionTask.NoThing:
+                    _runTimer.Stop();
+                    isFree = true;
+                    break; ;
 
                 case OnBatchCompletionTask.ExitProgram:
-                    System.Environment.Exit(0);
+                    Environment.Exit(0);
                     break;
 
                 case OnBatchCompletionTask.ForceRebood:
@@ -283,12 +304,15 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.ViewModels
                         mboShutdown_FS = manObj.InvokeMethod("Win32Shutdown", mboShutdownParams_FS, null);
                     break;
             }
-            _runTimer.Stop();
-            isFree = true;
         }
         private void _runTimer_Tick(object sender, EventArgs e)
         {
-            ETLabelContent = DateTime.Now.Subtract(_startTime).Duration().ToString();
+            _tempDuration = DateTime.Now.Subtract(_startTime).Duration();
+            ETLabelContent = string.Format("{0} : {1} : {2} : {3}",
+                (_tempDuration.Hours < 10 ? "0" + _tempDuration.Hours.ToString() : _tempDuration.Hours.ToString()),
+                (_tempDuration.Minutes < 10 ? "0" + _tempDuration.Minutes.ToString() : _tempDuration.Minutes.ToString()),
+                (_tempDuration.Seconds < 10 ? "0" + _tempDuration.Seconds.ToString() : _tempDuration.Seconds.ToString()),
+                Math.Round(_tempDuration.Milliseconds % 100.0));
         }
 
 

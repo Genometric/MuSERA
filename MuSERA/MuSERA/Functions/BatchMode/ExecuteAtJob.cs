@@ -103,6 +103,7 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.Functions.BatchMode
             _chartPlotter.Children.Add(_chartPlotterHeader);
 
             int counter = 0;
+            int errorCounter = 0;
             foreach (var session in _batchOptions.sessions)
             {
                 Status = "Processing Session  " + (++counter).ToString() + " \\ " + _batchOptions.sessions.Count.ToString() + "\t:\t" + session.title;
@@ -113,6 +114,7 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.Functions.BatchMode
                 {
                     Status = string.Format("Error in loading sample(s) ! {0}", e.Message);
                     Status = "Session is skipped !";
+                    errorCounter++;
                     continue;
                 }
                 Status = "\t\tLoad completed ; " + session.samples.Count.ToString() + " samples are loaded";
@@ -129,6 +131,7 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.Functions.BatchMode
                 {
                     Status = string.Format("Error in analyzing samples ! {0}", e.Message);
                     Status = "Session is skipped !";
+                    errorCounter++;
                     continue;
                 }
                 Status = "\t\tAnalysis completed";
@@ -140,6 +143,7 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.Functions.BatchMode
                 {
                     Status = string.Format("Error in saving results ! {0}", e.Message);
                     Status = "Session is skipped !";
+                    errorCounter++;
                     continue;
                 }
                 Status = "\t\tSave completed";
@@ -151,6 +155,7 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.Functions.BatchMode
                 {
                     Status = string.Format("Error in plotting ! {0}", e.Message);
                     Status = "Session is skipped !";
+                    errorCounter++;
                     continue;
                 }
                 Status = "\t\tPlotting completed";
@@ -162,12 +167,16 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.Functions.BatchMode
                 {
                     Status = string.Format("Error in exporting log ! {0}", e.Message);
                     Status = "Session is skipped !";
+                    errorCounter++;
                     continue;
                 }
                 Status = "\t\tLog added";
             }
 
-            Status = "at-Job process completed";
+            if (errorCounter == 0)
+                Status = "at-Job process completed successfully.";
+            else
+                Status = string.Format("at-Job process completed with {0} error{1}", errorCounter, (errorCounter == 1 ? "" : "s"));
         }
         private void LoadSamples(AtJobSession session)
         {
@@ -231,6 +240,7 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.Functions.BatchMode
 
             analyzer.Run(session.analysisOptions);
             _currentSession.analysisResults = analyzer.GetResults();
+            _currentSession.mergedReplicates = analyzer.GetMergedReplicates();
             _currentSession.elapsedTime = DateTime.Now.Subtract(startTime).ToString();
             _currentSession.status = "Completed.";
             _currentSession.isCompleted = true;

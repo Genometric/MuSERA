@@ -28,6 +28,8 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.Exporter
         public string samplePath { set; get; }
         protected string sessionPath { set; get; }
         protected bool includeBEDHeader { set; get; }
+        protected Session<Peak, Metadata> session { set; get; }
+        protected Dictionary<uint, AnalysisResult<Peak, Metadata>> analysisResults { set; get; }        
         protected Dictionary<uint, string> samples { set; get; }
         protected AnalysisResult<Peak, Metadata> data { set; get; }
         protected void Export_Overview(FlowDocument overview)
@@ -562,6 +564,28 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.Exporter
 
                 writer.WriteEndElement();
                 writer.WriteEndDocument();
+            }
+        }
+        protected void Export__MergedReps()
+        {
+            using (File.Create(sessionPath + Path.DirectorySeparatorChar + "MergedReplicates.bed")) { }
+            using (StreamWriter writter = new StreamWriter(sessionPath + Path.DirectorySeparatorChar + "MergedReplicates.bed"))
+            {
+                if (includeBEDHeader)
+                    writter.WriteLine("chr\tstart\tstop\tname\tX-squared");
+
+                foreach (var chr in session.mergedReplicates)
+                {
+                    foreach (var item in chr.Value)
+                    {
+                        writter.WriteLine(
+                            chr.Key + "\t" +
+                            item.left.ToString() + "\t" +
+                            item.right.ToString() + "\t" +
+                            item.metadata.name + "\t" +
+                            Math.Round(item.metadata.value, 3));
+                    }
+                }
             }
         }
         private string ConvertPValue(double pValue)

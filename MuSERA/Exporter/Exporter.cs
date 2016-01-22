@@ -11,7 +11,6 @@
 using Polimi.DEIB.VahidJalili.IGenomics;
 using Polimi.DEIB.VahidJalili.MuSERA.Warehouse;
 using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 
@@ -23,7 +22,7 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.Exporter
     {
         public Exporter(Session<Peak, Metadata> session)
         {
-            _session = session;
+            this.session = session;
         }
 
         public int fileProgress
@@ -59,15 +58,12 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.Exporter
             if (SampleProgressChanged != null)
                 SampleProgressChanged(this, new ExporterEventArgs(value));
         }
-
-
-        private Dictionary<uint, AnalysisResult<Peak, Metadata>> _analysisResults { set; get; }
-        private Session<Peak, Metadata> _session { set; get; }
+        
 
         public void Export(ExportOptions options)
         {
-            _analysisResults = _session.analysisResults;
-            samples = _session.samples;
+            analysisResults = session.analysisResults;
+            samples = session.samples;
             includeBEDHeader = options.includeBEDHeader;
             sessionPath = options.sessionPath;
 
@@ -75,24 +71,26 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.Exporter
                 Directory.CreateDirectory(sessionPath);
 
             string date =
-                DateTime.Now.Date.ToString("dd'_'MM'_'yyyy", CultureInfo.InvariantCulture) +
-                "_h" + DateTime.Now.TimeOfDay.Hours.ToString() +
-                "_m" + DateTime.Now.TimeOfDay.Minutes.ToString() +
-                "_s" + DateTime.Now.TimeOfDay.Seconds.ToString() + "__";
+                DateTime.Now.Date.ToString("yyyyMMdd", CultureInfo.InvariantCulture) + "_" +
+                (DateTime.Now.TimeOfDay.Hours < 10 ? "0" : "") + DateTime.Now.TimeOfDay.Hours.ToString() +
+                (DateTime.Now.TimeOfDay.Minutes < 10 ? "0" : "") + DateTime.Now.TimeOfDay.Minutes.ToString() +
+                (DateTime.Now.TimeOfDay.Seconds < 10 ? "0" : "") + DateTime.Now.TimeOfDay.Seconds.ToString() + "__";
+
+            Export__MergedReps();
 
             foreach (var sample in samples)
             {
                 int duplicationExtension = 0;
                 fileProgress = 0;
                 sampleProgress++;
-                data = _analysisResults[sample.Key];
+                data = analysisResults[sample.Key];
 
                 samplePath = sessionPath + Path.DirectorySeparatorChar + date + Path.GetFileNameWithoutExtension(data.FileName);
                 while (Directory.Exists(samplePath))
                     samplePath = sessionPath + Path.DirectorySeparatorChar + Path.GetFileNameWithoutExtension(data.FileName) + "_" + (duplicationExtension++).ToString();
                 Directory.CreateDirectory(samplePath);
 
-                Export_Overview(_session.Overview(sample.Key));
+                Export_Overview(session.Overview(sample.Key));
                 if (options.Export_R_j__o_BED) { fileProgress++; Export__R_j__o_BED(); }
                 if (options.Export_R_j__o_XML) { fileProgress++; Export__R_j__o_XML(); }
                 if (options.Export_R_j__s_BED) { fileProgress++; Export__R_j__s_BED(); }

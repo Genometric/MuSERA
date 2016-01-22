@@ -54,7 +54,6 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.ViewModels
             FunctionalAnalyzeCommand = new FunctionalAnalyzeCommand();
             NNDCommand = new NNDCommand();
             SaveCommand = new SaveCommand(_uiElementBlurEffect);
-            ChangeSampleColorCommand = new ChangeSampleColorCommand();
         }
 
 
@@ -99,7 +98,6 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.ViewModels
         public ICommand ChangeSelectedERCommand { private set; get; }
         public ICommand FunctionalAnalyzeCommand { private set; get; }
         public ICommand NNDCommand { private set; get; }
-        public ICommand ChangeSampleColorCommand { private set; get; }
 
         private void plotRadioButtons_TypeChanged(object sender, PlotTypeEventArgs e)
         {

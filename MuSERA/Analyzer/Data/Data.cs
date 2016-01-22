@@ -20,18 +20,20 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.Analyzer
 {
     internal class Data<Peak, Metadata>
         where Peak : IInterval<int, Metadata>, IComparable<Peak>, new()
-        where Metadata : IChIPSeqPeak, new()
+        where Metadata : IChIPSeqPeak, IComparable<Metadata>, new()
     {
         public Data()
         {
             samples = new Dictionary<uint, ParsedChIPseqPeaks<int, Peak, Metadata>>();
             trees = new Dictionary<uint, Dictionary<string, IntervalTree<Peak, int>>>();
             analysisResults = new Dictionary<uint, AnalysisResult<Peak, Metadata>>();
+            mergedReplicates = new Dictionary<string, SortedList<Interval, Peak>>();
             cachedChiSqrd = new List<double>();
         }
         internal Dictionary<uint, ParsedChIPseqPeaks<int, Peak, Metadata>> samples { set; get; }
         internal Dictionary<uint, Dictionary<string, IntervalTree<Peak, int>>> trees { set; get; }
         internal Dictionary<uint, AnalysisResult<Peak, Metadata>> analysisResults { set; get; }
+        internal Dictionary<string, SortedList<Interval, Peak>> mergedReplicates { set; get; }
         internal List<double> cachedChiSqrd { set; get; }
         internal void BuildSharedItems()
         {

@@ -21,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -29,6 +30,8 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="GIFP">
@@ -52,6 +55,7 @@
   <ItemGroup>
     <Compile Include="Analyzer.cs" />
     <Compile Include="Classes\AnalyzerEventArgs.cs" />
+    <Compile Include="Classes\Interval.cs" />
     <Compile Include="Classes\Progress.cs" />
     <Compile Include="Comparers\CompareByValue.cs" />
     <Compile Include="Data\Data.cs" />

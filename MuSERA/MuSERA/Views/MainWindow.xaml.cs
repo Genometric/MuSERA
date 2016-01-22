@@ -115,6 +115,20 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.Views
                 Back_BT.Visibility = Visibility.Visible;
             }
         }
+        private void CachedSamplesDGColor_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            var summary = (CachedDataSummary)CachedSamplesDG.SelectedItem;
+            var dialog = new System.Windows.Forms.ColorDialog();
+            dialog.AllowFullOpen = true;
+            dialog.AnyColor = true;
+            dialog.FullOpen = true;
+            if (dialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                string colorCode = System.Drawing.ColorTranslator.ToHtml(dialog.Color);
+                summary.color = new SolidColorBrush((Color)ColorConverter.ConvertFromString(colorCode));
+                ApplicationViewModel.Default.sessionsViewModel.plotData.plotOptions.SampleColor[summary.fileHashKey] = summary.color;
+            }
+        }
         private void CachedFeaturesDG_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             if (CachedFeaturesDG != null && CachedFeaturesDG.SelectedIndex != -1)
@@ -289,27 +303,27 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.Views
             {
                 case 0:
                     Priority_L1.FontWeight = FontWeights.ExtraBold;
-                    paragraph.Inlines.Add("Program will be most responsive, while batch running process will be slow");
+                    paragraph.Inlines.Add("The interactive mode is most responsive, while batch execution runs at lowest speed.");
                     break;
 
                 case 1:
                     Priority_L2.FontWeight = FontWeights.ExtraBold;
-                    paragraph.Inlines.Add("Program will be relatively responsive, while batch running process will be a bit slow");
+                    paragraph.Inlines.Add("The interactive mode runs relatively responsive, while batch execution runs at low speed.");
                     break;
 
                 case 2:
                     Priority_L3.FontWeight = FontWeights.ExtraBold;
-                    paragraph.Inlines.Add("The response time of program, and the speed of batch running process will be in balance");
+                    paragraph.Inlines.Add("Response time of the interactive mode, and batch execution speed are balance.");
                     break;
 
                 case 3:
                     Priority_L4.FontWeight = FontWeights.ExtraBold;
-                    paragraph.Inlines.Add("Batch running process will be relatively fast, while program will be a bit laggy");
+                    paragraph.Inlines.Add("Batch running process executes relatively faster, while the interactive mode is laggy.");
                     break;
 
                 case 4:
                     Priority_L5.FontWeight = FontWeights.ExtraBold;
-                    paragraph.Inlines.Add("Batch running process will be at highest speed, while the program becomes laggiest");
+                    paragraph.Inlines.Add("Batch running process executes at highest speed, while the interactive mode is laggiest.");
                     break;
             }
 

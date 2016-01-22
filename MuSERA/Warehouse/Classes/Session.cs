@@ -31,6 +31,8 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.Warehouse
         public string elapsedTime { set; get; }
         public AnalysisOptions options { set; get; }
         public Dictionary<uint, AnalysisResult<ER, Metadata>> analysisResults { set; get; }
+        public Dictionary<string, List<ER>> mergedReplicates { set; get; }
+        
 
         public string status
         {
@@ -115,7 +117,7 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.Warehouse
             Paragraph paragraph = new Paragraph();
 
             paragraph.Inlines.Add("\nProcess started at :\n");
-            paragraph.Inlines.Add(startTime.ToLongDateString() + " @\n" + startTime.ToLongTimeString() + "\n");
+            paragraph.Inlines.Add(startTime.ToLongDateString() + "\n" + startTime.ToLongTimeString() + "\n");
 
             if (elapsedTime == null)
                 switch (status)
@@ -136,7 +138,7 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.Warehouse
 
             int counter = 0;
             foreach (var sample in samples)
-                paragraph.Inlines.Add("\n\n" + (++counter).ToString() + " : " + sample.Value);
+                paragraph.Inlines.Add("\n\n" + (++counter).ToString() + ": " + sample.Value);
 
             FlowDocument flowDocument = new FlowDocument();
             flowDocument.Blocks.Add(paragraph);

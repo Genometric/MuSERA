@@ -30,39 +30,39 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.Functions.BatchMode
 
         private string _file { set; get; }
 
-        public BatchOptions Parse()
+        public bool Parse(out BatchOptions options)
         {
-            var rtv = new BatchOptions();
+            options = new BatchOptions();
             var document = new XmlDocument();
-            document.Load(_file);
 
             try
             {
+                document.Load(_file);
                 foreach (XmlNode childNode in document.DocumentElement.ChildNodes)
                 {
                     switch (childNode.Name)
                     {
                         case "Plot":
-                            rtv.plotOptions = ParsePlotInformation(childNode);
+                            options.plotOptions = ParsePlotInformation(childNode);
                             break;
 
                         case "LogFile":
-                            rtv.logFile = ParseLogFileInformation(childNode);
+                            options.logFile = ParseLogFileInformation(childNode);
                             break;
 
                         case "Session":
                             // A session should have a title.
                             if (childNode.Attributes == null || childNode.Attributes.Count == 0) continue;
-                            if (rtv.sessions == null) rtv.sessions = new List<AtJobSession>();
-                            rtv.sessions.Add(ParseLoadAndAnalysisInformation(childNode));
+                            if (options.sessions == null) options.sessions = new List<AtJobSession>();
+                            options.sessions.Add(ParseLoadAndAnalysisInformation(childNode));
                             break;
                     }
                 }
 
-                if (rtv.plotOptions == null || rtv.logFile == null || rtv.sessions == null)
+                if (options.plotOptions == null || options.logFile == null || options.sessions == null)
                     throw new Exception();
 
-                return rtv;
+                return true;
             }
             catch (Exception e)
             {
@@ -71,7 +71,7 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.Functions.BatchMode
                     "\nAlternatively, you may use the provided template to create your desired at-job in correct format." +
                     "\nPlease retry having validated the file structure",
                     "Invalid XML structure", MessageBoxButton.OK, MessageBoxImage.Error);
-                return null;
+                return false;
             }
         }
         private BatchPlotOptions ParsePlotInformation(XmlNode parent)
@@ -358,6 +358,13 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.Functions.BatchMode
                                 case "p-value Conversion Option":
                                     switch (setter.Attributes[1].Value.Trim().ToLower())
                                     {
+                                        case "-100 x log10 (p-value)":
+                                        case "-100 * log10 (p-value)":
+                                        case "-100xlog10(p-value)":
+                                        case "-100*log10(p-value)":
+                                            parserParameters.pValueConversion = pValueFormat.minus100_Log10_pValue;
+                                            break;
+
                                         case "-10 x log10 (p-value)":
                                         case "-10 * log10 (p-value)":
                                         case "-10xlog10(p-value)":
@@ -417,6 +424,7 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.Functions.BatchMode
                 writer.WriteStartDocument();
                 writer.WriteStartElement("atJob", "Polimi.DEIB.VahidJalili.MuSERA");
                 writer.WriteComment("Note: Labels are case sensitive.");
+                writer.WriteComment("Note: The path should be \"absolute path\" (not relative)");
 
                 writer.WriteStartElement("Plot");
                 #region .::.   Width                            .::.
@@ -671,6 +679,7 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.Functions.BatchMode
                 writer.WriteComment("1: none");
                 writer.WriteComment("2: [-1 x log10 (p-value)], or [-1 * log10 (p-value)], or [-1xlog10(p-value)], or [-1*log10(p-value)]");
                 writer.WriteComment("3: [-10 x log10 (p-value)], or [-10 * log10 (p-value)], or [-10xlog10(p-value)], or [-10*log10(p-value)]");
+                writer.WriteComment("4: [-100 x log10 (p-value)], or [-100 * log10 (p-value)], or [-100xlog10(p-value)], or [-100*log10(p-value)]");
                 #endregion
                 writer.WriteEndElement();
                 writer.WriteEndElement();
@@ -869,6 +878,7 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.Functions.BatchMode
                 writer.WriteComment("1: none");
                 writer.WriteComment("2: [-1 x log10 (p-value)], or [-1 * log10 (p-value)], or [-1xlog10(p-value)], or [-1*log10(p-value)]");
                 writer.WriteComment("3: [-10 x log10 (p-value)], or [-10 * log10 (p-value)], or [-10xlog10(p-value)], or [-10*log10(p-value)]");
+                writer.WriteComment("4: [-100 x log10 (p-value)], or [-100 * log10 (p-value)], or [-100xlog10(p-value)], or [-100*log10(p-value)]");
                 #endregion
                 writer.WriteEndElement();
                 writer.WriteEndElement();

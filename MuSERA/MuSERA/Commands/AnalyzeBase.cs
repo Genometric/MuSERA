@@ -31,7 +31,7 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.Commands
             _analysisBGW.RunWorkerCompleted += _analysisBGW_RunWorkerCompleted;
             _timer = new DispatcherTimer();
             _timer.Tick += _timer_Tick;
-            _timer.Interval = new TimeSpan(0, 0, 0, 0, 100);
+            _timer.Interval = new TimeSpan(0, 0, 0, 0, 1);
             _analyzer = new Analyzer<Interval<int, MChIPSeqPeak>, MChIPSeqPeak>();
             _analyzer.StatusChanged += _analyzerStatusChanged;
         }
@@ -42,6 +42,7 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.Commands
         private string _currentSessionTitle { set; get; }
         private Session<Interval<int, MChIPSeqPeak>, MChIPSeqPeak> _currentSession { set; get; }
         private DateTime _startTime { set; get; }
+        private TimeSpan _tempDuration { set; get; }
         private DispatcherTimer _timer { set; get; }
         internal AnalysisOptions analysisOptions { set; get; }
         private BackgroundWorker _analysisBGW { set; get; }
@@ -90,6 +91,7 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.Commands
             _timer.Stop();
             ApplicationViewModel.Default.uiProperties.interactiveGUIState = InteractiveGUIState.AnalysisFinished;
             _currentSession.analysisResults = _analyzer.GetResults();
+            _currentSession.mergedReplicates = _analyzer.GetMergedReplicates();
             _currentSession.elapsedTime = DateTime.Now.Subtract(_startTime).ToString();
             _currentSession.status = "Completed.";
             _currentSession.isCompleted = true;
@@ -107,7 +109,12 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.Commands
         }
         private void _timer_Tick(object sender, EventArgs e)
         {
-            ApplicationViewModel.Default.uiProperties.analysisET = DateTime.Now.Subtract(_startTime).Duration().ToString();
+            _tempDuration = DateTime.Now.Subtract(_startTime).Duration();
+            ApplicationViewModel.Default.uiProperties.analysisET = string.Format("{0} : {1} : {2} : {3}",
+                (_tempDuration.Hours < 10 ? "0" + _tempDuration.Hours.ToString() : _tempDuration.Hours.ToString()),
+                (_tempDuration.Minutes < 10 ? "0" + _tempDuration.Minutes.ToString() : _tempDuration.Minutes.ToString()),
+                (_tempDuration.Seconds < 10 ? "0" + _tempDuration.Seconds.ToString() : _tempDuration.Seconds.ToString()),
+                Math.Round(_tempDuration.Milliseconds % 100.0));
         }
     }
 }

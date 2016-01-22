@@ -283,12 +283,23 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.Analyzer
             if (_tXsqrd >= Math.Abs(Options.defaultMaxLogOfPVvalue))
                 _tXsqrd = Math.Abs(Options.defaultMaxLogOfPVvalue);
         }
+        private void CalculateXsqrd(double A, double B)
+        {
+            _tXsqrd =
+                Math.Log((A == 0 ? Options.default0PValue : A), Math.E) +
+                Math.Log((B == 0 ? Options.default0PValue : B), Math.E);
+
+            _tXsqrd = _tXsqrd * (-2);
+            if (_tXsqrd >= Math.Abs(Options.defaultMaxLogOfPVvalue))
+                _tXsqrd = Math.Abs(Options.defaultMaxLogOfPVvalue);
+        }
+
 
         internal void IntermediateSetsPurification()
         {
             if (Options.replicateType == ReplicateType.Biological)
             {
-                // Performe : R_j__d = R_j__d \ { R_j__d intersection R_j__c }
+                // Performes : R_j__d = R_j__d \ { R_j__d intersection R_j__c }
 
                 foreach (var sample in _data.samples)
                 {
@@ -311,7 +322,7 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.Analyzer
             }
             else
             {
-                // Performe : R_j__c = R_j__c \ { R_j__c intersection R_j__d }
+                // Performes : R_j__c = R_j__c \ { R_j__c intersection R_j__d }
 
                 foreach (var sample in _data.samples)
                 {
@@ -368,11 +379,9 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.Analyzer
             }
         }
 
-        /// <summary>
-        /// Benjamini–Hochberg procedure (step-up procedure)
-        /// </summary>
         internal void EstimateFalseDiscoveryRate()
         {
+            /// Benjamini–Hochberg procedure (step-up procedure)
             foreach (var sample in _data.samples)
             {
                 foreach (var chr in _data.analysisResults[sample.Key].R_j__o)
@@ -415,6 +424,48 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.Analyzer
                     // Sorts output set using default comparer. 
                     // The default sorter gives higher priority to two ends than values. 
                     outputSet.Sort();
+                }
+            }
+        }
+
+        internal void CreateCombinedOutputSet()
+        {
+            var interval = new Interval();
+
+            foreach (var sample in _data.analysisResults)
+            {
+                foreach (var chr in sample.Value.R_j__o)
+                {
+                    if (!_data.mergedReplicates.ContainsKey(chr.Key))
+                        _data.mergedReplicates.Add(chr.Key, new SortedList<Interval, Peak>());
+
+                    foreach (var outputER in chr.Value)
+                    {
+                        var peak = outputER.er;
+                        interval.left = peak.left;
+                        interval.right = peak.right;
+
+                        Peak mergedPeak;
+                        Peak mergingPeak = new Peak();
+                        mergingPeak.left = peak.left;
+                        mergingPeak.right = peak.right;
+                        mergingPeak.metadata.value =
+                            (-2) * Math.Log((peak.metadata.value == 0 ? Options.default0PValue : peak.metadata.value), Math.E);
+
+                        while (_data.mergedReplicates[chr.Key].TryGetValue(interval, out mergedPeak))
+                        {
+                            _data.mergedReplicates[chr.Key].Remove(interval);
+                            interval.Merge(mergedPeak.left, mergedPeak.right);
+                            mergingPeak.left = interval.left;
+                            mergingPeak.right = interval.right;
+                            mergingPeak.metadata.value += mergedPeak.metadata.value;
+                        }
+
+                        if (mergingPeak.metadata.value >= Math.Abs(Options.defaultMaxLogOfPVvalue))
+                            mergingPeak.metadata.value = Math.Abs(Options.defaultMaxLogOfPVvalue);
+
+                        _data.mergedReplicates[chr.Key].Add(interval, mergingPeak);
+                    }
                 }
             }
         }

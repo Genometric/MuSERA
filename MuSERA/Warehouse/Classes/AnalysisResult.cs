@@ -712,7 +712,7 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.Warehouse
             {
                 if (that == null) return 1;
 
-                return this.er.CompareTo(that.er);
+                return er.CompareTo(that.er);
             }
         }
         public class SupportingERs : IComparable<SupportingERs>

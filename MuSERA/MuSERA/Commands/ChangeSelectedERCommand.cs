@@ -30,8 +30,9 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.Commands
             if (((object[])parameter)[0] == null)
             {
                 MessageBox.Show(
-                    "You have not selected an ER to be displayed on Genome Browser.",
-                    "No ER",
+                    "You have not selected an ER to be displayed on Genome Browser.\n"+
+                    "Please select a chromosome and an ER.",
+                    "No enriched region is selected",
                     MessageBoxButton.OK,
                     MessageBoxImage.Information);
                 return false;

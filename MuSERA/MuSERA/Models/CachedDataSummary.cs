@@ -38,7 +38,6 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.Models
         }
         private SolidColorBrush _color;
 
-
         private bool _selected;
         public bool selected { set { _selected = value; NotifyPropertyChanged("selected"); } get { return _selected; } }
 

@@ -9,7 +9,7 @@
  * You should have received a copy of the GNU General Public License along with Foobar. If not, see http://www.gnu.org/licenses/.
  *
 -->
-    
+
 <Window x:Name="Root"
         x:Class="Polimi.DEIB.VahidJalili.MuSERA.Views.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -218,36 +218,36 @@
                                     <D3:HorizontalAxisTitle x:Name="HorizontalAxisTitle" Content=""/>
                                 </D3:ChartPlotter>
                                 <Grid x:Name="Resolutions_Grid" Height="24" Margin="10,5,10,0" VerticalAlignment="Top" Background="#FF32C8FF" MinWidth="645" Grid.Row="1">
-                                    <Label x:Name="Resolution_L" Content="Binnarization" HorizontalAlignment="Left" Margin="10,-1,0,0" VerticalAlignment="Top" FontSize="10" Width="62" Height="22" Foreground="White"/>
-                                    <RadioButton x:Name="Resolution_A" Content="No-bin" HorizontalAlignment="Left" Margin="96,4,0,0" VerticalAlignment="Top" IsChecked="True" FontSize="10" Foreground="White" TabIndex="3" Width="50">
+                                    <Label x:Name="Resolution_L" Content="Binnarization" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" FontSize="10" Width="68" Height="22" Foreground="White"/>
+                                    <RadioButton x:Name="Resolution_A" Content="No-bin" HorizontalAlignment="Left" Margin="96,5,0,0" VerticalAlignment="Top" IsChecked="True" FontSize="10" Foreground="White" TabIndex="3" Width="50">
                                         <i:Interaction.Triggers>
                                             <i:EventTrigger EventName="Checked">
                                                 <i:InvokeCommandAction Command="{Binding ChangeBinWidth}" CommandParameter="1"/>
                                             </i:EventTrigger>
                                         </i:Interaction.Triggers>
                                     </RadioButton>
-                                    <RadioButton x:Name="Resolution_B" Content="10" IsChecked="True" HorizontalAlignment="Left" Margin="151,4,0,0" VerticalAlignment="Top" FontSize="10" Foreground="White" TabIndex="4" Width="40">
+                                    <RadioButton x:Name="Resolution_B" Content="10" IsChecked="True" HorizontalAlignment="Left" Margin="151,5,0,0" VerticalAlignment="Top" FontSize="10" Foreground="White" TabIndex="4" Width="40">
                                         <i:Interaction.Triggers>
                                             <i:EventTrigger EventName="Checked">
                                                 <i:InvokeCommandAction Command="{Binding ChangeBinWidth}" CommandParameter="10"/>
                                             </i:EventTrigger>
                                         </i:Interaction.Triggers>
                                     </RadioButton>
-                                    <RadioButton x:Name="Resolution_C" Content="100"  HorizontalAlignment="Left" Margin="196,4,0,0" VerticalAlignment="Top" FontSize="10" Foreground="White" TabIndex="5" Width="40">
+                                    <RadioButton x:Name="Resolution_C" Content="100"  HorizontalAlignment="Left" Margin="196,5,0,0" VerticalAlignment="Top" FontSize="10" Foreground="White" TabIndex="5" Width="40">
                                         <i:Interaction.Triggers>
                                             <i:EventTrigger EventName="Checked">
                                                 <i:InvokeCommandAction Command="{Binding ChangeBinWidth}" CommandParameter="100"/>
                                             </i:EventTrigger>
                                         </i:Interaction.Triggers>
                                     </RadioButton>
-                                    <RadioButton x:Name="Resolution_D" Content="1K" HorizontalAlignment="Left" Margin="241,4,0,0" VerticalAlignment="Top" FontSize="10" Foreground="White" TabIndex="6" Width="40">
+                                    <RadioButton x:Name="Resolution_D" Content="1K" HorizontalAlignment="Left" Margin="241,5,0,0" VerticalAlignment="Top" FontSize="10" Foreground="White" TabIndex="6" Width="40">
                                         <i:Interaction.Triggers>
                                             <i:EventTrigger EventName="Checked">
                                                 <i:InvokeCommandAction Command="{Binding ChangeBinWidth}" CommandParameter="1000"/>
                                             </i:EventTrigger>
                                         </i:Interaction.Triggers>
                                     </RadioButton>
-                                    <RadioButton x:Name="Resolution_E" Content="100K" HorizontalAlignment="Left" Margin="331,4,0,0" VerticalAlignment="Top" FontSize="10" Foreground="White" TabIndex="7" Width="40">
+                                    <RadioButton x:Name="Resolution_E" Content="100K" HorizontalAlignment="Left" Margin="331,5,0,0" VerticalAlignment="Top" FontSize="10" Foreground="White" TabIndex="7" Width="40">
                                         <i:Interaction.Triggers>
                                             <i:EventTrigger EventName="Checked">
                                                 <i:InvokeCommandAction Command="{Binding ChangeBinWidth}" CommandParameter="100000"/>
@@ -268,23 +268,23 @@
                                             </i:EventTrigger>
                                         </i:Interaction.Triggers>
                                     </Image>
-                                    <RadioButton x:Name="Resolution_E_Copy" Content="1M" HorizontalAlignment="Left" Margin="376,4,0,0" VerticalAlignment="Top" FontSize="10" Foreground="White" TabIndex="7" Width="40">
+                                    <RadioButton x:Name="Resolution_E_Copy" Content="1M" HorizontalAlignment="Left" Margin="376,5,0,0" VerticalAlignment="Top" FontSize="10" Foreground="White" TabIndex="7" Width="40">
                                         <i:Interaction.Triggers>
                                             <i:EventTrigger EventName="Checked">
                                                 <i:InvokeCommandAction Command="{Binding ChangeBinWidth}" CommandParameter="1000000"/>
                                             </i:EventTrigger>
                                         </i:Interaction.Triggers>
                                     </RadioButton>
-                                    <RadioButton x:Name="Resolution_E_Copy1" Content="Custom" HorizontalAlignment="Left" Margin="421,4,0,0" VerticalAlignment="Top" FontSize="10" Foreground="White" TabIndex="7" Width="60"/>
-                                    <RadioButton x:Name="Resolution_E_Copy2" Content="10K" HorizontalAlignment="Left" Margin="286,4,0,0" VerticalAlignment="Top" FontSize="10" Foreground="White" TabIndex="7" Width="40">
+                                    <RadioButton x:Name="Resolution_E_Copy1" Content="Custom" HorizontalAlignment="Left" Margin="421,5,0,0" VerticalAlignment="Top" FontSize="10" Foreground="White" TabIndex="7" Width="60"/>
+                                    <RadioButton x:Name="Resolution_E_Copy2" Content="10K" HorizontalAlignment="Left" Margin="286,5,0,0" VerticalAlignment="Top" FontSize="10" Foreground="White" TabIndex="7" Width="40">
                                         <i:Interaction.Triggers>
                                             <i:EventTrigger EventName="Checked">
                                                 <i:InvokeCommandAction Command="{Binding ChangeBinWidth}" CommandParameter="10000"/>
                                             </i:EventTrigger>
                                         </i:Interaction.Triggers>
                                     </RadioButton>
-                                    <TextBox x:Name="customBinWidth" HorizontalAlignment="Left" Height="17" Padding="0,0,0,0" VerticalContentAlignment="Center" Margin="486,4,0,0" TextWrapping="Wrap" Text="2500" VerticalAlignment="Top" Width="42" FontSize="10"/>
-                                    <Button Content="Apply" Command="{Binding ChangeBinWidth}" CommandParameter="{Binding ElementName=customBinWidth, Path=Text}" HorizontalAlignment="Left" Margin="533,-1,0,0" VerticalAlignment="Top" Width="8" Height="21"/>
+                                    <TextBox x:Name="customBinWidth" HorizontalAlignment="Left" Height="17" Padding="0,0,0,0" VerticalContentAlignment="Center" Margin="486,3,0,0" TextWrapping="Wrap" Text="2500" VerticalAlignment="Top" Width="42" FontSize="10"/>
+                                    <Button Content="Apply" Command="{Binding ChangeBinWidth}" CommandParameter="{Binding ElementName=customBinWidth, Path=Text}" HorizontalAlignment="Left" Margin="528,-1,0,0" VerticalAlignment="Top" Width="28" Height="21"/>
                                 </Grid>
                                 <Grid x:Name="SampleSelectionGrid" Height="24" Margin="10,34,10,0" VerticalAlignment="Top" Background="#FF329BFF" Grid.Row="1">
                                     <Grid.ColumnDefinitions>
@@ -1172,30 +1172,20 @@
                     <TabControl x:Name="CachedDataTabControl" Margin="10,43,10,10" BorderBrush="Transparent" Background="Transparent">
                         <TabItem x:Name="CachedSamplesTab" Header="     Samples     ">
                             <Grid Background="#00000000">
-                                <DataGrid x:Name="CachedSamplesDG" ItemsSource="{Binding cachedDataSummary}" MouseDoubleClick="CachedSamplesDG_MouseDoubleClick" >
+                                <DataGrid x:Name="CachedSamplesDG" ItemsSource="{Binding cachedDataSummary}" MouseDoubleClick="CachedSamplesDG_MouseDoubleClick">
                                     <DataGrid.Columns>
                                         <DataGridTemplateColumn Width="40">
                                             <DataGridTemplateColumn.CellTemplate>
                                                 <DataTemplate>
-                                                    <TextBlock Text="♣" Foreground="{Binding Path=color}" FontSize="18" FontFamily="Arial"/>
+                                                    <TextBlock Text="♣" Foreground="{Binding Path=color}" FontSize="18" FontFamily="Arial" MouseDown="CachedSamplesDGColor_MouseDown"/>
                                                 </DataTemplate>
                                             </DataGridTemplateColumn.CellTemplate>
-                                            <i:Interaction.Triggers>
-                                                <i:EventTrigger EventName="MouseDoubleClick">
-                                                    <i:InvokeCommandAction Command="{Binding ChangeSampleColorCommand}"/>
-                                                </i:EventTrigger>
-                                            </i:Interaction.Triggers>
                                         </DataGridTemplateColumn>
                                         <DataGridTextColumn Header="   Label   " Binding="{Binding label, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="False" Width="194"/>
                                         <DataGridTextColumn Header="   #Feature   " Binding="{Binding featureCount}" IsReadOnly="True" Width="Auto"/>
                                         <DataGridTextColumn Header="   Genome   " Binding="{Binding genome}" IsReadOnly="True" Width="Auto"/>
                                         <DataGridTextColumn Header="   Assembly   " Binding="{Binding assembly}" IsReadOnly="True" Width="Auto"/>
                                     </DataGrid.Columns>
-                                    <i:Interaction.Triggers>
-                                        <i:EventTrigger EventName="MouseDown">
-                                            <i:InvokeCommandAction Command="{Binding ChangeSampleColorCommand}" CommandParameter="{Binding SelectedItem, ElementName=CachedSamplesDG}"/>
-                                        </i:EventTrigger>
-                                    </i:Interaction.Triggers>
                                 </DataGrid>
                             </Grid>
                         </TabItem>

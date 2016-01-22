@@ -74,7 +74,7 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.Analyzer
             _data.BuildSharedItems();
 
             processor = new Processor<Peak, Metadata>(_data);
-            int totalSteps = _data.samples.Count + 2;
+            int totalSteps = _data.samples.Count + 3;
             int stepCounter = -1;
 
             //Console.WriteLine("");
@@ -123,9 +123,14 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.Analyzer
 
             #region .::.    Status      .::.
             //Console.WriteLine("[" + stepCounter + "\\" + totalSteps + "] Performing Multiple testing correction.");
-            Status = new Progress(stepCounter / totalSteps, totalSteps, stepCounter, "Performing Multiple testing correction.");
+            Status = new Progress(++stepCounter / totalSteps, totalSteps, stepCounter, "Performing Multiple testing correction.");
             #endregion
             processor.EstimateFalseDiscoveryRate();
+
+            #region .::.    Status      .::.
+            Status = new Progress(stepCounter / totalSteps, totalSteps, stepCounter, "Creating combined output set.");
+            #endregion
+            processor.CreateCombinedOutputSet();
         }
         public Dictionary<uint, AnalysisResult<Peak, Metadata>> GetResults()
         {
@@ -133,6 +138,25 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.Analyzer
                 sample.Value.ReadOverallStats();
 
             return _data.analysisResults;
+        }
+        public Dictionary<string, List<Peak>> GetMergedReplicates()
+        {
+            var rtv = new Dictionary<string, List<Peak>>();
+            int counter = 0;
+
+            foreach(var chr in _data.mergedReplicates)
+            {
+                var tmpPeaks = new List<Peak>();
+                foreach(var peak in chr.Value)
+                {
+                    peak.Value.metadata.name = "MuSERA_Peak_" + (counter++).ToString();
+                    tmpPeaks.Add(peak.Value);
+                }
+
+                rtv.Add(chr.Key, tmpPeaks);
+            }
+
+            return rtv;
         }
         public Dictionary<uint, string> GetSamples()
         {

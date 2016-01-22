@@ -464,8 +464,11 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.Views
 
             runKey.defaultpValue = double.Parse(Default_p_value.Text);
             if (p_value_op1.IsChecked == true)
+                runKey.pValueConversion = pValueFormat.minus100_Log10_pValue;
+            else if (p_value_op2.IsChecked == true)
                 runKey.pValueConversion = pValueFormat.minus10_Log10_pValue;
             else runKey.pValueConversion = pValueFormat.minus1_Log10_pValue;
+
             if (No_p_Value_C1.IsChecked == true) runKey.dropIfNopValue = true; else runKey.dropIfNopValue = false;
             if (Assays_RB.IsChecked == true) runKey.inputType = ParserOptions.InputType.ChIPseqAssays;
             else if (Refseq_genes_RB.IsChecked == true) runKey.inputType = ParserOptions.InputType.RefseqGene;

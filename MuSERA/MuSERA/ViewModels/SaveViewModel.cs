@@ -99,6 +99,17 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.ViewModels
         }
         private int _sampleProgress;
 
+        public bool saveCompleted
+        {
+            set
+            {
+                _saveCompleted = value;
+                NotifyPropertyChanged("saveCompleted");
+            }
+            get { return _saveCompleted; }
+        }
+        private bool _saveCompleted;
+
         public int maxFileProgressBarValue
         {
             set
@@ -377,6 +388,7 @@ namespace Polimi.DEIB.VahidJalili.MuSERA.ViewModels
             buttonsEnable = true;
             saveButtonLabel = "Save      ";
             cancelButtonLable = "Cancel     ";
+            saveCompleted = true;
         }
 
 
