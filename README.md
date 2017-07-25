@@ -40,8 +40,12 @@ If you use or extend MuSERA in your published work, please cite the following pu
     Brief Bioinform first published online March 24, 2016 doi:10.1093/bib/bbw029.
 
 
+# Download and Documentation 
+All releases of MuSERA are available for [download from this page](https://github.com/Genometric/MuSERA/tree/master/Downloads).<br/> 
+A complete MuSERA tutorial is available at [this link](http://www.bioinformatics.deib.polimi.it/genomic_computing/MUSERA/packages/MuSERAUserManual.pdf).
 
-# Screen shots 
+
+### Screen shots 
 
 **Interactive (left) and Batch (right) running modes of MuSERA.**
 
