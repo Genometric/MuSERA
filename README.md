@@ -41,7 +41,7 @@ If you use or extend MuSERA in your published work, please cite the following pu
 
 
 # Download and Documentation 
-All releases of MuSERA are available for [download from this page](https://github.com/Genometric/MuSERA/tree/master/Downloads).<br/> 
+All releases of MuSERA are available for [download from this page](https://github.com/Genometric/MuSERA/releases).<br/> 
 A complete MuSERA tutorial is available at [this link](http://www.bioinformatics.deib.polimi.it/genomic_computing/MUSERA/packages/MuSERAUserManual.pdf).
 
 
